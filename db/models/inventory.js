@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../_db');
 
 const Inventory = db.define('inventory', {
-  flavor: {
+  number: {
     type: Sequelize.INTEGER,
     defaultValue: 0
   }
