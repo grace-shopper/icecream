@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 
-const db = require('../db/_db.js');
+const {db, Category, Product, User} = require('../db/index.js');
 
 require('../dev')
 if (process.env.NODE_ENV === 'development') {
@@ -45,7 +45,7 @@ app.use(function (err, req, res, next) {
 
 module.exports = app;
 
-db.sync()
+db.sync({force: false})
 	.then(() => {
 		app.listen(
 			process.env.PORT || 1337,
