@@ -20,6 +20,10 @@ const Product = db.define('product', {
   imageName: {
     type: Sequelize.TEXT,
     defaultValue: 'default_product_img.png'
+  },
+  quantity: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 }, {
   // validate: {
