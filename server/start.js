@@ -9,14 +9,15 @@ const passport = require('passport');
 
 const db = require('../db/_db.js');
 
-require('../secret');
+require('../dev')
+if (process.env.NODE_ENV === 'development') {
+  require('../localSecrets'); // this will mutate the process.env object with your secrets.
+}
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const dbStore = new SequelizeStore({ db: db });
 
 dbStore.sync();
-
-
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));

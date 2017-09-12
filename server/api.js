@@ -5,7 +5,7 @@ const router = require('express').Router();
 ex:
 router.use('/someRoute', require('./someRoute'))
 */
-console.log('!!!!!!!')
+
 router.use('/auth', require('./auth'))
 
 router.use(function(req, res, next) {
