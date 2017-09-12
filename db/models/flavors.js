@@ -10,3 +10,5 @@ const Flavors = db.define('flavors', {
     }
   }
 });
+
+module.exports = Flavors;
