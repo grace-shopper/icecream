@@ -5,6 +5,7 @@ var models = require('./models');
 
 module.exports = {
 	db: db, 
-	User: models.user
-	//Order: models.order
+	models : models, 
+	User: models.user, 
+	Order: models.order
 }
