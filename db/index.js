@@ -2,10 +2,14 @@
 
 var db = require('./_db');
 var models = require('./models');
+const Category = models.Category;
+const Product = models.Product;
 
 module.exports = {
-	db: db, 
-	models : models, 
-	User: models.user, 
+  db: db,
+  Product: models.Product,
+  Category: models.Category,
+  User: models.User, 
 	Order: models.order
 }
+
