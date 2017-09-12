@@ -9,5 +9,7 @@ module.exports = {
   db: db,
   Product: models.Product,
   Category: models.Category,
-  User: models.User
+  User: models.User, 
+	Order: models.order
 }
+
