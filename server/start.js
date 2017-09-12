@@ -7,8 +7,8 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 
-const db = require('../db/_db.js');
-
+const { db, models } = require('../db/index.js');
+console.log(db); 
 require('../dev')
 if (process.env.NODE_ENV === 'development') {
   require('../localSecrets'); // this will mutate the process.env object with your secrets.
@@ -45,7 +45,7 @@ app.use(function (err, req, res, next) {
 
 module.exports = app;
 
-db.sync()
+db.sync({force:true})
 	.then(() => {
 		app.listen(
 			process.env.PORT || 1337,
