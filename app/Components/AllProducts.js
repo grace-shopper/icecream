@@ -7,7 +7,7 @@ export default class AllProducts extends Component {
   constructor() {
     super();
     this.state = {
-      AllProducts: []
+      allProducts: []
     }
     this.getAllProducts = this.getAllProducts.bind(this);
   }
@@ -19,13 +19,13 @@ export default class AllProducts extends Component {
   getAllProducts() {
     axios.get(`/api/products`)
       .then(res => res.data)
-      .then(AllProducts => this.setState({
-        AllProducts
+      .then(allProducts => this.setState({
+        allProducts
       }));
   }
 
   render() {
-    const products = this.state.AllProducts;
+    const products = this.state.allProducts;
     return (
       <ul>
         {products && products.map( product => (
