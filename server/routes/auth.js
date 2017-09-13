@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../db/models/users');
+const User = require('../../db/models/users');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const passport = require('passport');
 

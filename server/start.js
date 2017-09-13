@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 
-const {db, Category, Product, User, Order} = require('../db/index.js');
+const {db, Category, Flavor, Product, User, Order} = require('../db/index.js');
 
 require('../dev')
 if (process.env.NODE_ENV === 'development') {
