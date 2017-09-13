@@ -1,8 +1,9 @@
+const Category = require('./category');
+const Flavor = require('./flavors');
 const User = require('./users.js');
 const Order = require('./orders.js');
 const Product = require('./products');
-const Category = require('./category');
-const Flavor = require('./flavors');
+
 const Cart = require('./cart')
 
 // product associations:

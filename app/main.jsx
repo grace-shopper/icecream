@@ -7,7 +7,7 @@ import AllProducts from './Components/AllProducts'
 
 ReactDOM.render(
 	<Provider store={store}>
-  	<AllProducts/>
+  	<h2> hello world </h2>
   </Provider>,
   document.getElementById('app')
 );

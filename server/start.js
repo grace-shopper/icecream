@@ -35,7 +35,6 @@ app.use(require('./passport.middleware'));
 
 
 app.use('/api', require('./api'));
-app.use('/products', require('./products'));
 app.get('/*', (_, res) => { res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))});
 
 app.use(function (err, req, res, next) {
