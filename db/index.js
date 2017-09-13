@@ -7,6 +7,7 @@ module.exports = {
   db: db,
   Product: models.Product,
   Category: models.Category,
+  Flavor: models.Flavor,
   User: models.User,
   Order: models.Order,
   Review: models.Review
