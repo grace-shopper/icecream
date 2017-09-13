@@ -14,12 +14,10 @@ export default class Root extends Component {
 	}
 
 	render() {
-		console.log("sup!"); 
-		console.log(); 
 		return (
 			<div className="container-fluid"> 
 				<Switch>
-					<Route exact path="/products/:productId" component={SingleProduct}/> 
+					<Route path="/products/:productId" component={SingleProduct}/> 
 				</Switch>
 			</div> 
 		)
