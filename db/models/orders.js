@@ -17,14 +17,7 @@ const Order = db.define('order', {
 		allowNull: false, 
 		defaultValue: "Created"
 	}
-}, {
-	hooks: {
-		beforeCreate: updateInventory
-	}
 }); 
 
-function updateInventory() {
-	//TODO
-}; 
 
 module.exports = Order; 
