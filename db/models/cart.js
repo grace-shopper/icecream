@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../_db');
 
-const Flavor = db.define('flavor', {
+const Cart = db.define('cart', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -11,4 +11,4 @@ const Flavor = db.define('flavor', {
   }
 });
 
-module.exports = Flavor;
+module.exports = Cart;

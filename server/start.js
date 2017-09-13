@@ -51,7 +51,7 @@ db.sync({force: false})
 		app.listen(
 			process.env.PORT || 1337,
 			() => {
-				console.log(`----started HTTP server for (out)fit----`);
+				console.log(`----started HTTP server for icecream on port ${process.env.PORT || 1337}----`);
 			}
 		)
 	})
