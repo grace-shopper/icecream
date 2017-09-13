@@ -11,6 +11,7 @@ router.get('/', (req, res, next) => {
 router.get('/:productId', (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => res.json(product))
+    // OB/CJP: missing error handling
 })
 
 module.exports = router;

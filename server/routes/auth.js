@@ -3,6 +3,7 @@ const User = require('../../db/models/users');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const passport = require('passport');
 
+// OB/CJP: consider splitting up this file
 
 // collect our google configuration into an object
 const googleConfig = {

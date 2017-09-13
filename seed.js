@@ -7,6 +7,7 @@ const products = [
 ]
 
 const seed = () => {
+	// OB/CJP: problems "curly braces", "array of arrays", "return something"
 	var promise1 = products.map(product => { Product.create(product) });
 	Promise.all([promise1]);
 }

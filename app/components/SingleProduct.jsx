@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// OB/CJP: unused deps
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios'; 
@@ -21,8 +22,9 @@ export default class SingleProduct extends Component {
 		}
 		return inventory; 
   }
-
+  // OB/CJP: watch out for inconsistent indentation
   componentDidMount() {
+    // OB/CJP: watch out for a bug here, consider moving this logic into componentWillReceiveProps and running it whenever the productId on the url match changes
   	const productId = this.props.match.params.productId; 
   	axios.get(`/api/products/${productId}`)
   	.then(res => res.data)
@@ -31,6 +33,7 @@ export default class SingleProduct extends Component {
   		this.setState({ product, inventory })
   	})
   	.catch(() => {
+      // OB/CJP: low hanging fruit for error reporting to users react-toastr (or something like it)
   		throw new Error("problem getting single product"); 
   	}); 
   }; 

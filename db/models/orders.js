@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const db = require('../_db');
 
 const Order = db.define('order', {
+	// OB/CJP: unnecessary now (given orderProducts join table)
 	price: {
 		type: Sequelize.ARRAY(Sequelize.FLOAT), 
 		allowNull: false
@@ -23,6 +24,7 @@ const Order = db.define('order', {
 	}
 }); 
 
+// OB/CJP: dead code
 function updateInventory() {
 	//TODO
 }; 
