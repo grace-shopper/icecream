@@ -8,6 +8,7 @@ module.exports = {
   Product: models.Product,
   Category: models.Category,
   User: models.User,
-	Order: models.Order
+  Order: models.Order,
+  Review: models.Review
 }
 
