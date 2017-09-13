@@ -3,6 +3,7 @@ const Order = require('./orders.js');
 const Category = require('./category');
 const Flavor = require('./flavors');
 const Product = require('./products');
+const Review = require('./reviews');
 const Cart = require('./cart')
 
 // product associations:
@@ -14,6 +15,10 @@ Category.belongsToMany(Product, { through: 'product_categories'});
 Product.belongsToMany(Flavor, { through: 'product_flavors'});
 Flavor.belongsToMany(Product, { through: 'product_flavors'});
 
+// reviews
+Product.belongsToMany(Review, { through: 'product_reviews'})
+Review.belongsTo(Product);
+
 // order associations:
 Order.belongsTo(User) // one user to each order
 User.belongsToMany(Order, { through: 'user_orders'}) // users can have many orders
@@ -23,10 +28,15 @@ Product.belongsToMany(Order, { through: 'order_products'}) // and vice versa
 // user to product association -> this is representative of that user's cart
 User.belongsToMany(Product, { through: Cart})
 
+//review associations:
+Review.belongsTo(User)
+Review.belongsTo(Product)
+
 module.exports = {
   Product: Product,
   Category: Category,
   Flavor: Flavor,
   User: User,
-  Order : Order
+  Order : Order,
+  Review: Review
 }

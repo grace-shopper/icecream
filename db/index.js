@@ -9,6 +9,7 @@ module.exports = {
   Category: models.Category,
   Flavor: models.Flavor,
   User: models.User,
-	Order: models.Order
+  Order: models.Order,
+  Review: models.Review
 }
 
