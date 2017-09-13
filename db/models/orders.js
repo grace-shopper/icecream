@@ -3,10 +3,6 @@ const Sequelize = require('sequelize');
 const db = require('../_db');
 
 const Order = db.define('order', {
-	price: {
-		type: Sequelize.ARRAY(Sequelize.FLOAT), 
-		allowNull: false
-	}, 
 	purchasedAt: {
 		type: Sequelize.DATE, 
 		allowNull: false, 
@@ -17,14 +13,6 @@ const Order = db.define('order', {
 		allowNull: false, 
 		defaultValue: "Created"
 	}
-}, {
-	hooks: {
-		beforeCreate: updateInventory
-	}
 }); 
-
-function updateInventory() {
-	//TODO
-}; 
 
 module.exports = Order; 
