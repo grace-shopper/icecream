@@ -18,6 +18,7 @@ export default class Root extends Component {
 		return (
 			<div className="container-fluid">
 				<Switch>
+				<Route path="login" component={Login} />
 					<Route exact path="/products" component={AllProducts}/>
 					<Route exact path="/products/:productId" component={SingleProduct}/>
 				</Switch>
