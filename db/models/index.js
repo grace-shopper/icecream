@@ -5,6 +5,7 @@ const Flavor = require('./flavors');
 const Product = require('./products');
 const Review = require('./reviews');
 const Cart = require('./cart')
+const orderProducts = require('./orderProducts'); 
 
 // product associations:
 // category - many to many
@@ -22,8 +23,8 @@ Review.belongsTo(Product);
 // order associations:
 Order.belongsTo(User) // one user to each order
 User.belongsToMany(Order, { through: 'user_orders'}) // users can have many orders
-Order.belongsToMany(Product, { through: 'order_products'}) // order can have many products
-Product.belongsToMany(Order, { through: 'order_products'}) // and vice versa
+Order.belongsToMany(Product, { through: orderProducts}) // order can have many products
+Product.belongsToMany(Order, { through: orderProducts}) // and vice versa
 
 // user to product association -> this is representative of that user's cart
 User.belongsToMany(Product, { through: Cart})
