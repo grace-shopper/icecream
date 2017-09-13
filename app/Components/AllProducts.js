@@ -7,8 +7,10 @@ export default class AllProducts extends Component {
   constructor() {
     super();
     this.state = {
+      // OB/CJP: consider camelCase instead of PascalCase here
       AllProducts: []
     }
+    // OB/CJP: you can use arrow functions in a class definition instead of bind (involves a babel prest (maybe stage-2?))
     this.getAllProducts = this.getAllProducts.bind(this);
   }
 

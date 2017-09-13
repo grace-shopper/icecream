@@ -9,6 +9,7 @@ const passport = require('passport');
 
 const {db, Category, Flavor, Product, User, Order} = require('../db/index.js');
 
+// OB/CJP: consider flipping the logic here, so that you only require local secrets when the NODE_ENV is *not* production (also don't require—or even have—dev.js)
 require('../dev')
 if (process.env.NODE_ENV === 'development') {
   require('../localSecrets'); // this will mutate the process.env object with your secrets.

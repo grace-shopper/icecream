@@ -1,0 +1,12 @@
+- You should never have more closed pull requests (PRs) than issues
+- Standardize commit message style more, maybe go with https://seesparkbox.com/foundry/semantic_commit_messages
+- Contribution guide!
+- README!
+- Remove .DS_Store from github repo, via gitignore
+- Inconsistent code styling (e.g. semicolons)
+- Recommend eslintrc
+- Recommend moving index.scss out of public (it's not a static resource requested by the client directly)
+- Tests!
+- Test as you go
+- If you find yourself "manually" testing (e.g. with postman), perfect place where yo might use automated tests (e.g. with supertest)
+- Consider using order only, instead of cart and order models

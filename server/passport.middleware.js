@@ -6,6 +6,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 passport.serializeUser((user, done) => {
+    // OB/CJP: try..catch necessary?
     try {
         done(null, user.id);
     } catch (err) {

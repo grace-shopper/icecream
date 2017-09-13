@@ -1,9 +1,11 @@
 const Sequelize = require('sequelize');
 
 const db = require('../_db');
+// OB/CJP: watch out, Category model might not exist (ordering bug)
 const Category = db.models.category;
 const Flavor = db.models.flavor;
 
+// OB/CJP: distant future, consider validations on these fields
 const Product = db.define('product', {
   title: {
     type: Sequelize.STRING,
@@ -27,6 +29,7 @@ const Product = db.define('product', {
     defaultValue: 0
   }
 }, {
+  // OB/CJP: remove undead code from master, bury it!
   // validate: {
   //   hasCategories() {
   //     // get the categories asynch
@@ -34,6 +37,7 @@ const Product = db.define('product', {
   //   }
   // },
   defaultScope: {
+    // OB/CJP: can instead use `'category'`
     include: [{ model: Category}, {model: Flavor }]
   }
 });
