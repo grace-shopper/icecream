@@ -3,6 +3,7 @@ const Order = require('./orders.js');
 const Product = require('./products');
 const Category = require('./category');
 const Flavor = require('./flavors');
+const Cart = require('./cart')
 
 // product associations:
 // category - many to many
@@ -20,7 +21,7 @@ Order.belongsToMany(Product, { through: 'order_products'}) // order can have man
 Product.belongsToMany(Order, { through: 'order_products'}) // and vice versa
 
 // user to product association -> this is representative of that user's cart
-User.belongsToMany(Product, { through: 'user_carts'})
+User.belongsToMany(Product, { through: Cart})
 
 module.exports = {
   Product: Product,
