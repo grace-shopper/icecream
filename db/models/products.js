@@ -29,7 +29,7 @@ const Product = db.define('product', {
 }, {
   getterMethods: {
     price: function() {
-      return this.getDataValue('price') / 100
+      return parseFloat(this.getDataValue('price') / 100).toFixed(2)
     }
   },
   setterMethods: {
