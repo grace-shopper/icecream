@@ -1,36 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class AllProducts extends Component {
+import {fetchProducts, getProduct} from '../reducers';
 
-  constructor() {
-    super();
-    this.state = {
-      AllProducts: []
-    }
-    this.getAllProducts = this.getAllProducts.bind(this);
-  }
-
-  componentDidMount() {
-    this.getAllProducts();
-  }
-
-  getAllProducts() {
-    axios.get(`/api/products`)
-      .then(res => res.data)
-      .then(AllProducts => this.setState({
-        AllProducts
-      }));
-  }
+export class AllProducts extends Component {
 
   render() {
-    const products = this.state.AllProducts;
+    const products = this.props.products;
     return (
       <ul>
         {products && products.map( product => (
           <li key={product.id}>
-            <NavLink to={`/products/${product.id}`}>
+            <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
               <h2> { product.title } </h2>
               <img src={`/images/${product.imageName}`} alt={`tasty image for ${product.title}`}/>
               <p>  { product.description } </p>
@@ -42,3 +25,21 @@ export default class AllProducts extends Component {
     )
   }
 }
+
+const mapStateToProps = function (state) {
+  return {
+    products: state.products,
+  }
+}
+
+const mapDispatchToProps = function (dispatch) {
+  return {
+    handleClick: function(e) {
+      dispatch(getProduct(e.value))
+    }
+  }
+}
+
+const ProductsContainer = connect(mapStateToProps, mapDispatchToProps)(AllProducts);
+
+export default ProductsContainer;
