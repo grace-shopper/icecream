@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login } from '../reducers/auth';
+import { loginAndGoToHome } from '../reducers/auth';
 
 
 /* -----------------    COMPONENT     ------------------ */
@@ -65,9 +65,10 @@ class Login extends React.Component {
         event.preventDefault();
         const credentials = {
             email: event.target.email.value,
-            password: event.target.password.value
+            password: event.target.password.value,
         };
-        this.props.login(credentials);
+        const history = this.props.history
+        this.props.login(credentials, history);
     }
 }
 
@@ -75,7 +76,7 @@ class Login extends React.Component {
 
 const mapState = () => ({ message: 'Log in' });
 
-const mapDispatch = { login: login };
+const mapDispatch = { login: loginAndGoToHome };
 
 
 export default connect(mapState, mapDispatch)(Login);
