@@ -12,24 +12,23 @@ export class Searchbar extends Component {
       query: ''
     }
     this.getProductNames = this.getProductNames.bind(this);
-    this.updateQuery = this.updateQuery.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdateInput = this.handleUpdateInput.bind(this);
+    this.handleNewRequest = this.handleNewRequest.bind(this);
   }
 
-  updateQuery(evt){
-		const query = evt.target.value
-		this.setState({
-			query: query
-		})
-    console.log('query is ...', this.state.query)
-	}
-  handleSubmit(evt){
-    evt.preventDefault()
-    console.log('pressed submit!! and query is...', this.state.query)
+  handleUpdateInput(query) {
     this.setState({
-      query: ''
-    })
+      query: query,
+    });
   }
+
+  handleNewRequest() {
+    console.log('entered a query!', this.state.query)
+    this.setState({
+      query: '',
+    });
+  }
+
   /*
   This function will pull in all of our ice cream names so that
   the search can autocomplete when they type
@@ -50,12 +49,12 @@ export class Searchbar extends Component {
         <form onSubmit={ this.handleSubmit }>
           <AutoComplete
             hintText="Type in a product name here"
-            type="text"
-            value = { this.state.query }
-            onChange = { this.updateQuery }
             filter={ AutoComplete.fuzzyFilter }
-            dataSource={productNames}
+            dataSource={ productNames }
             floatingLabelText="Search"
+            searchText={this.state.query}
+            onUpdateInput={this.handleUpdateInput}
+            onNewRequest={this.handleNewRequest}
             fullWidth={ true }
           />
           <RaisedButton label="GO" primary={true}/>
@@ -74,9 +73,7 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    handleClick: function(e) {
-      dispatch(getProduct(e.value))
-    }
+    // do nothing for now
   }
 }
 
