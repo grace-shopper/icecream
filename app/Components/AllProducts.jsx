@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardMedia, CardTitle, CardText, CardHeader} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 
 import {fetchProducts, getProduct} from '../reducers';
 
+
+
 export class AllProducts extends Component {
+
   render() {
     const products = this.props.products;
+    const style = {minHeight: "150px", maxHeight: "200px"}
     return (
       <div className='all-products'>
         {products && products.map( product => (
           <Card className='single-product col-lg-4 col-md-4 col-sm-4'>
+            <CardHeader
+              title={product.title}
+              subtitle={product.description}
+              showExpandableButton={true}
+              style={style}
+            />
             <br />
             <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
               <CardMedia>
@@ -21,10 +31,6 @@ export class AllProducts extends Component {
                     alt={`tasty image for ${product.title}`}
                     className='card-image'/>
               </CardMedia>
-              <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
-              <CardText>
-                { product.description }
-              </CardText>
               <CardActions>
                 <FlatButton label="Buy Now" className='buy-button'/>
               </CardActions>
