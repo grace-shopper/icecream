@@ -24,11 +24,15 @@ export class SingleProduct extends Component {
   componentDidMount() {
 		const productId = this.props.match.params.productId;
 
-		this.props.updateChosenProduct(productId);
-		const inventory = this.createInventoryArr(this.props.currentProduct);
-
+		this.props.updateChosenProduct(productId)
+			.then(()=>{
+				console.log('currentProduct',this.props.currentProduct)
+				const inventory = this.createInventoryArr(this.props.currentProduct);
+				this.setState({inventory})
+			});
   };
 
+	// need to update link to go to a particular users id
   render() {
   	return (
   		<div>
@@ -57,10 +61,12 @@ export class SingleProduct extends Component {
   									)
   								})
   							}
-  						</select>
+							</select>
+							<NavLink to={`/cart`}>
 	  					<button className="btn btn-default">
 	  						Add to Cart
-	  					</button>
+							</button>
+							</NavLink>
 	  				</form>
   				</div>
   			</div>
@@ -80,7 +86,7 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch) {
   return {
     updateChosenProduct: function(product) {
-      dispatch(getProduct(product))
+      return dispatch(getProduct(product))
     }
   }
 }
