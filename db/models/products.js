@@ -15,7 +15,7 @@ const Product = db.define('product', {
     allowNull: false
   },
   price: {
-    type: Sequelize.FLOAT,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   imageName: {
@@ -27,6 +27,16 @@ const Product = db.define('product', {
     defaultValue: 0
   }
 }, {
+  getterMethods: {
+    price: function() {
+      return this.getDataValue('price') / 100
+    }
+  },
+  setterMethods: {
+    price: function(value) {
+      this.setDataValue('price', value * 100)
+    }
+  },
   // validate: {
   //   hasCategories() {
   //     // get the categories asynch
