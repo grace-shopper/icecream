@@ -38,6 +38,7 @@ export default class Root extends Component {
 						<Route exact path="/products" component={AllProducts}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders/:userId" component={OrderHistory}/>
+						<Route exact path="/products/:productId" component={SingleProduct}/>
 					</Switch>
 				</div>
 			</div>
