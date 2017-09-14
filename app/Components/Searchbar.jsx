@@ -1,48 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
+import { connect } from 'react-redux';
+import {fetchProducts, getProduct} from '../reducers';
 
-const fruit = [
-  'Apple', 'Apricot', 'Avocado',
-  'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry',
-  'Boysenberry', 'Blood Orange',
-  'Cantaloupe', 'Currant', 'Cherry', 'Cherimoya', 'Cloudberry',
-  'Coconut', 'Cranberry', 'Clementine',
-  'Damson', 'Date', 'Dragonfruit', 'Durian',
-  'Elderberry',
-  'Feijoa', 'Fig',
-  'Goji berry', 'Gooseberry', 'Grape', 'Grapefruit', 'Guava',
-  'Honeydew', 'Huckleberry',
-  'Jabouticaba', 'Jackfruit', 'Jambul', 'Jujube', 'Juniper berry',
-  'Kiwi fruit', 'Kumquat',
-  'Lemon', 'Lime', 'Loquat', 'Lychee',
-  'Nectarine',
-  'Mango', 'Marion berry', 'Melon', 'Miracle fruit', 'Mulberry', 'Mandarine',
-  'Olive', 'Orange',
-  'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Physalis', 'Plum', 'Pineapple',
-  'Pumpkin', 'Pomegranate', 'Pomelo', 'Purple Mangosteen',
-  'Quince',
-  'Raspberry', 'Raisin', 'Rambutan', 'Redcurrant',
-  'Salal berry', 'Satsuma', 'Star fruit', 'Strawberry', 'Squash', 'Salmonberry',
-  'Tamarillo', 'Tamarind', 'Tomato', 'Tangerine',
-  'Ugli fruit',
-  'Watermelon',
-];
+export class Searchbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productNames: []
+    }
+    this.getProductNames = this.getProductNames.bind(this);
+  }
 
-/**
- * Two examples of filtering. The first uses `caseInsensitiveFilter`, the second uses `fuzzyFilter`,
- * and limits the number of results displayed using the `maxSearchResults` property.
- */
-const Searchbar = () => (
-  <div>
-    <AutoComplete
-      hintText="Search for a product"
-      filter={AutoComplete.fuzzyFilter}
-      dataSource={fruit}
-      floatingLabelText="Search"
-      fullWidth={true}
-    />
-    <br />
-  </div>
-);
+  /*
+  This function will pull in all of our ice cream names so that
+  the search can autocomplete when they type
+  */
+  getProductNames(products) {
+  	let productNames = [];
+		for(let i=0; i<products.length; i++) {
+			productNames.push(products[i].title);
+		}
+		return productNames;
+  };
 
-export default Searchbar;
+
+  render() {
+    const productNames = this.getProductNames(this.props.products)
+    return (
+      <div>
+        <AutoComplete
+          hintText="Type in a product name here"
+          filter={AutoComplete.fuzzyFilter}
+          dataSource={productNames}
+          floatingLabelText="Search"
+          fullWidth={true}
+        />
+        <br />
+        <br />
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = function (state) {
+  return {
+    products: state.products
+  }
+}
+
+const mapDispatchToProps = function (dispatch) {
+  return {
+    handleClick: function(e) {
+      dispatch(getProduct(e.value))
+    }
+  }
+}
+
+const SearchContainer = connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+
+export default SearchContainer;
