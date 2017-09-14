@@ -5,12 +5,11 @@ import store from '../store';
 import {fetchProducts} from '../reducers';
 import AllProducts from './AllProducts.jsx';
 import SingleProduct from './SingleProduct.jsx';
+import 	Login from './Login.jsx';
+import 	Signup from './Signup.jsx';
 import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
-
-
-//import {me} from '../store'
 
 export default class Root extends Component {
 	constructor() {
@@ -33,6 +32,8 @@ export default class Root extends Component {
 				<Navbar />
 				<div className="container-fluid">
 					<Switch>
+            <Route path="/login" component={Login} />
+					  <Route path="/signup" component={Signup} />
 						<Route path="/cart" component={Cart}/>
 						<Route exact path="/" component={AllProducts}/>
 						<Route exact path="/products" component={AllProducts}/>

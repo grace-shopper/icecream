@@ -11,7 +11,7 @@ const googleConfig = {
   callbackURL: '/auth/google/callback'
 };
 
-router.post('/login', (req, res, next) => {
+router.put('/login', (req, res, next) => {
   User.findOne({
     where: {
       email: req.body.email
