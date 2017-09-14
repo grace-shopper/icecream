@@ -1,16 +1,27 @@
-const Sequelize = require('sequelize'); 
+const Sequelize = require('sequelize');
 
 const db = require('../_db');
 
 const orderProducts = db.define('order_products', {
 	originalPrice: {
-		type: Sequelize.FLOAT, 
+		type: Sequelize.INTEGER,
 		allowNull: false
 	},
 	quantity: {
-		type: Sequelize.INTEGER, 
+		type: Sequelize.INTEGER,
 		allowNull: false
 	}
-}); 
+}, {
+	getterMethods: {
+    price: function() {
+      return this.getDataValue('price') / 100
+    }
+  },
+  setterMethods: {
+    price: function(value) {
+      this.setDataValue('price', value * 100)
+    }
+  }
+});
 
-module.exports = orderProducts; 
+module.exports = orderProducts;
