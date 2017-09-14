@@ -33,7 +33,6 @@ class Navbar extends Component {
 
 	render() {
 		const { currentUser } = this.props
-
 		return (
 
 			<div>
