@@ -9,7 +9,7 @@ import {fetchProducts, getProduct} from '../reducers';
 
 export class AllProducts extends Component {
   render() {
-    const products = this.state.allProducts;
+    const products = this.props.products;
     return (
       <div className='all-products'>
         {products && products.map( product => (
