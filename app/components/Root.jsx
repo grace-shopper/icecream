@@ -7,6 +7,8 @@ import AllProducts from './AllProducts.js';
 import SingleProduct from './SingleProduct.jsx';
 import Navbar from './Navbar.jsx';
 
+//import {me} from '../store'
+
 export default class Root extends Component {
 	constructor() {
 		super()
@@ -17,9 +19,12 @@ export default class Root extends Component {
 		store.dispatch(fetchProducts());
 
 		//get the '{me}'
+		//this.props.loadInitialData();
 	}
 
 	render() {
+		const {isLoggedIn} = this.props
+
 		return (
 			<div>
 				<Navbar />
@@ -33,3 +38,22 @@ export default class Root extends Component {
 		)
 	}
 }
+
+// const mapState = (state) => {
+//   return {
+//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+//     isLoggedIn: !!state.user.id
+//   }
+// }
+
+// const mapDispatch = (dispatch) => {
+//   return {
+//     loadInitialData () {
+//       dispatch(me())
+//     }
+//   }
+// }
+
+// export default connect(mapState, mapDispatch)(Root)
+
