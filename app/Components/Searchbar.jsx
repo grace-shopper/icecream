@@ -26,7 +26,7 @@ export class Searchbar extends Component {
 
   handleNewRequest() {
     this.setState({
-      query: ''
+      query: this.state.query
     });
   }
 

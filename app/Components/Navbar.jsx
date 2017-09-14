@@ -41,8 +41,7 @@ export default class Navbar extends Component {
 							? <MenuItem onClick={this.handleClose}><Link to="/">Logout</Link></MenuItem>
 							: null
 					}
-					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
-					<MenuItem onClick={this.handleClose}><Link to="/search">Search for Items</Link></MenuItem>
+					<MenuItem onClick={this.handleClose}><Link to="/products">Searchbar</Link></MenuItem>
 					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
 					{
 						(this.state.isLoggedIn)

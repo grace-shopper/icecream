@@ -6,7 +6,6 @@ import FlatButton from 'material-ui/FlatButton';
 
 export default class SearchedProducts extends Component {
   render() {
-    console.log('In the filtered products comp...', this.props.filteredProducts)
     const showProducts = this.props.filteredProducts;
     return (
       <div className='all-products'>
