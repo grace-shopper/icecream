@@ -34,11 +34,11 @@ export default class Navbar extends Component {
 					width={200}
 					open={this.state.open}
 					onRequestChange={(open) => this.setState({ open })}>
-					<MenuItem onClick={this.handleClose}><Link to="/">Login</Link></MenuItem>
-					<MenuItem onClick={this.handleClose}><Link to="/">Sign Up</Link></MenuItem>
+					<MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>
+					<MenuItem onClick={this.handleClose}><Link to="/signup">Sign Up</Link></MenuItem>
 					{
 						(this.state.isLoggedIn)
-							? <MenuItem onClick={this.handleClose}><Link to="/">Logout</Link></MenuItem>
+							? <MenuItem onClick={this.handleClose}><Link to="/logout">Logout</Link></MenuItem>
 							: null
 					}
 					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
