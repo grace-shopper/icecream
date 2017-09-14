@@ -7,6 +7,8 @@ import AllProducts from './AllProducts.jsx';
 import SingleProduct from './SingleProduct.jsx';
 import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
+import OrderHistory from './OrderHistory.jsx';
+
 
 //import {me} from '../store'
 
@@ -35,6 +37,7 @@ export default class Root extends Component {
 						<Route exact path="/" component={AllProducts}/>
 						<Route exact path="/products" component={AllProducts}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
+						<Route path="/orders/:userId" component={OrderHistory}/>
 					</Switch>
 				</div>
 			</div>
