@@ -4,11 +4,34 @@ import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Car
 import FlatButton from 'material-ui/FlatButton';
 
 
-export class SearchedProducts extends Component {
+export default class SearchedProducts extends Component {
   render() {
-    const products = this.props.products;
+    console.log('In the filtered products comp...', this.props.filteredProducts)
+    const showProducts = this.props.filteredProducts;
     return (
-      <p>products</p>
+      <div className='all-products'>
+        <div>
+          {showProducts && showProducts.map( product => (
+            <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>
+              <br />
+              <NavLink value={product.id} to={`/products/${product.id}`}>
+                <CardMedia>
+                  <img src={`/images/${product.imageName}`}
+                      alt={`tasty image for ${product.title}`}
+                      className='card-image'/>
+                </CardMedia>
+                <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
+                <CardText>
+                  { product.description }
+                </CardText>
+                <CardActions>
+                  <FlatButton label="Buy Now" className='buy-button'/>
+                </CardActions>
+              </NavLink>
+            </Card>
+          ) )}
+        </div>
+      </div>
     )
   }
 }

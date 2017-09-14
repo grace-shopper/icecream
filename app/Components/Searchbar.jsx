@@ -76,7 +76,7 @@ export class Searchbar extends Component {
           )
         }
         <br />
-        
+        <SearchedProducts filteredProducts={filteredProducts} />
       </div>
     )
   }
