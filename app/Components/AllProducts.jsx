@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
+import Searchbar from './Searchbar'
 
 import {fetchProducts, getProduct} from '../reducers';
 
@@ -12,25 +13,28 @@ export class AllProducts extends Component {
     const products = this.props.products;
     return (
       <div className='all-products'>
-        {products && products.map( product => (
-          <Card className='single-product col-lg-4 col-md-4 col-sm-4'>
-            <br />
-            <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
-              <CardMedia>
-                <img src={`/images/${product.imageName}`}
-                    alt={`tasty image for ${product.title}`}
-                    className='card-image'/>
-              </CardMedia>
-              <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
-              <CardText>
-                { product.description }
-              </CardText>
-              <CardActions>
-                <FlatButton label="Buy Now" className='buy-button'/>
-              </CardActions>
-            </NavLink>
-          </Card>
-        ) )}
+        <Searchbar />
+        <div>
+          {products && products.map( product => (
+            <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>
+              <br />
+              <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
+                <CardMedia>
+                  <img src={`/images/${product.imageName}`}
+                      alt={`tasty image for ${product.title}`}
+                      className='card-image'/>
+                </CardMedia>
+                <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
+                <CardText>
+                  { product.description }
+                </CardText>
+                <CardActions>
+                  <FlatButton label="Buy Now" className='buy-button'/>
+                </CardActions>
+              </NavLink>
+            </Card>
+          ) )}
+        </div>
       </div>
     )
   }
