@@ -42,7 +42,6 @@ export function fetchProducts() {
 }
 
 export function dropProduct(productId, history) {
-
   return function thunk(dispatch) {
     return axios.delete(`/api/products/${productId}`)
       .then(() => {

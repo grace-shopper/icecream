@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 
 import store from '../store';
 import {fetchProducts} from '../reducers';
-import AllProducts from './AllProducts.js';
+import AllProducts from './AllProducts.jsx';
 import SingleProduct from './SingleProduct.jsx';
 import Navbar from './Navbar.jsx';
+import Cart from './Cart.jsx';
 
 //import {me} from '../store'
 
@@ -30,8 +31,10 @@ export default class Root extends Component {
 				<Navbar />
 				<div className="container-fluid">
 					<Switch>
+						<Route path="/cart" component={Cart}/>
 						<Route exact path="/" component={AllProducts}/>
-						<Route exact path="/:productId" component={SingleProduct}/>
+						<Route exact path="/products" component={AllProducts}/>
+						<Route path="/products/:productId" component={SingleProduct}/>
 					</Switch>
 				</div>
 			</div>

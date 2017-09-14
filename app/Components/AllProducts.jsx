@@ -9,6 +9,7 @@ export class AllProducts extends Component {
 
   render() {
     const products = this.props.products;
+    console.log('products', products)
     return (
       <ul>
         {products && products.map( product => (
