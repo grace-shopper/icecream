@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import AllProducts from './AllProducts.js';
 import SingleProduct from './SingleProduct.jsx';
+import 	Login from './Login.jsx';
+import 	Signup from './Signup.jsx';
 
 export default class Root extends Component {
 	constructor() {
@@ -18,7 +20,8 @@ export default class Root extends Component {
 		return (
 			<div className="container-fluid">
 				<Switch>
-				<Route path="login" component={Login} />
+					<Route path="/login" component={Login} />
+					<Route path="/signup" component={Signup} />
 					<Route exact path="/products" component={AllProducts}/>
 					<Route exact path="/products/:productId" component={SingleProduct}/>
 				</Switch>

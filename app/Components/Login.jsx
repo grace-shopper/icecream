@@ -76,13 +76,6 @@ class Login extends React.Component {
 const mapState = () => ({ message: 'Log in' });
 
 const mapDispatch = { login: login };
-// // equivalent to:
-// const mapDispatch = (dispatch) => {
-//   return {
-//     login: function (credentials) {
-//       dispatch(loginAndGoToUser(credentials));
-//     }
-//   };
-// };
+
 
 export default connect(mapState, mapDispatch)(Login);
