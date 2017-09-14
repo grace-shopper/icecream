@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { create  } from './users';
 
+
 /* ------------------    ACTIONS    --------------------- */
 
 const SET    = 'SET_CURRENT_USER';
@@ -35,6 +36,13 @@ export const login = credentials => dispatch => {
   });
 };
 
+export const loginAndGoToHome = (credentials, history) => dispatch => {
+  
+  dispatch(login(credentials))
+  .then(user => history.push(`/products`))
+  .catch(err => console.error('Problem logging in:', err));
+};
+
 
 
 export const signup = credentials => dispatch => {
@@ -47,3 +55,8 @@ export const signup = credentials => dispatch => {
   });
 };
 
+export const signupAndGoToHome = (credentials, history) => dispatch => {
+  dispatch(signup(credentials))
+  .then(user => history.push(`/products`))
+  .catch(err => console.error('Problem signing up:', err));
+};
