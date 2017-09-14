@@ -3,7 +3,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { connect } from 'react-redux';
 import {fetchProducts, getProduct} from '../reducers';
 import RaisedButton from 'material-ui/RaisedButton';
-import SingleProduct from './SingleProduct';
+import SearchedProducts from './SearchedProducts';
 
 export class Searchbar extends Component {
   constructor(props) {
@@ -76,6 +76,7 @@ export class Searchbar extends Component {
           )
         }
         <br />
+        
       </div>
     )
   }

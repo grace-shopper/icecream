@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import Searchbar from './Searchbar'
 
 import {fetchProducts, getProduct} from '../reducers';
 
@@ -13,7 +12,6 @@ export class AllProducts extends Component {
     const products = this.props.products;
     return (
       <div className='all-products'>
-        <Searchbar />
         <div>
           {products && products.map( product => (
             <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>

@@ -10,6 +10,7 @@ import 	Signup from './Signup.jsx';
 import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
+import Searchbar from './Searchbar';
 
 export default class Root extends Component {
 	constructor() {
@@ -35,6 +36,7 @@ export default class Root extends Component {
             <Route path="/login" component={Login} />
 					  <Route path="/signup" component={Signup} />
 						<Route path="/cart" component={Cart}/>
+						<Route path="/search" component={Searchbar}/>
 						<Route exact path="/" component={AllProducts}/>
 						<Route exact path="/products" component={AllProducts}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
@@ -64,4 +66,3 @@ export default class Root extends Component {
 // }
 
 // export default connect(mapState, mapDispatch)(Root)
-
