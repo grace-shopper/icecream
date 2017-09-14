@@ -90,7 +90,9 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    // do nothing for now
+    updateChosenProduct: function(product) {
+      return dispatch(getProduct(product))
+    }
   }
 }
 
