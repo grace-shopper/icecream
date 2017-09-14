@@ -26,7 +26,6 @@ export class SingleProduct extends Component {
 
 		this.props.updateChosenProduct(productId)
 			.then(()=>{
-				console.log('currentProduct',this.props.currentProduct)
 				const inventory = this.createInventoryArr(this.props.currentProduct);
 				this.setState({inventory})
 			});

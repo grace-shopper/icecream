@@ -8,7 +8,8 @@ router.use('/someRoute', require('./someRoute'))
 
 
 router.use('/products', require('./routes/products'))
-
+router.use('/users', require('./routes/users'))
+router.use('/orders', require('./routes/orders'))
 router.use('/auth', require('./routes/auth'))
 
 
