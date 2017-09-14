@@ -1,2 +1,22 @@
 div {
+
+}
+
+.all-products {
+	padding: 30px 30px;
+}
+
+.single-product {
+	margin: 30px 0;
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 5px;
+}
+
+.single-product :hover{
+  text-decoration: none;
+  -webkit-stroke-width: 5.3px;
+  -webkit-stroke-color: #FFFFFF;
+  -webkit-fill-color: #FFFFFF;
+  text-shadow: 1px 0px 20px #ADD8E6;
 }

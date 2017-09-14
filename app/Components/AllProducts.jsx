@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 
 import {fetchProducts, getProduct} from '../reducers';
 
 export class AllProducts extends Component {
-
   render() {
     const products = this.props.products;
     return (
-      <ul>
+      <div className='all-products'>
         {products && products.map( product => (
-          <li key={product.id}>
+          <Card className='single-product col-lg-4 col-md-4 col-sm-4'>
+            <br />
             <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
-              <h2> { product.title } </h2>
-              <img src={`/images/${product.imageName}`} alt={`tasty image for ${product.title}`}/>
-              <p>  { product.description } </p>
-              <p>  Price: { product.price } </p>
+              <CardMedia>
+                <img src={`/images/${product.imageName}`}
+                    alt={`tasty image for ${product.title}`}
+                    className='card-image'/>
+              </CardMedia>
+              <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
+              <CardText>
+                { product.description }
+              </CardText>
+              <CardActions>
+                <FlatButton label="Buy Now" className='buy-button'/>
+              </CardActions>
             </NavLink>
-          </li>
+          </Card>
         ) )}
-      </ul>
+      </div>
     )
   }
 }
+
 
 const mapStateToProps = function (state) {
   return {
