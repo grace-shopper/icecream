@@ -34,7 +34,7 @@ export default class Root extends Component {
 						<Route path="/cart" component={Cart}/>
 						<Route exact path="/" component={AllProducts}/>
 						<Route exact path="/products" component={AllProducts}/>
-						<Route path="/products/:productId" component={SingleProduct}/>
+						<Route exact path="/products/:productId" component={SingleProduct}/>
 					</Switch>
 				</div>
 			</div>
