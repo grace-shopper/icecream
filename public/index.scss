@@ -20,3 +20,16 @@ div {
   -webkit-fill-color: #FFFFFF;
   text-shadow: 1px 0px 20px #ADD8E6;
 }
+
+.showing-search-results {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.showing-search-results button {
+  color: #03A9F4;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+}

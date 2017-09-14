@@ -3,6 +3,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import { connect } from 'react-redux';
 import {fetchProducts, getProduct} from '../reducers';
 import RaisedButton from 'material-ui/RaisedButton';
+import SingleProduct from './SingleProduct';
 
 export class Searchbar extends Component {
   constructor(props) {
@@ -14,19 +15,25 @@ export class Searchbar extends Component {
     this.getProductNames = this.getProductNames.bind(this);
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
     this.handleNewRequest = this.handleNewRequest.bind(this);
+    this.clearQuery = this.clearQuery.bind(this);
   }
 
   handleUpdateInput(query) {
     this.setState({
-      query: query,
+      query: query
     });
   }
 
   handleNewRequest() {
-    console.log('entered a query!', this.state.query)
     this.setState({
-      query: '',
+      query: ''
     });
+  }
+
+  clearQuery() {
+    this.setState({
+      query: ''
+    })
   }
 
   /*
@@ -44,6 +51,8 @@ export class Searchbar extends Component {
 
   render() {
     const productNames = this.getProductNames(this.props.products)
+    const filteredProducts = this.props.products.filter(
+              product => product.title.match(this.state.query));
     return (
       <div>
         <form onSubmit={ this.handleSubmit }>
@@ -57,8 +66,15 @@ export class Searchbar extends Component {
             onNewRequest={this.handleNewRequest}
             fullWidth={ true }
           />
-          <RaisedButton label="GO" primary={true}/>
         </form>
+        {
+          filteredProducts.length !== this.props.products.length && (
+            <div className='showing-search-results'>
+              <span>Now showing {filteredProducts.length} of {this.props.products.length} total</span>
+              <button onClick={this.clearQuery}>Show all</button>
+            </div>
+          )
+        }
         <br />
       </div>
     )
