@@ -5,6 +5,7 @@ import store from '../store';
 import {fetchProducts} from '../reducers';
 import AllProducts from './AllProducts.js';
 import SingleProduct from './SingleProduct.jsx';
+import Navbar from './Navbar.jsx';
 
 export default class Root extends Component {
 	constructor() {
@@ -20,11 +21,14 @@ export default class Root extends Component {
 
 	render() {
 		return (
-			<div className="container-fluid">
-				<Switch>
-					<Route exact path="/products" component={AllProducts}/>
-					<Route exact path="/products/:productId" component={SingleProduct}/>
-				</Switch>
+			<div>
+				<Navbar />
+				<div className="container-fluid">
+					<Switch>
+						<Route exact path="/" component={AllProducts}/>
+						<Route exact path="/:productId" component={SingleProduct}/>
+					</Switch>
+				</div>
 			</div>
 		)
 	}
