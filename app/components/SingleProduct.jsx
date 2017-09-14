@@ -1,78 +1,95 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import axios from 'axios'; 
+import axios from 'axios';
 
-export default class SingleProduct extends Component {
+import {fetchProducts, getProduct} from '../reducers';
+
+export class SingleProduct extends Component {
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
-    	product: {}, 
-    	quantity: 0, 
     	inventory: []
     }
-    this.createInventoryArr = this.createInventoryArr.bind(this); 
+    this.createInventoryArr = this.createInventoryArr.bind(this);
   }
   createInventoryArr(product) {
-  	console.log(product); 
-  	let inventory = []; 
+  	let inventory = [];
 		for(let i=1; i<=product.inventory; i++) {
-			inventory.push(i); 
+			inventory.push(i);
 		}
-		return inventory; 
+		return inventory;
   }
 
   componentDidMount() {
-  	const productId = this.props.match.params.productId; 
-  	axios.get(`/api/products/${productId}`)
-  	.then(res => res.data)
-  	.then(product => {
-  		let inventory = this.createInventoryArr(product); 
-  		this.setState({ product, inventory })
-  	})
-  	.catch(() => {
-  		throw new Error("problem getting single product"); 
-  	}); 
-  }; 
+		const productId = this.props.match.params.productId;
 
+		this.props.updateChosenProduct(productId)
+			.then(()=>{
+				const inventory = this.createInventoryArr(this.props.currentProduct);
+				this.setState({inventory})
+			});
+  };
+
+	// need to update link to go to a particular users id
   render() {
   	return (
-  		<div> 
-  		<div className="row"> 
-  			<div className="col-sm-6 col-md-6 col-lg-6"> 
-  				<h2 className="text-center">{this.state.product.title} </h2> 
-  				<img src={`/images/${this.state.product.imageName}`} />
-  			</div> 
+  		<div>
+  		<div className="row">
+  			<div className="col-sm-6 col-md-6 col-lg-6">
+  				<h2 className="text-center">{this.props.currentProduct.title} </h2>
+  				<img src={`/images/${this.props.currentProduct.imageName}`} />
+  			</div>
   			<div className="col-sm-6 col-md-6 col-lg-6">
   				<div>
   					<b>Description:  </b>
-  					{this.state.product.description}
-  				</div> 	
-  				<div> 
-  					<b>Price: </b> 
-  					{this.state.product.price}
-  				</div> 
+  					{this.props.currentProduct.description}
+  				</div>
   				<div>
-  					<form>  
+  					<b>Price: </b>
+  					{this.props.currentProduct.price}
+  				</div>
+  				<div>
+  					<form>
   						<label><b>Quantity:</b></label>
-  						<select className="form-control"> 
+  						<select className="form-control">
   							{
   								this.state.inventory.map(num => {
   									return (
-  										<option key={num} value={num}>{num}</option> 
+  										<option key={num} value={num}>{num}</option>
   									)
   								})
   							}
-  						</select> 
-	  					<button className="btn btn-default"> 
+							</select>
+							<NavLink to={`/cart`}>
+	  					<button className="btn btn-default">
 	  						Add to Cart
-	  					</button> 
-	  				</form> 
-  				</div> 
+							</button>
+							</NavLink>
+	  				</form>
+  				</div>
   			</div>
-  		</div> 
-  		</div> 
+  		</div>
+  		</div>
   	)
   }
 
 }
+
+const mapStateToProps = function (state) {
+  return {
+    currentProduct: state.currentProduct,
+  }
+}
+
+const mapDispatchToProps = function (dispatch) {
+  return {
+    updateChosenProduct: function(product) {
+      return dispatch(getProduct(product))
+    }
+  }
+}
+
+const SingleProductContainer = connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
+
+export default SingleProductContainer;
