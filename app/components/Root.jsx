@@ -37,7 +37,7 @@ export default class Root extends Component {
 					  <Route path="/signup" component={Signup} />
 						<Route path="/cart" component={Cart}/>
 						<Route exact path="/" component={Searchbar}/>
-						<Route exact path="/products" component={AllProducts}/>
+						<Route exact path="/products" component={Searchbar}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders/:userId" component={OrderHistory}/>
 						<Route exact path="/products/:productId" component={SingleProduct}/>
