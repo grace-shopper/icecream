@@ -45,7 +45,7 @@ class Navbar extends Component {
 					onRequestChange={(open) => this.setState({ open })}>
 					{
 						(Object.keys(currentUser).length)
-							? <MenuItem onClick={this.handleLogout}><Link to="/logout">Logout</Link> <small>{currentUser.email} </small></MenuItem>
+							? <MenuItem onClick={this.handleLogout}><Link to="/">Logout</Link> <small>{currentUser.email} </small></MenuItem>
 
 							: [<MenuItem onClick={this.handleClose} key="login"><Link to="/login">Login</Link></MenuItem>,
 							<MenuItem onClick={this.handleClose} key="signup"><Link to="/signup">Sign Up</Link></MenuItem>]
