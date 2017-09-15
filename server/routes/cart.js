@@ -73,6 +73,7 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
+  console.log("getting cart")
   if (req.session.cartId) {
     return Order.findById(req.session.cartId)
       .then(cartOrder => {

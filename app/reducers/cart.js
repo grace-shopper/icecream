@@ -41,10 +41,9 @@ export function set(cart) {
 export function getCart() {
   return function thunk(dispatch) {
     return axios.get('/api/cart')
-      .then(res => {
-        if (res) return res.data
-      })
+      .then(res => res.data)
       .then(cart => {
+        if (!cart) cart = {}
         dispatch(set(cart));
       })
       .catch(err => console.log(err));
