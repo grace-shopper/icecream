@@ -32,6 +32,7 @@ app.use(session({
 }));
 
 app.use(require('./passport.middleware'));
+app.use(require('./cart.middleware'));
 
 
 app.use('/api', require('./api'));

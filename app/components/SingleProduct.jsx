@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import RaisedButton from 'material-ui/RaisedButton'; 
+import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog'; 
+import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 
 import { fetchProducts, getProduct, createNewCart, updateCart, updateProductAsAdmin } from '../reducers';
@@ -14,19 +14,19 @@ export class SingleProduct extends Component {
 		super(props);
 		this.state = {
 			chosenQty: 1,
-      inventoryArr: [], 
+      inventoryArr: [],
       open: false,
-      title: '', 
-      description: '', 
-      inventory: '', 
+      title: '',
+      description: '',
+      inventory: '',
       imageName: ''
 		}
 		this.createInventoryArr = this.createInventoryArr.bind(this);
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
-    this.onSubmit = this.onSubmit.bind(this); 
-    this.handleOpen = this.handleOpen.bind(this); 
-    this.onChange = this.onChange.bind(this); 
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.onChange = this.onChange.bind(this);
 
 	}
 
@@ -35,12 +35,12 @@ export class SingleProduct extends Component {
 		for (let i = 1; i <= product.inventory; i++) {
 			inventoryArr.push(i);
 		}
-		return inventory;
+		return inventoryArr;
 	}
 
 
   handleOpen(event) {
-    this.setState({open: true}); 
+    this.setState({open: true});
   }
 
   onChange(event) {
@@ -48,10 +48,10 @@ export class SingleProduct extends Component {
   }
 
   onSubmit(event) {
-    event.preventDefault(); 
-    const product = { title: this.state.title, description: this.state.description, inventory: this.state.inventory, imageName: this.state.imageName }; 
-    this.props.updateProductAsAdmin(product); 
-    this.setState({open:false}); 
+    event.preventDefault();
+    const product = { title: this.state.title, description: this.state.description, inventory: this.state.inventory, imageName: this.state.imageName };
+    this.props.updateProductAsAdmin(product);
+    this.setState({open:false});
 
   }
 
@@ -68,7 +68,7 @@ export class SingleProduct extends Component {
 	// need to update link to go to a particular users id
 
   render() {
-    const style = { marginLeft: 20, }; 
+    const style = { marginLeft: 20, };
   	return (
   		<div>
   		<div className="row">
@@ -99,7 +99,7 @@ export class SingleProduct extends Component {
 										onChange={this.handleChange}
 									>
 										{
-											this.state.inventory.map(num => {
+											this.state.inventoryArr.map(num => {
 												return (
 													<option key={num} value={num}>{num}</option>
 												)
@@ -118,17 +118,17 @@ export class SingleProduct extends Component {
 						</div>
 
           <div>
-            <RaisedButton label="Modify" onClick={this.handleOpen} />      
+            <RaisedButton label="Modify" onClick={this.handleOpen} />
             <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
-            <form onSubmit={this.onSubmit}>  
-              <TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br /> 
-              <TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br /> 
-              <TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />                 
+            <form onSubmit={this.onSubmit}>
+              <TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
+              <TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
+              <TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
               <TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
               <RaisedButton type="submit" label="submit" primary={true} />
-            </form> 
+            </form>
             </Dialog>
-          </div> 
+          </div>
   			</div>
   		</div>
   		</div>
@@ -141,6 +141,7 @@ export class SingleProduct extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+		console.log('this.props',this.props)
 		this.props.addToCart(this.state.chosenQty, this.props.currentProduct, this.props.cart)
 	}
 }
@@ -161,11 +162,11 @@ const mapDispatchToProps = function (dispatch, ownProps) {
 		addToCart: function (qty, product, cart) {
 			if (Object.keys(cart).length === 0) dispatch(createNewCart(product, qty))
 			else dispatch(updateCart(product, qty))
-		}, 
+		},
     updateProductAsAdmin: function(modProduct) {
-      Object.keys(modProduct).forEach((key) => (modProduct[key] === '' || modProduct[key] === null) && delete modProduct[key]); 
-      const id = ownProps.match.params.productId; 
-      return dispatch(updateProductAsAdmin(id, modProduct)); 
+      Object.keys(modProduct).forEach((key) => (modProduct[key] === '' || modProduct[key] === null) && delete modProduct[key]);
+      const id = ownProps.match.params.productId;
+      return dispatch(updateProductAsAdmin(id, modProduct));
 
     }
 	}

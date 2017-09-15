@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 
 const db = require('../_db');
+const Product = db.models.product;
 
 const Order = db.define('order', {
 	purchasedAt: {
@@ -13,6 +14,10 @@ const Order = db.define('order', {
 		allowNull: false,
 		defaultValue: "Created"
 	}
+}, {
+	defaultScope: {
+    include: [{ model: Product}]
+  }
 });
 
 Order.prototype.getNumProducts = function(inst) {
