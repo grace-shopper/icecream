@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signupAndGoToHome } from '../reducers/auth';
+import { signupAndGoToHome } from '../reducers';
 
 /* -----------------    COMPONENT     ------------------ */
 

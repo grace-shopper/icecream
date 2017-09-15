@@ -5,11 +5,12 @@ const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const DELETE_ITEM_FROM_CART = 'DELETE_ITEM_FROM_CART';
 const EDIT_QTY_CART = 'EDIT_QTY_CART';
 const CLEAR_CART = 'CLEAR_CART'
+const SET = 'SET'
 
 
 // ACTION CREATORS
-export function addToCart(product, quantity) {
-  const action = { type: ADD_ITEM_TO_CART, item: {product, quantity} };
+export function addItemToCart(product, quantity) {
+  const action = { type: ADD_ITEM_TO_CART, item: { product, quantity } };
   return action;
 }
 
@@ -19,7 +20,7 @@ export function deleteFromCart(product) {
 }
 
 export function editQtyCart(product, newQty) {
-  const action = { type: EDIT_QTY_CART, item: {product, newQty} };
+  const action = { type: EDIT_QTY_CART, item: { product, newQty } };
   return action;
 }
 
@@ -28,29 +29,74 @@ export function clearCart() {
   return action;
 }
 
+export function set(cart) {
+  const action = { type: SET, cart };
+  return action;
+}
+
+
 // thunk creators - will be different for authenticated and unauthenticated users
 // unauthenticated users - need to update sessions object
 
+export function getCart() {
+  return function thunk(dispatch) {
+    return axios.get('/api/cart')
+      .then(res => {
+        if (res) return res.data
+      })
+      .then(cart => {
+        dispatch(set(cart));
+      })
+      .catch(err => console.log(err));
+  }
+};
 
-// authenticated users - need to update database
+export function createNewCart(product, quantity) {
+  return function thunk(dispatch) {
+    return axios.post('/api/cart/new', { product, quantity })
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart))
+      })
+      .catch(err=>console.log(err))
+  }
+}
 
+export function updateCart(product, quantity) {
+  return function thunk(dispatch) {
+    return axios.post('/api/cart', { product, quantity })
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart))
+      })
+      .catch(err=>console.log(err))
+  }
+}
+
+// add total quantity to cart state
 // reducer
-const reducer = function (state = [], action) {
+const reducer = function (state = {}, action) {
   switch (action.type) {
 
+    case SET:
+      return action.cart
+
     case ADD_ITEM_TO_CART:
-      return [...state, action.item]
+      const newCart = Object.assign({}, state);
+      newCart.products.push(action.item);
+      return newCart;
 
-    case DELETE_ITEM_FROM_CART:
-      let newCartArray = state.filter(cart => cart.product.id !== action.product.id);
-      return newCartArray
+    //case DELETE_ITEM_FROM_CART:
+    // let newCartArray = state.products.filter(product => product.id !== action.product.id);
 
-    case EDIT_QTY_CART:
-      newCartArray = state.filter(cart => cart.product.id !== action.product.id);
-      return [...newCartArray, action.item]
+    // return Object.assign({}, state)
+
+    //case EDIT_QTY_CART:
+    // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
+    // return [...newCartArray, action.item]
 
     case CLEAR_CART:
-      return []
+      return {}
 
     default:
       return state

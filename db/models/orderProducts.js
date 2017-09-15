@@ -13,13 +13,13 @@ const orderProducts = db.define('order_products', {
 	}
 }, {
 	getterMethods: {
-    price: function() {
-      return parseFloat(this.getDataValue('price') / 100).toFixed(2)
+    originalPrice: function() {
+      return parseFloat(this.getDataValue('originalPrice') / 100).toFixed(2)
     }
   },
   setterMethods: {
-    price: function(value) {
-      this.setDataValue('price', value * 100)
+    originalPrice: function(value) {
+      this.setDataValue('originalPrice', value * 100)
     }
   }
 });
