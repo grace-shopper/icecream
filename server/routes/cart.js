@@ -13,7 +13,6 @@ router.post('/new', (req, res, next) => {
       const product = data[0];
       const order = data[1];
       req.session.cartId = order.id;
-      //req.cart = order; //will this have the products associated with this order?
       OrderProducts.create({
           orderId: order.id,
           productId: product.id,
@@ -39,18 +38,30 @@ router.post('/', (req, res, next) => {
     .then(data => {
       const product = data[0];
       const order = data[1];
-      OrderProducts.findOrCreate({
+      OrderProducts.find({
         where: {
           orderId: order.id,
           productId: product.id
         }
       })
-        .spread((orderprod, created) => {
+      .then(orderprod => {
+        if (!orderprod) {
+          return OrderProducts.create(
+            {
+              orderId: order.id,
+              productId: product.id,
+              quantity: req.body.quantity,
+              originalPrice: product.price
+            }
+          )
+        }
+        else {
           return orderprod.update({
             quantity: +orderprod.quantity + +req.body.quantity,
             originalPrice: product.price
           })
-        })
+        }
+      })
       .then(orderProduct => {
         Order.findById(orderProduct.orderId)
           .then(order => {
