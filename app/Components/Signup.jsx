@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { signup } from '../reducers';
+import { signupAndGoToHome } from '../reducers';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -64,7 +64,8 @@ class Signup extends React.Component {
       email: event.target.email.value,
       password: event.target.password.value
     };
-    this.props.signup(credentials);
+    const history = this.props.history
+    this.props.signup(credentials, history);
   }
 }
 
@@ -72,7 +73,7 @@ class Signup extends React.Component {
 
 const mapState = () => ({ message: 'Sign up' });
 
-const mapDispatch = { signup: signup};
+const mapDispatch = { signup: signupAndGoToHome};
 
 
 export default connect(mapState, mapDispatch)(Signup);

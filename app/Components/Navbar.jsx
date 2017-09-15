@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import { connect } from 'react-redux';
+import { logout } from '../reducers/auth';
 
-export default class Navbar extends Component {
+class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isLoggedIn: false,
 			open: false
 		}
 		this.handleClose = this.handleClose.bind(this);
 		this.handleToggle = this.handleToggle.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
 	}
 
 	handleToggle(e) {
@@ -24,8 +26,15 @@ export default class Navbar extends Component {
 		this.setState({ open: false });
 	}
 
+	handleLogout(e) {
+		this.setState({ open: false });
+		this.props.logout()
+	}
+
 	render() {
+		const { currentUser } = this.props
 		return (
+
 			<div>
 				<AppBar
 					title="Gracey Hopper's Ice Screamatorium"
@@ -34,18 +43,18 @@ export default class Navbar extends Component {
 					width={200}
 					open={this.state.open}
 					onRequestChange={(open) => this.setState({ open })}>
-					<MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>
-					<MenuItem onClick={this.handleClose}><Link to="/signup">Sign Up</Link></MenuItem>
 					{
-						(this.state.isLoggedIn)
-							? <MenuItem onClick={this.handleClose}><Link to="/logout">Logout</Link></MenuItem>
-							: null
+						(Object.keys(currentUser).length)
+							? <MenuItem onClick={this.handleLogout}><Link to="/logout">Logout</Link> <small>{currentUser.email} </small></MenuItem>
+
+							: [<MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>,
+							<MenuItem onClick={this.handleClose}><Link to="/signup">Sign Up</Link></MenuItem>]
 					}
 					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
 					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
 					{
-						(this.state.isLoggedIn)
-							? <MenuItem onClick={this.handleClose}><Link to="/profile">Your Profile</Link></MenuItem>
+						(Object.keys(currentUser).length)
+							? <MenuItem onClick={this.handleClose}><Link to="/user/:userId">Your Profile</Link></MenuItem>
 							: null
 					}
 				</Drawer>
@@ -53,3 +62,16 @@ export default class Navbar extends Component {
 		)
 	}
 }
+
+/* -----------------    CONTAINER     ------------------ */
+
+const mapState = ({ currentUser }) => ({ currentUser });
+
+
+const mapDispatch = dispatch => ({
+	logout: () => {
+		dispatch(logout());
+	}
+});
+
+export default connect(mapState, mapDispatch)(Navbar);

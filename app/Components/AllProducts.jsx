@@ -14,6 +14,7 @@ export class AllProducts extends Component {
 
     return (
       <div className='all-products'>
+<<<<<<< HEAD
         {products && products.map( product => (
           <Card key={product.id} className='single-product col-lg-4 col-md-4 col-sm-4'>
             <br />
@@ -33,6 +34,29 @@ export class AllProducts extends Component {
             </NavLink>
           </Card>
         ) )}
+=======
+        <div>
+          {products && products.map( product => (
+            <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>
+              <br />
+              <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
+                <CardMedia>
+                  <img src={`/images/${product.imageName}`}
+                      alt={`tasty image for ${product.title}`}
+                      className='card-image'/>
+                </CardMedia>
+                <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
+                <CardText>
+                  { product.description }
+                </CardText>
+                <CardActions>
+                  <FlatButton label="Buy Now" className='buy-button'/>
+                </CardActions>
+              </NavLink>
+            </Card>
+          ) )}
+        </div>
+>>>>>>> master
       </div>
     )
   }

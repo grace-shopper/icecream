@@ -11,6 +11,7 @@ import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
 import { connect } from 'react-redux';
+import Searchbar from './Searchbar';
 
 import {me, getCart} from '../reducers'
 
@@ -36,11 +37,18 @@ export class Root extends Component {
 				<Navbar />
 				<div className="container-fluid">
 					<Switch>
-            <Route path="/login" component={Login} />
-					  <Route path="/signup" component={Signup} />
+            			<Route path="/login" component={Login} />
+					  	<Route path="/signup" component={Signup} />
 						<Route path="/cart" component={Cart}/>
+<<<<<<< HEAD
 						<Route exact path="/" component={AllProducts}/>
 						<Route exact path="/products" component={AllProducts}/>
+=======
+						<Route exact path="/" component={Searchbar}/>
+						<Route exact path="/products" component={Searchbar}/>
+						<Route path="/products/:productId" component={SingleProduct}/>
+						<Route path="/orders/:userId" component={OrderHistory}/>
+>>>>>>> master
 						<Route exact path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders/:userId" component={OrderHistory}/>
 					</Switch>
@@ -71,5 +79,9 @@ const mapDispatch = (dispatch) => {
 
 const RootContainer = withRouter(connect(mapState, mapDispatch)(Root))
 
+<<<<<<< HEAD
 export default RootContainer;
 
+=======
+// export default connect(mapState, mapDispatch)(Root)
+>>>>>>> master

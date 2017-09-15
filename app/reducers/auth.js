@@ -1,20 +1,27 @@
 import axios from 'axios';
-import { create  } from './users';
+import { create } from './users';
+
 
 /* ------------------    ACTIONS    --------------------- */
 
-const SET    = 'SET_CURRENT_USER';
+const SET = 'SET_CURRENT_USER';
+const REMOVE = 'REMOVE_CURRENT_USER';
+
 /* --------------    ACTION CREATORS    ----------------- */
 
-const set     = user => ({ type: SET, user });
+const set = user => ({ type: SET, user });
+const remove = () => ({ type: REMOVE });
 
 /* ------------------    REDUCER    --------------------- */
 
-export default function reducer (currentUser = {}, action) {
+export default function reducer(currentUser = {}, action) {
   switch (action.type) {
 
     case SET:
       return action.user;
+
+    case REMOVE:
+      return {};
 
     default:
       return currentUser;
@@ -27,12 +34,19 @@ export default function reducer (currentUser = {}, action) {
 
 export const login = credentials => dispatch => {
   return axios.put('/api/auth/login', credentials)
-  .then(res => res.data)
-  .then(user => {
-    dispatch(set(user));
-    return user;
-  })
-  .catch(err => console.log(err));
+    .then(res => res.data)
+    .then(user => {
+      dispatch(set(user));
+      return user;
+    })
+    .catch(err => console.log(err));
+};
+
+export const loginAndGoToHome = (credentials, history) => dispatch => {
+
+  dispatch(login(credentials))
+    .then(user => history.push(`/products`))
+    .catch(err => console.error('Problem logging in:', err));
 };
 
 
@@ -56,3 +70,14 @@ export const me = () => dispatch => {
   .catch(err => console.log(err));
 };
 
+export const signupAndGoToHome = (credentials, history) => dispatch => {
+  dispatch(signup(credentials))
+    .then(user => history.push(`/products`))
+    .catch(err => console.error('Problem signing up:', err));
+};
+
+export const logout = () => dispatch => {
+  dispatch(remove());
+  axios.post('/api/auth/logout')
+    .catch(err => console.error('logout unsuccessful', err));
+};

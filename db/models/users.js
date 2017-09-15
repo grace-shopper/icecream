@@ -18,10 +18,10 @@ const User = db.define('user', {
   },
   google_id: {
     type: Sequelize.STRING
-  }, 
+  },
   isAdmin: {
-    type: Sequelize.BOOLEAN, 
-    allowNull: false, 
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
     defaultValue: false
   }
 }, {
