@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
 
-import {fetchProducts, getProduct, addToCartUnauth, addToCartAuth} from '../reducers';
+import {fetchProducts, getProduct, createNewCart, updateCart} from '../reducers';
 
 export class SingleProduct extends Component {
   constructor(props) {
@@ -33,6 +33,7 @@ export class SingleProduct extends Component {
 
 	// need to update link to go to a particular users id
   render() {
+		console.log('props in render', this.props)
   	return (
   		<div>
   		<div className="row">
@@ -61,8 +62,10 @@ export class SingleProduct extends Component {
   								})
   							}
 							</select>
-							<NavLink to={`/cart`} onClick={this.props.addToCart}>
-	  					<button className="btn btn-default">
+							<NavLink to={`/cart`}>
+							<button
+									onClick={(e)=>this.props.addToCart(e,this.props.currentProduct, this.props.cart)}
+									className="btn btn-default">
 	  						Add to Cart
 							</button>
 							</NavLink>
@@ -79,7 +82,8 @@ export class SingleProduct extends Component {
 const mapStateToProps = function (state) {
   return {
 		currentProduct: state.currentProduct,
-		currentUser: state.currentUser
+		currentUser: state.currentUser,
+		cart: state.cart
   }
 }
 
@@ -88,8 +92,11 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     updateChosenProduct: function(product) {
       return dispatch(getProduct(product))
 		},
-		addToCart: function() {
-			console.log('ownProps',ownProps)
+		addToCart: function(e, product, cart) {
+			//console.log('product in frontend', product)
+			e.preventDefault()
+			if (Object.keys(cart).length === 0) dispatch(createNewCart(product, 1))
+			else dispatch(updateCart(product, 1))
 		}
   }
 }

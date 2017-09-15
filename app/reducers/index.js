@@ -4,7 +4,8 @@ import currentProduct from './currentProduct'
 import cart from './cart'
 import currentUser2 from './currentUser'
 import currentUser from './auth';
-import orders from './orders'
+import orders from './orders';
+import hasCart from './hasCart';
 
 const rootReducer = combineReducers({
 	products,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
 	cart,
 	currentUser2,
   currentUser,
-	orders
+	orders,
+	hasCart
 })
 
 export default rootReducer;
@@ -22,4 +24,5 @@ export * from './currentProduct';
 export * from './cart';
 export * from './currentUser';
 export * from './orders';
-export * from './auth'; 
+export * from './auth';
+export * from './hasCart'

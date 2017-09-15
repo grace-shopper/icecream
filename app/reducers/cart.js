@@ -10,7 +10,7 @@ const SET = 'SET'
 
 // ACTION CREATORS
 export function addItemToCart(product, quantity) {
-  const action = { type: ADD_ITEM_TO_CART, item: {product, quantity} };
+  const action = { type: ADD_ITEM_TO_CART, item: { product, quantity } };
   return action;
 }
 
@@ -20,7 +20,7 @@ export function deleteFromCart(product) {
 }
 
 export function editQtyCart(product, newQty) {
-  const action = { type: EDIT_QTY_CART, item: {product, newQty} };
+  const action = { type: EDIT_QTY_CART, item: { product, newQty } };
   return action;
 }
 
@@ -29,7 +29,7 @@ export function clearCart() {
   return action;
 }
 
-export function set() {
+export function set(cart) {
   const action = { type: SET, cart };
   return action;
 }
@@ -39,28 +39,36 @@ export function set() {
 // unauthenticated users - need to update sessions object
 
 export const getCart = () => dispatch => {
-  return axios.get('/api/cart')
-    .then(res => res.data)
-    .then(cart => {
-      dispatch(set(cart));
-    })
-    .catch(err => console.log(err));
+  return function thunk(dispatch) {
+    return axios.get('/api/cart')
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart));
+      })
+      .catch(err => console.log(err));
+  }
 };
 
 export function createNewCart(product, quantity) {
-  return axios.post('/api/cart/new', {product, quantity})
-    .then(res => res.data)
-    .then(cart => {
-      dispatch(set(cart))
-    })
+  return function thunk(dispatch) {
+    return axios.post('/api/cart/new', { product, quantity })
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart))
+      })
+      .catch(err=>console.log(err))
+  }
 }
 
 export function updateCart(product, quantity) {
-  return axios.post('/api/cart', {product, quantity})
-    .then(res => res.data)
-    .then(cart => {
-      dispatch(set(cart))
-    })
+  return function thunk(dispatch) {
+    return axios.post('/api/cart', { product, quantity })
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart))
+      })
+      .catch(err=>console.log(err))
+  }
 }
 
 // add total quantity to cart state
@@ -77,13 +85,13 @@ const reducer = function (state = {}, action) {
       return newCart;
 
     case DELETE_ITEM_FROM_CART:
-      // let newCartArray = state.products.filter(product => product.id !== action.product.id);
+    // let newCartArray = state.products.filter(product => product.id !== action.product.id);
 
-      // return Object.assign({}, state)
+    // return Object.assign({}, state)
 
     case EDIT_QTY_CART:
-      // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
-      // return [...newCartArray, action.item]
+    // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
+    // return [...newCartArray, action.item]
 
     case CLEAR_CART:
       return {}

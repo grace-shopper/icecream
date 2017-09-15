@@ -5,13 +5,15 @@ const OrderProducts = require('../../db/models/orderProducts');
 
 // create order
 router.post('/new', (req, res, next) => {
-  const productPromise = Product.findById(req.body.productId)
+  const productPromise = Product.findById(req.body.product.id)
   const orderPromise = Order.create({})
 
   Promise.all([productPromise, orderPromise])
     .then(data => {
       const product = data[0];
       const order = data[1];
+      //console.log('product', product)
+      //console.log('order', order)
       req.session.cartId = order.id;
       //req.cart = order; //will this have the products associated with this order?
       OrderProducts.create({
@@ -32,7 +34,7 @@ router.post('/new', (req, res, next) => {
 
 // add to order
 router.post('/', (req, res, next) => {
-  const productPromise = Product.findById(req.body.productId)
+  const productPromise = Product.findById(req.body.product.id)
   const orderPromise = Order.findById(req.session.cartId)
 
   Promise.all([productPromise, orderPromise])

@@ -14,7 +14,7 @@ const orderProducts = db.define('order_products', {
 }, {
 	getterMethods: {
     originalPrice: function() {
-      return this.getDataValue('originalPrice') / 100
+      return parseFloat(this.getDataValue('price') / 100).toFixed(2)
     }
   },
   setterMethods: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 import store from '../store';
 import {fetchProducts} from '../reducers';
@@ -69,5 +69,7 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Root)
+const RootContainer = withRouter(connect(mapState, mapDispatch)(Root))
+
+export default RootContainer;
 
