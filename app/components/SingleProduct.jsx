@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import Review from './Review'
 
 import { fetchProducts, getProduct, createNewCart, updateCart, updateProductAsAdmin } from '../reducers';
 
@@ -71,66 +72,67 @@ export class SingleProduct extends Component {
     const style = { marginLeft: 20, };
   	return (
   		<div>
-  		<div className="row">
-  			<div className="col-sm-6 col-md-6 col-lg-6">
-  				<h2 className="text-center">{this.props.currentProduct.title} </h2>
-  				<img src={`/images/${this.props.currentProduct.imageName}`} />
-  			</div>
-  			<div className="col-sm-6 col-md-6 col-lg-6">
-  				<div>
-  					<b>Description:  </b>
-  					{this.props.currentProduct.description}
-  				</div>
-  				<div>
-  					<b>Price: </b>
-  					{this.props.currentProduct.price}
-  				</div>
-          <div>
-							<form
-								onSubmit={this.handleSubmit}
-							>
-							<div className="form-group">
-								<label>
-									<b>Quantity:</b>
-									<select
-										className="form-control"
-										name="qty"
-										value={this.state.chosenQty}
-										onChange={this.handleChange}
-									>
-										{
-											this.state.inventoryArr.map(num => {
-												return (
-													<option key={num} value={num}>{num}</option>
-												)
-											})
-										}
-									</select>
-								</label>
+	  		<div className="row">
+	  			<div className="col-sm-6 col-md-6 col-lg-6">
+	  				<h2 className="text-center">{this.props.currentProduct.title} </h2>
+	  				<img src={`/images/${this.props.currentProduct.imageName}`} />
+	  			</div>
+	  			<div className="col-sm-6 col-md-6 col-lg-6">
+	  				<div>
+	  					<b>Description:  </b>
+	  					{this.props.currentProduct.description}
+	  				</div>
+	  				<div>
+	  					<b>Price: </b>
+	  					{this.props.currentProduct.price}
+	  				</div>
+	          <div>
+								<form
+									onSubmit={this.handleSubmit}
+								>
+								<div className="form-group">
+									<label>
+										<b>Quantity:</b>
+										<select
+											className="form-control"
+											name="qty"
+											value={this.state.chosenQty}
+											onChange={this.handleChange}
+										>
+											{
+												this.state.inventoryArr.map(num => {
+													return (
+														<option key={num} value={num}>{num}</option>
+													)
+												})
+											}
+										</select>
+									</label>
+									</div>
+									<div className = "form-group">
+									<button type="submit"
+										className="btn btn-success">
+										Add to Cart
+								</button>
 								</div>
-								<div className = "form-group">
-								<button type="submit"
-									className="btn btn-success">
-									Add to Cart
-							</button>
+								</form>
 							</div>
-							</form>
-						</div>
 
-          <div>
-            <RaisedButton label="Modify" onClick={this.handleOpen} />
-            <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
-            <form onSubmit={this.onSubmit}>
-              <TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
-              <TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
-              <TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
-              <TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
-              <RaisedButton type="submit" label="submit" primary={true} />
-            </form>
-            </Dialog>
-          </div>
-  			</div>
-  		</div>
+	          <div>
+	            <RaisedButton label="Modify" onClick={this.handleOpen} />
+	            <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
+	            <form onSubmit={this.onSubmit}>
+	              <TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
+	              <TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
+	              <TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
+	              <TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
+	              <RaisedButton type="submit" label="submit" primary={true} />
+	            </form>
+	            </Dialog>
+	          </div>
+	  			</div>
+	  		</div>
+				<Review />
   		</div>
   	)
   }
