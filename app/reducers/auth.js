@@ -14,14 +14,14 @@ const remove = () => ({ type: REMOVE });
 
 /* ------------------    REDUCER    --------------------- */
 
-export default function reducer(currentUser = null, action) {
+export default function reducer(currentUser = {}, action) {
   switch (action.type) {
 
     case SET:
       return action.user;
 
     case REMOVE:
-      return null;
+      return {};
 
     default:
       return currentUser;
