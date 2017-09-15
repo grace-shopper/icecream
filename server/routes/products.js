@@ -26,6 +26,7 @@ router.post('/', (req, res, next) => {
 
 //updates product
 router.put('/:productId', (req, res, next) => {
+	console.log("in update product back end", req.body); 
 	Product.update(
 		req.body, 
 		{ where: { id: req.params.productId}}
