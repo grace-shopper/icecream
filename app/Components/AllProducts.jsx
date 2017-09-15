@@ -9,13 +9,16 @@ import {fetchProducts, getProduct} from '../reducers';
 
 export class AllProducts extends Component {
   render() {
+
     const products = this.props.products;
+          console.log('products', products)
+
     return (
       <div className='all-products'>
         {products && products.map( product => (
-          <Card className='single-product col-lg-4 col-md-4 col-sm-4'>
+          <Card key={product.id} className='single-product col-lg-4 col-md-4 col-sm-4'>
             <br />
-            <NavLink onClick = {this.props.handleClick} value={product.id} to={`/products/${product.id}`}>
+            <NavLink value={product.id} to={`/products/${product.id}`}>
               <CardMedia>
                 <img src={`/images/${product.imageName}`}
                     alt={`tasty image for ${product.title}`}
@@ -40,6 +43,7 @@ export class AllProducts extends Component {
 const mapStateToProps = function (state) {
   return {
     products: state.products,
+    currentUser: state.currentUser
   }
 }
 

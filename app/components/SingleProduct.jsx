@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
 
-import {fetchProducts, getProduct} from '../reducers';
+import {fetchProducts, getProduct, addToCartUnauth, addToCartAuth} from '../reducers';
 
 export class SingleProduct extends Component {
   constructor(props) {
@@ -61,7 +61,7 @@ export class SingleProduct extends Component {
   								})
   							}
 							</select>
-							<NavLink to={`/cart`}>
+							<NavLink to={`/cart`} onClick={this.props.addToCart}>
 	  					<button className="btn btn-default">
 	  						Add to Cart
 							</button>
@@ -78,15 +78,19 @@ export class SingleProduct extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    currentProduct: state.currentProduct,
+		currentProduct: state.currentProduct,
+		currentUser: state.currentUser
   }
 }
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     updateChosenProduct: function(product) {
       return dispatch(getProduct(product))
-    }
+		},
+		addToCart: function() {
+			console.log('ownProps',ownProps)
+		}
   }
 }
 
