@@ -12,7 +12,7 @@ const Order = db.define('order', {
 	status: {
 		type: Sequelize.TEXT,
 		allowNull: false,
-		defaultValue: "Created"
+		defaultValue: "In Cart"
 	}
 }, {
 	defaultScope: {
