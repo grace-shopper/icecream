@@ -25,6 +25,7 @@ export class Cart extends Component {
 const mapStateToProps = function (state) {
   return {
     cart: state.cart,
+    currentUser: state.currentUser
   }
 }
 

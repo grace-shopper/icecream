@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 import store from '../store';
 import {fetchProducts} from '../reducers';
@@ -10,9 +10,13 @@ import 	Signup from './Signup.jsx';
 import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
+import { connect } from 'react-redux';
 import Searchbar from './Searchbar';
 
-export default class Root extends Component {
+import {me, getCart} from '../reducers'
+
+
+export class Root extends Component {
 	constructor() {
 		super()
 	}
@@ -22,7 +26,7 @@ export default class Root extends Component {
 		store.dispatch(fetchProducts());
 
 		//get the '{me}'
-		//this.props.loadInitialData();
+		this.props.loadInitialData();
 	}
 
 	render() {
@@ -41,6 +45,7 @@ export default class Root extends Component {
 						<Route path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders/:userId" component={OrderHistory}/>
 						<Route exact path="/products/:productId" component={SingleProduct}/>
+						<Route path="/orders/:userId" component={OrderHistory}/>
 					</Switch>
 				</div>
 			</div>
@@ -48,20 +53,25 @@ export default class Root extends Component {
 	}
 }
 
-// const mapState = (state) => {
-//   return {
-//     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-//     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-//     isLoggedIn: !!state.user.id
-//   }
-// }
+const mapState = (state) => {
+  return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+		isLoggedIn: state.currentUser && !!state.currentUser.id,
+		currentUser: state.currentUser,
+		cart: state.cart
+  }
+}
 
-// const mapDispatch = (dispatch) => {
-//   return {
-//     loadInitialData () {
-//       dispatch(me())
-//     }
-//   }
-// }
+const mapDispatch = (dispatch) => {
+  return {
+    loadInitialData () {
+			dispatch(me())
+			dispatch(getCart())
+    }
+  }
+}
 
-// export default connect(mapState, mapDispatch)(Root)
+const RootContainer = withRouter(connect(mapState, mapDispatch)(Root))
+
+export default RootContainer;

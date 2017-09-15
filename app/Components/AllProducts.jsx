@@ -9,7 +9,9 @@ import {fetchProducts, getProduct} from '../reducers';
 
 export class AllProducts extends Component {
   render() {
+
     const products = this.props.products;
+
     return (
       <div className='all-products'>
         <div>
@@ -27,7 +29,7 @@ export class AllProducts extends Component {
                   { product.description }
                 </CardText>
                 <CardActions>
-                  <FlatButton label="Buy Now" className='buy-button'/>
+                  <FlatButton label="Add to Cart" className='buy-button'/>
                 </CardActions>
               </NavLink>
             </Card>
@@ -42,6 +44,7 @@ export class AllProducts extends Component {
 const mapStateToProps = function (state) {
   return {
     products: state.products,
+    currentUser: state.currentUser
   }
 }
 

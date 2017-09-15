@@ -38,7 +38,8 @@ export const login = credentials => dispatch => {
     .then(user => {
       dispatch(set(user));
       return user;
-    });
+    })
+    .catch(err => console.log(err));
 };
 
 export const loginAndGoToHome = (credentials, history) => dispatch => {
@@ -49,15 +50,24 @@ export const loginAndGoToHome = (credentials, history) => dispatch => {
 };
 
 
-
 export const signup = credentials => dispatch => {
   return axios.post('/api/auth/signup', credentials)
-    .then(res => res.data)
-    .then(user => {
-      dispatch(create(user));
-      dispatch(set(user));
-      return user;
-    });
+  .then(res => res.data)
+  .then(user => {
+    dispatch(create(user));
+    dispatch(set(user));
+    return user;
+  })
+  .catch(err => console.log(err));
+};
+
+export const me = () => dispatch => {
+  return axios.get('/api/auth/me')
+  .then(res => res.data)
+  .then(user => {
+    dispatch(set(user));
+  })
+  .catch(err => console.log(err));
 };
 
 export const signupAndGoToHome = (credentials, history) => dispatch => {
