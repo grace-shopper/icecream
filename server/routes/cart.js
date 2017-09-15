@@ -73,7 +73,6 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-  console.log("getting cart")
   if (req.session.cartId) {
     return Order.findById(req.session.cartId)
       .then(cartOrder => {
@@ -83,5 +82,20 @@ router.get('/', (req, res, next) => {
   }
   else return null;
 })
+
+router.get('/:userId', (req, res, next) => {
+  return Order.findOne({
+    where: {
+      userId: req.params.userId,
+      status: "In Cart"
+    }
+  })
+  .then(cart => {
+    if (!cart) cart = {}
+    req.cart = cart;
+    res.json(cart)
+  })
+})
+
 
 module.exports = router;
