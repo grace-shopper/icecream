@@ -37,15 +37,14 @@ export class Root extends Component {
 				<Navbar />
 				<div className="container-fluid">
 					<Switch>
-            			<Route path="/login" component={Login} />
-					  	<Route path="/signup" component={Signup} />
+      			<Route path="/login" component={Login} />
+			  		<Route path="/signup" component={Signup} />
 						<Route path="/cart" component={Cart}/>
 						<Route exact path="/" component={Searchbar}/>
 						<Route exact path="/products" component={Searchbar}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
-						<Route path="/orders/:userId" component={OrderHistory}/>
+						<Route path="/orders" component={OrderHistory}/>
 						<Route exact path="/products/:productId" component={SingleProduct}/>
-						<Route path="/orders/:userId" component={OrderHistory}/>
 					</Switch>
 				</div>
 			</div>
