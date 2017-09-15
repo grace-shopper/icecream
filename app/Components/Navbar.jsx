@@ -44,7 +44,7 @@ class Navbar extends Component {
 					open={this.state.open}
 					onRequestChange={(open) => this.setState({ open })}>
 					{
-						(currentUser)
+						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleLogout}><Link to="/">Logout</Link> <small>{currentUser.email} </small></MenuItem>
 
 							: [<MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>,
@@ -53,7 +53,7 @@ class Navbar extends Component {
 					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
 					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
 					{
-						(currentUser)
+						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleClose}><Link to="/">Your Profile</Link></MenuItem>
 							: null
 					}
