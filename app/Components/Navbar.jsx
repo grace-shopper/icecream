@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -15,6 +15,7 @@ class Navbar extends Component {
 		this.handleClose = this.handleClose.bind(this);
 		this.handleToggle = this.handleToggle.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
+		this.handleLink = this.handleLink.bind(this); 
 	}
 
 	handleToggle(e) {
@@ -31,10 +32,25 @@ class Navbar extends Component {
 		this.props.logout()
 	}
 
+	handleLink(e, type) {
+		if(type === "order") {
+			this.props.history.push(`/orders/`); 
+		} else if(type === "products") {
+			this.props.history.push(`/products`); 
+		} else if(type === "cart") {
+			this.props.history.push(`/cart`); 
+		} else if(type === "login") {
+			this.props.history.push(`/login`); 
+		} else if(type === "signup") {
+			this.props.history.push(`/signup`); 
+		}
+		this.setState({ open: false });
+	}
+
 	render() {
 		const { currentUser } = this.props
+		console.log("hullo", currentUser); 
 		return (
-
 			<div>
 				<AppBar
 					title="Gracey Hopper's Ice Screamatorium"
@@ -45,13 +61,14 @@ class Navbar extends Component {
 					onRequestChange={(open) => this.setState({ open })}>
 					{
 						(Object.keys(currentUser).length)
-							? <MenuItem onClick={this.handleLogout}><Link to="/">Logout</Link> <small>{currentUser.email} </small></MenuItem>
+							? [<MenuItem onClick={this.handleLogout}><Link to="/">Logout</Link> <small>{currentUser.email} </small></MenuItem>, 
+								 <MenuItem onClick={(e)=> {this.handleLink(e, "order")}}>Order History</MenuItem>]
 
-							: [<MenuItem onClick={this.handleClose} key="login"><Link to="/login">Login</Link></MenuItem>,
-							<MenuItem onClick={this.handleClose} key="signup"><Link to="/signup">Sign Up</Link></MenuItem>]
+							: [<MenuItem onClick={(e)=>{this.handleLink(e, "login")}}>Login</MenuItem>,
+							<MenuItem onClick={(e)=>{this.handleLink(e, "signup")}}>Sign Up</MenuItem>]
 					}
-					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
-					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
+					<MenuItem onClick={(e)=>{this.handleLink(e, "products")}}>Products</MenuItem>
+					<MenuItem onClick={(e)=>{this.handleLink(e, "cart")}}>Your Cart</MenuItem>
 					{
 						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleClose}><Link to="/user/:userId">Your Profile</Link></MenuItem>
@@ -65,13 +82,13 @@ class Navbar extends Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ currentUser }) => ({ currentUser });
+const mapState = ({ currentUser  }) => ({ currentUser });
 
 
-const mapDispatch = dispatch => ({
+const mapDispatch = (dispatch) => ({
 	logout: () => {
 		dispatch(logout());
 	}
 });
 
-export default connect(mapState, mapDispatch)(Navbar);
+export default withRouter(connect(mapState, mapDispatch)(Navbar));
