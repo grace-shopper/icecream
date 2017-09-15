@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../../db/models/users');
+const Order = require('../../db/models/orders');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const passport = require('passport');
 
@@ -38,6 +39,9 @@ router.post('/signup', (req, res, next) => {
         if (err) next(err);
         else res.json(user);
       });
+      return Order.create({
+        userId: user.id
+      })
     })
     .catch(next);
 });
@@ -70,6 +74,9 @@ const strategy = new GoogleStrategy(googleConfig, function (token, refreshToken,
       if (!user) {
         return User.create({ name, email, google_id })
           .then(function (user) {
+            Order.create({
+              userId: user.id
+            })
             done(null, user);
           });
       } else {
