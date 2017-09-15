@@ -3,6 +3,8 @@ import axios from 'axios';
 // ACTION TYPES
 const CHOOSE_PRODUCT = 'CHOOSE_PRODUCT';
 
+const UPDATE_PRODUCT_AS_ADMIN = 'UPDATE_PRODUCT_AS_ADMIN'; 
+
 // ACTION CREATORS
 export function chooseProduct(product) {
   const action = { type: CHOOSE_PRODUCT, product };
@@ -16,6 +18,15 @@ export function getProduct(id) {
       .then(product => {
         dispatch(chooseProduct(product));
       });
+  }
+}
+
+export function updateProductAsAdmin(id, modProduct) {
+  return function thunk(dispatch) {
+    return axios.put(`/api/products/${id}`, modProduct)
+    .then(succ => {
+      dispatch(getProduct(id)); 
+    })
   }
 }
 
