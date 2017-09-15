@@ -47,8 +47,8 @@ class Navbar extends Component {
 						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleLogout}><Link to="/logout">Logout</Link> <small>{currentUser.email} </small></MenuItem>
 
-							: [<MenuItem onClick={this.handleClose}><Link to="/login">Login</Link></MenuItem>,
-							<MenuItem onClick={this.handleClose}><Link to="/signup">Sign Up</Link></MenuItem>]
+							: [<MenuItem onClick={this.handleClose} key="login"><Link to="/login">Login</Link></MenuItem>,
+							<MenuItem onClick={this.handleClose} key="signup"><Link to="/signup">Sign Up</Link></MenuItem>]
 					}
 					<MenuItem onClick={this.handleClose}><Link to="/products">Products</Link></MenuItem>
 					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>

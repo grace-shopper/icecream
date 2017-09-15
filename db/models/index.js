@@ -1,11 +1,11 @@
 const User = require('./users.js');
+const Order = require('./orders.js');
 const Category = require('./category');
 const Flavor = require('./flavors');
 const Product = require('./products');
-const Order = require('./orders.js');
 const Review = require('./reviews');
 const Cart = require('./cart')
-const orderProducts = require('./orderProducts');
+const orderProducts = require('./orderProducts'); 
 
 // product associations:
 // category - many to many
