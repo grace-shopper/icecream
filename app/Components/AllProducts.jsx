@@ -11,7 +11,6 @@ export class AllProducts extends Component {
   render() {
 
     const products = this.props.products;
-          console.log('products', products)
 
     return (
       <div className='all-products'>

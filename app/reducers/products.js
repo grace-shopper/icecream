@@ -33,7 +33,6 @@ export function fetchProducts() {
     return axios.get('/api/products')
       .then(res => res.data)
       .then(products => {
-        console.log('products are ', products)
         const action = getProducts(products);
         dispatch(action);
       })

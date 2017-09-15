@@ -64,7 +64,7 @@ const mapDispatch = (dispatch) => {
   return {
     loadInitialData () {
 			dispatch(me())
-			//dispatch(getCart())
+			dispatch(getCart())
     }
   }
 }

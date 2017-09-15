@@ -38,10 +38,12 @@ export function set(cart) {
 // thunk creators - will be different for authenticated and unauthenticated users
 // unauthenticated users - need to update sessions object
 
-export const getCart = () => dispatch => {
+export function getCart() {
   return function thunk(dispatch) {
     return axios.get('/api/cart')
-      .then(res => res.data)
+      .then(res => {
+        if (res) return res.data
+      })
       .then(cart => {
         dispatch(set(cart));
       })
@@ -84,12 +86,12 @@ const reducer = function (state = {}, action) {
       newCart.products.push(action.item);
       return newCart;
 
-    case DELETE_ITEM_FROM_CART:
+    //case DELETE_ITEM_FROM_CART:
     // let newCartArray = state.products.filter(product => product.id !== action.product.id);
 
     // return Object.assign({}, state)
 
-    case EDIT_QTY_CART:
+    //case EDIT_QTY_CART:
     // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
     // return [...newCartArray, action.item]
 

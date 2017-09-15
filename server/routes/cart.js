@@ -12,8 +12,6 @@ router.post('/new', (req, res, next) => {
     .then(data => {
       const product = data[0];
       const order = data[1];
-      //console.log('product', product)
-      //console.log('order', order)
       req.session.cartId = order.id;
       //req.cart = order; //will this have the products associated with this order?
       OrderProducts.create({
@@ -41,12 +39,18 @@ router.post('/', (req, res, next) => {
     .then(data => {
       const product = data[0];
       const order = data[1];
-      OrderProducts.create({
+      OrderProducts.findOrCreate({
+        where: {
           orderId: order.id,
-          productId: product.id,
-          quantity: req.body.quantity,
-          originalPrice: product.price
+          productId: product.id
+        }
       })
+        .spread((orderprod, created) => {
+          return orderprod.update({
+            quantity: +orderprod.quantity + +req.body.quantity,
+            originalPrice: product.price
+          })
+        })
       .then(orderProduct => {
         Order.findById(orderProduct.orderId)
           .then(order => {
@@ -57,10 +61,15 @@ router.post('/', (req, res, next) => {
     })
 })
 
-// unauthenticated
 router.get('/', (req, res, next) => {
-  return Order.findById(req.session.cartId)
-    .then(cartOrder => res.json(cartOrder))
+  if (req.session.cartId) {
+    return Order.findById(req.session.cartId)
+      .then(cartOrder => {
+        req.cart = cartOrder;
+        res.json(cartOrder)
+      })
+  }
+  else return null;
 })
 
 module.exports = router;
