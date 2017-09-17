@@ -7,7 +7,10 @@ const Order = db.define('order', {
 	purchasedAt: {
 		type: Sequelize.DATE,
 		allowNull: false,
-		defaultValue: Sequelize.NOW
+		defaultValue: Sequelize.NOW, 
+		get() {
+			return this.getDataValue("purchasedAt").toLocaleString();  
+		}
 	},
 	status: {
 		type: Sequelize.TEXT,

@@ -11,6 +11,8 @@ export class OrderHistory extends Component {
     super(props);
   }
 
+
+
   componentDidMount() {
     // will change this so get user from store
     const userId = this.props.currentUser.id; 
@@ -21,33 +23,43 @@ export class OrderHistory extends Component {
   };
 
   render() {
-    const orders = this.props.orders.filter(order => {return order.status === 'Purchased'});
+    const orders = this.props.orders.filter(order => {return order.status !== 'In Cart'});
     const purchases = []; 
     for(let i=0; i<orders.length; i++){
       let order = orders[i]; 
       for(let j=0; j<order.products.length; j++) {
+        order.products[j].status = order.status; 
+        order.products[j].purchasedAt = order.purchasedAt; 
         purchases.push(order.products[j]); 
       }
     } 
     console.log("users orders", orders); 
     console.log(purchases); 
     const CreateTable = (props) => {
-      console.log("in table create", props); 
       return (
         <Table> 
           <TableHeader> 
           <TableRow selectable={false}> 
             <TableHeaderColumn> Name </TableHeaderColumn> 
-            <TableHeaderColumn> Price </TableHeaderColumn> 
+            <TableHeaderColumn> Original Price </TableHeaderColumn> 
             <TableHeaderColumn> Description </TableHeaderColumn> 
+            <TableHeaderColumn> Quantity </TableHeaderColumn> 
+            <TableHeaderColumn> Total Price </TableHeaderColumn> 
+            <TableHeaderColumn> Status </TableHeaderColumn> 
+            <TableHeaderColumn> Purchased On </TableHeaderColumn> 
           </TableRow> 
           </TableHeader> 
           <TableBody> 
             {props.purchases && props.purchases.map(product => {
               return (<TableRow> 
-                <TableRowColumn>{product.title}</TableRowColumn> 
-                <TableRowColumn>{product.price}</TableRowColumn> 
-                <TableRowColumn>{product.description}</TableRowColumn> 
+                <TableRowColumn><NavLink to={`/products/${product.id}`}>{product.title}</NavLink></TableRowColumn> 
+                <TableRowColumn>{product.order_products.originalPrice}</TableRowColumn> 
+                <TableRowColumn>{product.description}</TableRowColumn>
+                <TableRowColumn>{product.order_products.quantity}</TableRowColumn>
+                <TableRowColumn>{product.order_products.quantity * product.order_products.originalPrice} </TableRowColumn>
+                <TableRowColumn>{product.status}</TableRowColumn>
+                <TableRowColumn>{product.purchasedAt}</TableRowColumn>
+                
               </TableRow> 
               )
             })
