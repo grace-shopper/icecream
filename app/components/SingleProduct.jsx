@@ -76,6 +76,9 @@ export class SingleProduct extends Component {
 	render() {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
+		let unavailMess = ''
+		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
+
 		return (
 			<div>
 				<div className="row">
@@ -98,7 +101,8 @@ export class SingleProduct extends Component {
 							>
 								<div className="form-group">
 									<label>
-										<b>Quantity:</b>
+										<b>Quantity: </b>
+										{unavailMess.length ? 'Item currently unavailable' : ''}
 										<select
 											className="form-control"
 											name="qty"
@@ -116,7 +120,7 @@ export class SingleProduct extends Component {
 									</label>
 								</div>
 								<div className="form-group">
-									<RaisedButton label="Add to Cart" onClick={this.handleGoToCheckoutOpen} />
+								{unavailMess.length ? <RaisedButton disabled label="Add to Cart" onClick={this.handleSubmit} /> : <RaisedButton label="Add to Cart" onClick={this.handleSubmit} />}
 									<Dialog modal={false} open={this.state.goToCheckoutOpen} modal={false}>
 									<NavLink to='/cart'>
 										<RaisedButton label="Proceed to Cart" />
@@ -129,6 +133,8 @@ export class SingleProduct extends Component {
 									</Dialog>
 								</div>
 							</form>
+							<div>
+							</div>
 						</div>
 
 						<div>
@@ -155,6 +161,7 @@ export class SingleProduct extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+		this.setState({ goToCheckoutOpen: true });
 		this.props.addToCart(this.state.chosenQty, this.props.currentProduct, this.props.cart)
 	}
 }
