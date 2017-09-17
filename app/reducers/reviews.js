@@ -10,12 +10,12 @@ export function getReviews(product) {
 }
 
 // THUNK CREATORS
-export function getReviews(id) {
+export function fetchReviews(id) {
   return function thunk(dispatch) {
     return axios.get(`/api/reviews/${id}`)
       .then(res => res.data)
       .then(reviews => {
-        dispatch(chooseProduct(reviews));
+        dispatch(getReviews(reviews));
       });
   }
 }

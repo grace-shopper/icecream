@@ -8,26 +8,28 @@ export class Review extends Component {
     this.state = {
       reviews: []
     }
+    this.getReviews = this.getReviews.bind(this);
   }
 
   componentDidMount() {
-		const productId = this.props.match.params.productId;
-		this.props.updateChosenProduct(productId)
+		const productId = this.props.productId;
+		this.props.getReviewsForProduct(productId)
 			.then(()=>{
 				const reviews = this.getReviews(this.props.currentProduct)
 				this.setState({reviews})
 			});
-	};
+	}
 
   getReviews(product) {
     let reviews = [];
     for (let i = 1; i <= product.reviews; i++) {
-      inventoryArr.push(i);
+      reviews.push(i);
     }
     return reviews;
   }
 
   render() {
+    console.log('RENDERING PROPS FOR REVIEWS', this.props)
     return (
       <div>
         <p> This is a review </p>
@@ -37,15 +39,21 @@ export class Review extends Component {
 
 }
 
-/* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ currentUser  }) => ({ currentUser });
-
-
-const mapDispatch = (dispatch) => ({
-	logout: () => {
-		dispatch(logout());
+const mapStateToProps = function (state) {
+	return {
+		reviews: state.reviews
 	}
-});
+}
 
-export default withRouter(connect(mapState, mapDispatch)(Navbar));
+const mapDispatchToProps = function (dispatch, ownProps) {
+	return {
+		getReviewsForProduct: function (product) {
+			return dispatch(getReviews(product))
+		}
+	}
+}
+
+const ReviewContainer = connect(mapStateToProps, mapDispatchToProps)(Review);
+
+export default ReviewContainer;
