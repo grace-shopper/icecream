@@ -96,7 +96,7 @@ export function editCart(productId, quantity) {
 
 export function removeItemFromCart(productId) {
   return function thunk(dispatch) {
-    return axios.put('/api/cart/product', { productId })
+    return axios.delete('/api/cart', { productId })
 
       .then(
       dispatch(deleteFromCart(productId))
