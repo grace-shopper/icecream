@@ -4,14 +4,19 @@ const db = require('../../db').db;
 
 router.get('/', (req, res, next) => {
   Review.findAll()
-    .then( products => res.json(products) )
+    .then( reviews => res.json(reviews) )
     .catch(next);
 });
 
-router.get('/:reviewId', (req, res, next) => {
-  Review.findById(req.params.reviewId)
-    .then(product => res.json(product))
-});
+router.get('/:productId', (req, res, next) => {
+  Review.findAll({
+    where: {
+      productId: req.params.productId
+    }
+  })
+  .then(reviews => res.json(reviews))
+  .catch(next);
+})
 
 
 module.exports = router;
