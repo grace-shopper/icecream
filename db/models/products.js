@@ -20,7 +20,7 @@ const Product = db.define('product', {
   },
   imageName: {
     type: Sequelize.TEXT,
-    defaultValue: 'default_product_img.png'
+    defaultValue: 'default_product_image.png'
   },
   inventory: {
     type: Sequelize.INTEGER,
