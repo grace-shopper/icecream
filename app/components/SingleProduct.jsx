@@ -74,7 +74,8 @@ export class SingleProduct extends Component {
 	// need to update link to go to a particular users id
 
 	render() {
-		const style = { marginLeft: 20, };
+		const style = { marginLeft: 20};
+		const formStyle = { marginRight: 5}
 		return (
 			<div>
 				<div className="row">
@@ -134,10 +135,10 @@ export class SingleProduct extends Component {
 							<RaisedButton label="Modify" onClick={this.handleOpen} />
 							<Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
 								<form onSubmit={this.onSubmit}>
-									<label>Title: </label><TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
-									<label>Description: </label><TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
-									<label>Inventory: </label><TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
-									<label>Image URL: </label><TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
+									<label style={formStyle}>Title:  </label><TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
+									<label style={formStyle}>Description:  </label><TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
+									<label style={formStyle}>Inventory:  </label><TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
+									<label style={formStyle}>Image URL:  </label><TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
 									<RaisedButton type="submit" label="submit" primary={true} />
 								</form>
 							</Dialog>
