@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { create } from './users';
-
+import {clearCart, setCart, setCartByUserId} from './cart'
 
 /* ------------------    ACTIONS    --------------------- */
 
@@ -37,6 +37,7 @@ export const login = credentials => dispatch => {
     .then(res => res.data)
     .then(user => {
       dispatch(set(user));
+      dispatch(setCartByUserId(user.id));
       return user;
     })
     .catch(err => console.log(err));
@@ -65,6 +66,7 @@ export const me = () => dispatch => {
   return axios.get('/api/auth/me')
   .then(res => res.data)
   .then(user => {
+    if (!user) user = {};
     dispatch(set(user));
   })
   .catch(err => console.log(err));
@@ -78,6 +80,7 @@ export const signupAndGoToHome = (credentials, history) => dispatch => {
 
 export const logout = () => dispatch => {
   dispatch(remove());
+  dispatch(clearCart());
   axios.post('/api/auth/logout')
     .catch(err => console.error('logout unsuccessful', err));
 };

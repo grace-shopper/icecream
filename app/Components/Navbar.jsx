@@ -71,7 +71,7 @@ class Navbar extends Component {
 					<MenuItem onClick={(e)=>{this.handleLink(e, "cart")}}>Your Cart</MenuItem>
 					{
 						(Object.keys(currentUser).length)
-							? <MenuItem onClick={this.handleClose}><Link to="/user/:userId">Your Profile</Link></MenuItem>
+							? <MenuItem onClick={this.handleClose}><Link to={`/user/${this.props.currentUser.id}`}>Your Profile</Link></MenuItem>
 							: null
 					}
 				</Drawer>

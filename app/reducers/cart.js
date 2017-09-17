@@ -5,7 +5,7 @@ const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const DELETE_ITEM_FROM_CART = 'DELETE_ITEM_FROM_CART';
 const EDIT_QTY_CART = 'EDIT_QTY_CART';
 const CLEAR_CART = 'CLEAR_CART'
-const SET = 'SET'
+const SET_CART = 'SET_CART'
 
 
 // ACTION CREATORS
@@ -29,8 +29,8 @@ export function clearCart() {
   return action;
 }
 
-export function set(cart) {
-  const action = { type: SET, cart };
+export function setCart(cart) {
+  const action = { type: SET_CART, cart };
   return action;
 }
 
@@ -44,7 +44,7 @@ export function getCart() {
       .then(res => res.data)
       .then(cart => {
         if (!cart) cart = {}
-        dispatch(set(cart));
+        dispatch(setCart(cart));
       })
       .catch(err => console.log(err));
   }
@@ -55,7 +55,7 @@ export function createNewCart(product, quantity) {
     return axios.post('/api/cart/new', { product, quantity })
       .then(res => res.data)
       .then(cart => {
-        dispatch(set(cart))
+        dispatch(setCart(cart))
       })
       .catch(err=>console.log(err))
   }
@@ -66,7 +66,18 @@ export function updateCart(product, quantity) {
     return axios.post('/api/cart', { product, quantity })
       .then(res => res.data)
       .then(cart => {
-        dispatch(set(cart))
+        dispatch(setCart(cart))
+      })
+      .catch(err=>console.log(err))
+  }
+}
+
+export function setCartByUserId(userId) {
+  return function thunk(dispatch) {
+    return axios.get(`/api/cart/${userId}`)
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(setCart(cart))
       })
       .catch(err=>console.log(err))
   }
@@ -77,7 +88,7 @@ export function updateCart(product, quantity) {
 const reducer = function (state = {}, action) {
   switch (action.type) {
 
-    case SET:
+    case SET_CART:
       return action.cart
 
     case ADD_ITEM_TO_CART:
