@@ -29,12 +29,10 @@ export function updateProduct(product) {
 
 // THUNK CREATORS
 export function fetchProducts() {
-  console.log("im in the thunk")
   return function thunk(dispatch) {
-    return axios.get('/api/products')
+    return axios.get('/api/products/available')
       .then(res => res.data)
       .then(products => {
-        console.log('products are ', products)
         const action = getProducts(products);
         dispatch(action);
       })
