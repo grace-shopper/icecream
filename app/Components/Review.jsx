@@ -11,24 +11,31 @@ export class Review extends Component {
   }
 
   componentDidMount() {
-		const productId = this.props.productId;
-		this.props.getReviewsForProduct(productId)
+		this.props.getReviewsForProduct(this.props.productId)
 			.then(reviews => {
 				this.setState({reviews})
 			});
 	}
 
   render() {
-    console.log('RENDERING PROPS FOR REVIEWS', this.props.reviews)
+    const productReviews = this.props.reviews
+    console.log('SETTING REVIEWS....', productReviews)
     return (
       <div>
-        <p> This is a review </p>
+        <br />
+        <h2> Ratings & Reviews </h2>
+          {/*
+          productReviews && productReviews.map( review => (
+            <ul>
+              <li key={review.id}>hello</li>
+            </ul>
+          )) */}
+
       </div>
     )
   }
 
 }
-
 
 const mapStateToProps = function (state) {
 	return {

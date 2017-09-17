@@ -71,7 +71,7 @@ export class SingleProduct extends Component {
   render() {
     const style = { marginLeft: 20, };
   	return (
-  		<div>
+  		<div key={this.props.currentProduct.id}>
 	  		<div className="row">
 	  			<div className="col-sm-6 col-md-6 col-lg-6">
 	  				<h2 className="text-center">{this.props.currentProduct.title} </h2>
