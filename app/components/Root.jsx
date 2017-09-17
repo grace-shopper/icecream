@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import store from '../store';
-import {fetchProducts} from '../reducers';
 import AllProducts from './AllProducts.jsx';
 import SingleProduct from './SingleProduct.jsx';
-import 	Login from './Login.jsx';
-import 	Signup from './Signup.jsx';
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
 import Navbar from './Navbar.jsx';
 import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
-import { connect } from 'react-redux';
 import Searchbar from './Searchbar';
+import Checkout from './Checkout';
 
-import {me, getCart} from '../reducers'
+
+import {me, getCart,fetchProducts} from '../reducers'
 
 
 export class Root extends Component {
@@ -44,7 +45,7 @@ export class Root extends Component {
 						<Route exact path="/products" component={Searchbar}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders" component={OrderHistory}/>
-						<Route exact path="/products/:productId" component={SingleProduct}/>
+						<Route path="/checkout" component={Checkout}/>
 					</Switch>
 				</div>
 			</div>

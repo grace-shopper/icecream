@@ -106,6 +106,16 @@ export function removeItemFromCart(productId) {
   }
 }
 
+export function checkoutCart(productId) {
+  return function thunk(dispatch) {
+    return axios.put('/api/cart')
+      .then(
+      dispatch(setCart({}))
+      )
+      .catch(err => console.log(err))
+  }
+}
+
 // add total quantity to cart state
 // reducer
 const reducer = function (cart = {}, action) {

@@ -14,19 +14,21 @@ export class SingleProduct extends Component {
 		super(props);
 		this.state = {
 			chosenQty: 1,
-      inventoryArr: [],
-      open: false,
-      title: '',
-      description: '',
-      inventory: '',
-      imageName: ''
+			inventoryArr: [],
+			open: false,
+			goToCheckoutOpen: false,
+			title: '',
+			description: '',
+			inventory: '',
+			imageName: ''
 		}
 		this.createInventoryArr = this.createInventoryArr.bind(this);
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.onChange = this.onChange.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+		this.handleOpen = this.handleOpen.bind(this);
+		this.onChange = this.onChange.bind(this);
+		this.handleGoToCheckoutOpen = this.handleGoToCheckoutOpen.bind(this);
 
 	}
 
@@ -39,101 +41,112 @@ export class SingleProduct extends Component {
 	}
 
 
-  handleOpen(event) {
-    this.setState({open: true});
-  }
+	handleOpen(event) {
+		this.setState({ open: true });
+	}
 
-  onChange(event) {
-    this.setState({ [event.target.name] : event.target.value})
-  }
+	handleGoToCheckoutOpen(event) {
+		this.setState({ goToCheckoutOpen: true });
+	}
 
-  onSubmit(event) {
-    event.preventDefault();
-    const product = { title: this.state.title, description: this.state.description, inventory: this.state.inventory, imageName: this.state.imageName };
-    this.props.updateProductAsAdmin(product);
-    this.setState({open:false});
+	onChange(event) {
+		this.setState({ [event.target.name]: event.target.value })
+	}
 
-  }
+	onSubmit(event) {
+		event.preventDefault();
+		const product = { title: this.state.title, description: this.state.description, inventory: this.state.inventory, imageName: this.state.imageName };
+		this.props.updateProductAsAdmin(product);
+		this.setState({ open: false });
 
-  componentDidMount() {
+	}
+
+	componentDidMount() {
 		const productId = this.props.match.params.productId;
 
 		this.props.updateChosenProduct(productId)
-			.then(()=>{
+			.then(() => {
 				const inventoryArr = this.createInventoryArr(this.props.currentProduct);
-				this.setState({inventoryArr})
+				this.setState({ inventoryArr })
 			});
 	};
 
 	// need to update link to go to a particular users id
 
-  render() {
-    const style = { marginLeft: 20, };
-  	return (
-  		<div>
-  		<div className="row">
-  			<div className="col-sm-6 col-md-6 col-lg-6">
-  				<h2 className="text-center">{this.props.currentProduct.title} </h2>
-  				<img src={`/images/${this.props.currentProduct.imageName}`} />
-  			</div>
-  			<div className="col-sm-6 col-md-6 col-lg-6">
-  				<div>
-  					<b>Description:  </b>
-  					{this.props.currentProduct.description}
-  				</div>
-  				<div>
-  					<b>Price: </b>
-  					{this.props.currentProduct.price}
-  				</div>
-          <div>
+	render() {
+		const style = { marginLeft: 20, };
+		return (
+			<div>
+				<div className="row">
+					<div className="col-sm-6 col-md-6 col-lg-6">
+						<h2 className="text-center">{this.props.currentProduct.title} </h2>
+						<img src={`/images/${this.props.currentProduct.imageName}`} />
+					</div>
+					<div className="col-sm-6 col-md-6 col-lg-6">
+						<div>
+							<b>Description:  </b>
+							{this.props.currentProduct.description}
+						</div>
+						<div>
+							<b>Price: </b>
+							{this.props.currentProduct.price}
+						</div>
+						<div>
 							<form
 								onSubmit={this.handleSubmit}
 							>
-							<div className="form-group">
-								<label>
-									<b>Quantity:</b>
-									<select
-										className="form-control"
-										name="qty"
-										value={this.state.chosenQty}
-										onChange={this.handleChange}
-									>
-										{
-											this.state.inventoryArr.map(num => {
-												return (
-													<option key={num} value={num}>{num}</option>
-												)
-											})
-										}
-									</select>
-								</label>
+								<div className="form-group">
+									<label>
+										<b>Quantity:</b>
+										<select
+											className="form-control"
+											name="qty"
+											value={this.state.chosenQty}
+											onChange={this.handleChange}
+										>
+											{
+												this.state.inventoryArr.map(num => {
+													return (
+														<option key={num} value={num}>{num}</option>
+													)
+												})
+											}
+										</select>
+									</label>
 								</div>
-								<div className = "form-group">
-								<button type="submit"
-									className="btn btn-success">
-									Add to Cart
-							</button>
-							</div>
+								<div className="form-group">
+									<RaisedButton label="Add to Cart" onClick={this.handleGoToCheckoutOpen} />
+									<Dialog modal={false} open={this.state.goToCheckoutOpen} modal={false}>
+									<NavLink to='/checkout'>
+										<RaisedButton label="Proceed to Checkout" />
+									</NavLink>
+									<br />
+									<br />
+									<NavLink to='/'>
+										<RaisedButton label="Continue Shopping" />
+									</NavLink>
+									</Dialog>
+								</div>
 							</form>
 						</div>
 
-          <div>
-            <RaisedButton label="Modify" onClick={this.handleOpen} />
-            <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
-            <form onSubmit={this.onSubmit}>
-              <TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
-              <TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
-              <TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
-              <TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
-              <RaisedButton type="submit" label="submit" primary={true} />
-            </form>
-            </Dialog>
-          </div>
-  			</div>
-  		</div>
-  		</div>
-  	)
-  }
+						<div>
+							<RaisedButton label="Modify" onClick={this.handleOpen} />
+							<Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
+								<form onSubmit={this.onSubmit}>
+									<label>Title: </label><TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
+									<label>Description: </label><TextField name="description" hintText={this.props.currentProduct.description} onChange={this.onChange} /> <br />
+									<label>Inventory: </label><TextField name="inventory" hintText={this.props.currentProduct.inventory} onChange={this.onChange} /> <br />
+									<label>Image URL: </label><TextField name="imageName" hintText={this.props.currentProduct.imageName} onChange={this.onChange} /> <br />
+									<RaisedButton type="submit" label="submit" primary={true} />
+								</form>
+							</Dialog>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
 
 	handleChange(event) {
 		this.setState({ chosenQty: event.target.value })
@@ -141,7 +154,6 @@ export class SingleProduct extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		console.log('this.props',this.props)
 		this.props.addToCart(this.state.chosenQty, this.props.currentProduct, this.props.cart)
 	}
 }
@@ -163,12 +175,13 @@ const mapDispatchToProps = function (dispatch, ownProps) {
 			if (Object.keys(cart).length === 0) dispatch(createNewCart(product, qty))
 			else dispatch(updateCart(product, qty))
 		},
-    updateProductAsAdmin: function(modProduct) {
-      Object.keys(modProduct).forEach((key) => (modProduct[key] === '' || modProduct[key] === null) && delete modProduct[key]);
-      const id = ownProps.match.params.productId;
-      return dispatch(updateProductAsAdmin(id, modProduct));
+		updateProductAsAdmin: function (modProduct) {
+			Object.keys(modProduct).forEach((key) => (modProduct[key] === '' || modProduct[key] === null) && delete modProduct[key]);
+			const id = ownProps.match.params.productId;
+			dispatch(updateProductAsAdmin(id, modProduct));
+			dispatch(fetchProducts())
 
-    }
+		}
 	}
 }
 

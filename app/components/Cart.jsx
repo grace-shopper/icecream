@@ -52,7 +52,6 @@ export class Cart extends Component {
 
     const products = this.props.cart.products
 
-    console.log(this.getTotalPrice())
     return (
       <div>
         <h3>Shopping Cart</h3>
