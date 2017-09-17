@@ -106,6 +106,7 @@ router.get('/', (req, res, next) => {
   if (req.session.cartId) {
     return Order.findById(req.session.cartId)
       .then(cartOrder => {
+        if (!cartOrder) cartOrder = {}
         req.cart = cartOrder;
         res.json(cartOrder)
       })
