@@ -118,8 +118,8 @@ export class SingleProduct extends Component {
 								<div className="form-group">
 									<RaisedButton label="Add to Cart" onClick={this.handleGoToCheckoutOpen} />
 									<Dialog modal={false} open={this.state.goToCheckoutOpen} modal={false}>
-									<NavLink to='/checkout'>
-										<RaisedButton label="Proceed to Checkout" />
+									<NavLink to='/cart'>
+										<RaisedButton label="Proceed to Cart" />
 									</NavLink>
 									<br />
 									<br />
