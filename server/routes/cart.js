@@ -29,6 +29,36 @@ router.post('/new', (req, res, next) => {
     })
 })
 
+router.post('/edit', (req, res, next) => {
+  const productPromise = Product.findById(req.body.productId)
+  const orderPromise = Order.findById(req.session.cartId)
+
+  Promise.all([productPromise, orderPromise])
+    .then(data => {
+      const product = data[0];
+      const order = data[1];
+      OrderProducts.find({
+        where: {
+          orderId: order.id,
+          productId: product.id
+        }
+      })
+      .then(orderprod => {
+          return orderprod.update({
+            quantity: +req.body.quantity,
+            originalPrice: product.price
+          })
+      })
+      .then(orderProduct => {
+        Order.findById(orderProduct.orderId)
+          .then(order => {
+            req.cart = order
+            res.json(order)
+          })
+      })
+    })
+})
+
 // add to order
 router.post('/', (req, res, next) => {
   const productPromise = Product.findById(req.body.product.id)
@@ -76,11 +106,29 @@ router.get('/', (req, res, next) => {
   if (req.session.cartId) {
     return Order.findById(req.session.cartId)
       .then(cartOrder => {
+        if (!cartOrder) cartOrder = {}
         req.cart = cartOrder;
         res.json(cartOrder)
       })
   }
   else return null;
+})
+
+router.delete('/', (req, res, next) => {
+  const productPromise = Product.findById(req.body.productId)
+  const orderPromise = Order.findById(req.session.cartId)
+
+  Promise.all([productPromise, orderPromise])
+    .then(data => {
+      const product = data[0];
+      const order = data[1];
+      OrderProducts.destroy({
+        where: {
+          orderId: order.id,
+          productId: product.id
+        }
+      })
+    })
 })
 
 router.get('/:userId', (req, res, next) => {
