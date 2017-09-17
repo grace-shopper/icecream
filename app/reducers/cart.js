@@ -88,7 +88,7 @@ export function editCart(productId, quantity) {
     return axios.post('/api/cart/edit', { productId, quantity })
       .then(res => res.data)
       .then(cart => {
-        dispatch(set(cart))
+        dispatch(setCart(cart))
       })
       .catch(err => console.log(err))
   }
