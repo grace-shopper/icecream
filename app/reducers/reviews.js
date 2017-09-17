@@ -21,7 +21,7 @@ export function fetchReviews(id) {
 }
 
 // reducer
-const reducer = function (state = {}, action) {
+const reducer = function (state = [], action) {
   switch (action.type) {
     case GET_REVIEWS:
       return action.reviews

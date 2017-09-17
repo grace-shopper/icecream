@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
+import { Rating } from 'material-ui-rating'
 import { fetchReviews } from '../reducers';
 import { connect } from 'react-redux';
 
@@ -13,24 +15,33 @@ export class Review extends Component {
   componentDidMount() {
 		this.props.getReviewsForProduct(this.props.productId)
 			.then(reviews => {
-				this.setState({reviews})
+				this.setState({reviews: reviews})
 			});
 	}
 
   render() {
-    const productReviews = this.props.reviews
-    console.log('SETTING REVIEWS....', productReviews)
-    return (
-      <div>
-        <br />
-        <h2> Ratings & Reviews </h2>
-          {/*
-          productReviews && productReviews.map( review => (
-            <ul>
-              <li key={review.id}>hello</li>
-            </ul>
-          )) */}
+    const productReviews = this.props.reviews;
 
+    return (
+      <div className="container review">
+        <br />
+        <h3 className="review-header"> Ratings & Reviews </h3>
+          {
+          productReviews && productReviews.map( review => (
+            <Card key={review.id}>>
+              <CardHeader
+                title="Some Name"
+                subtitle="User"
+              />
+              <Rating
+                value={review.rating}
+                max={5}
+                readOnly={true}
+              />
+              <CardText> {review.content} </CardText>
+            </Card>
+          ))
+          }
       </div>
     )
   }
@@ -43,7 +54,7 @@ const mapStateToProps = function (state) {
 	}
 }
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch) {
 	return {
 		getReviewsForProduct: function (product) {
 			return dispatch(fetchReviews(product))
