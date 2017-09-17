@@ -23,9 +23,6 @@ export default class SearchedProducts extends Component {
                 <CardText>
                   { product.description }
                 </CardText>
-                <CardActions>
-                  <FlatButton label="Add to Cart" className='buy-button'/>
-                </CardActions>
               </NavLink>
             </Card>
           ) )}

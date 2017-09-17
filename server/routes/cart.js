@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Order = require('../../db/models/orders');
 const Product = require('../../db/models/products');
 const OrderProducts = require('../../db/models/orderProducts');
+const Promise = require('bluebird');
 
 // create order
 router.post('/new', (req, res, next) => {
@@ -114,8 +115,57 @@ router.get('/', (req, res, next) => {
   else return null;
 })
 
-router.delete('/', (req, res, next) => {
-  const productPromise = Product.findById(req.body.productId)
+router.put('/', (req, res, next) => {
+
+  const updateInvPromise = Order.findById(req.session.cartId)
+  .then(order => {
+    const products = order.getProducts();
+    return Promise.map(products, (product) => {
+      OrderProducts.findOne({
+        where: {
+          orderId: order.id,
+          productId: product.id
+        }
+      })
+      .then(orderProducts => {
+        if (orderProducts.quantity > product.inventory) {
+          throw new Error(`Not enough inventory of ${product.name} left to complete your purchase`)
+        }
+        console.log('current inventory', product.inventory)
+        console.log('purchased quantity', orderProducts.quantity)
+        Product.update(
+          { inventory: product.inventory - orderProducts.quantity},
+          { where: {
+            id: orderProducts.productId
+          }
+        })
+      })
+    })
+  })
+
+  const updateOrderStatusPromise = Order.update(
+    { status: "Purchased", purchasedAt: Date.now() },
+    { where: {
+      id: req.session.cartId,
+      status: "In Cart"
+    }
+  })
+
+  Promise.all([updateInvPromise,updateOrderStatusPromise])
+    .then(promises => {
+      Order.create({})
+      .then(order => {
+        req.cart = order
+        req.session.cartId = order.id;
+        // send an email that order is pending, and then 20 minutes later, that order send
+        // a day later, order arrives?
+        res.json(order)
+      })
+    })
+})
+
+router.delete('/:productId', (req, res, next) => {
+  const productPromise = Product.findById(req.params.productId)
   const orderPromise = Order.findById(req.session.cartId)
 
   Promise.all([productPromise, orderPromise])
