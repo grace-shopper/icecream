@@ -2,18 +2,27 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {checkoutCart, fetchProducts} from '../reducers';
 import Dialog from 'material-ui/Dialog';
+import { reviseUserAddress } from '../reducers'; 
 
 export class Checkout extends Component {
 
   constructor() {
     super()
     this.state = {
-      open: false
+      open: false, 
+      address: '', 
+      zipcode: '', 
+      email: ''
     }
-    this.handleOpen = this.handleOpen.bind(this)
+    this.handleOpen = this.handleOpen.bind(this); 
+    this.handleCheckoutSubmit = this.handleCheckoutSubmit.bind(this); 
+    this.onChange = this.onChange.bind(this); 
   }
 
   handleOpen(event) {
@@ -21,16 +30,61 @@ export class Checkout extends Component {
     this.props.handlePurchase();
   }
 
+  handleCheckoutSubmit(e) {
+    e.preventDefault();
+    const user = {address: this.state.address + ", " + this.state.zipcode, id: this.props.currentUser.id};
+    const email = {email: this.state.email}; 
+    this.props.updateAddress(user); 
+  }
+
+  onChange(event) {
+    this.setState({[event.target.name] : event.target.value}); 
+  }
+
 
   render() {
-
+    console.log(this.state); 
     return (
-      <div>
-      <RaisedButton label="Purchase" onClick={this.handleOpen} />
-      <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
-        <RaisedButton onClick={this.props.handleKeepShopping} type="submit" label="Keep Shopping!" primary={true} />
-      </Dialog>
-    </div>
+
+      <div> 
+        <Paper zDepth={2}>
+          <form onSubmit={this.handleCheckoutSubmit}> 
+            <TextField
+              hintText="Address"
+              floatingLabelText="Address"
+              underlineShow={false}
+              onChange={this.onChange}
+              name="address"
+            />
+            <Divider /> 
+            <TextField
+              hintText="Zipcode"
+              floatingLabelText="Zipcode"
+              underlineShow={false}
+              onChange={this.onChange}
+              name="zipcode"
+            />
+            <Divider />
+            <TextField
+              hintText="Email Address"
+              floatingLabelText="Email"
+              underlineShow={false}
+              onChange={this.onChange}
+              name="email"
+            />
+            <Divider /> 
+            <br /> 
+            <RaisedButton type="submit" label="Submit" primary={true}/>
+            <br /> 
+          </form> 
+        </Paper> 
+        <div>
+          <RaisedButton label="Purchase" onClick={this.handleOpen} />
+          <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
+            <RaisedButton onClick={this.props.handleKeepShopping} type="submit" label="Keep Shopping!" primary={true} />
+          </Dialog>
+        </div>
+      </div> 
     )
   }
 }
@@ -52,6 +106,10 @@ const mapDispatchToProps = function (dispatch, ownProps) {
 
     handleKeepShopping: function() {
       ownProps.history.push('/')
+    }, 
+    updateAddress: function(user) {
+      ownProps.history.push('/');
+      dispatch(reviseUserAddress(user)); 
     }
   }
 }
