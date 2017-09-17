@@ -12,7 +12,7 @@ export class OrderHistory extends Component {
 
   componentDidMount() {
     // will change this so get user from store
-    const userId = this.props.match.params.userId;
+    const userId = this.props.currentUser.id; 
     //const userId = this.props.currentUser.id;
     this.props.getOrders(userId)
 
