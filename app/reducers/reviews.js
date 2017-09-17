@@ -4,7 +4,7 @@ import axios from 'axios';
 const GET_REVIEWS = 'GET_REVIEWS';
 
 // ACTION CREATORS
-export function getReviews(product) {
+export function getReviews(reviews) {
   const action = { type: GET_REVIEWS, reviews };
   return action;
 }
