@@ -14,8 +14,8 @@ export function addItemToCart(product, quantity) {
   return action;
 }
 
-export function deleteFromCart(product) {
-  const action = { type: DELETE_ITEM_FROM_CART, product };
+export function deleteFromCart(productId) {
+  const action = { type: DELETE_ITEM_FROM_CART, productId };
   return action;
 }
 
@@ -57,7 +57,7 @@ export function createNewCart(product, quantity) {
       .then(cart => {
         dispatch(set(cart))
       })
-      .catch(err=>console.log(err))
+      .catch(err => console.log(err))
   }
 }
 
@@ -68,29 +68,52 @@ export function updateCart(product, quantity) {
       .then(cart => {
         dispatch(set(cart))
       })
-      .catch(err=>console.log(err))
+      .catch(err => console.log(err))
+  }
+}
+
+export function editCart(productId, quantity) {
+  return function thunk(dispatch) {
+    return axios.post('/api/cart/edit', { productId, quantity })
+      .then(res => res.data)
+      .then(cart => {
+        dispatch(set(cart))
+      })
+      .catch(err => console.log(err))
+  }
+}
+
+export function removeItemFromCart(productId) {
+  return function thunk(dispatch) {
+    return axios.put('/api/cart/product', { productId })
+
+      .then(
+      dispatch(deleteFromCart(productId))
+
+      )
+      .catch(err => console.log(err))
   }
 }
 
 // add total quantity to cart state
 // reducer
-const reducer = function (state = {}, action) {
+const reducer = function (cart = {}, action) {
   switch (action.type) {
 
     case SET:
       return action.cart
 
     case ADD_ITEM_TO_CART:
-      const newCart = Object.assign({}, state);
+      const newCart = Object.assign({}, cart);
       newCart.products.push(action.item);
       return newCart;
 
-    //case DELETE_ITEM_FROM_CART:
-    // let newCartArray = state.products.filter(product => product.id !== action.product.id);
+    case DELETE_ITEM_FROM_CART:
+      const aCart = cart.products.filter(product => product.id !== +action.productId);
+      return Object.assign({}, cart, { products: aCart })
 
-    // return Object.assign({}, state)
 
-    //case EDIT_QTY_CART:
+    // case EDIT_QTY_CART:
     // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
     // return [...newCartArray, action.item]
 
@@ -98,7 +121,7 @@ const reducer = function (state = {}, action) {
       return {}
 
     default:
-      return state
+      return cart
   }
 };
 
