@@ -4,7 +4,6 @@ const Order = require('../../db/models/orders');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const passport = require('passport');
 
-
 // collect our google configuration into an object
 const googleConfig = {
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -26,6 +25,17 @@ router.put('/login', (req, res, next) => {
           if (err) next(err);
           else res.json(user);
         });
+        Order.findOne({
+          where: {
+            userId: user.id,
+            status: "In Cart"
+          }
+        })
+        .then(order => {
+          // need to actually merge the orders here! not replace
+          req.session.cartId = order.id;
+          req.cart = order;
+        })
       }
     })
     .catch(next);
@@ -39,6 +49,7 @@ router.post('/signup', (req, res, next) => {
         if (err) next(err);
         else res.json(user);
       });
+      // create an order WITH local cart object if exists
       return Order.create({
         userId: user.id
       })
@@ -48,6 +59,9 @@ router.post('/signup', (req, res, next) => {
 
 router.post('/logout', (req, res, next) => {
   req.logout();
+  req.session.cartId = null;
+  console.log('session', req.session, 'user', req.user, 'userid', req.session.userId)
+  req.cart = {};
   res.sendStatus(200);
 });
 

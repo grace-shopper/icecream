@@ -103,7 +103,6 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-  console.log("getting cart")
   if (req.session.cartId) {
     return Order.findById(req.session.cartId)
       .then(cartOrder => {
@@ -114,8 +113,7 @@ router.get('/', (req, res, next) => {
   else return null;
 })
 
-
-router.put('/product', (req, res, next) => {
+router.delete('/', (req, res, next) => {
   const productPromise = Product.findById(req.body.productId)
   const orderPromise = Order.findById(req.session.cartId)
 
@@ -131,5 +129,20 @@ router.put('/product', (req, res, next) => {
       })
     })
 })
+
+router.get('/:userId', (req, res, next) => {
+  return Order.findOne({
+    where: {
+      userId: req.params.userId,
+      status: "In Cart"
+    }
+  })
+  .then(cart => {
+    if (!cart) cart = {}
+    req.cart = cart;
+    res.json(cart)
+  })
+})
+
 
 module.exports = router;
