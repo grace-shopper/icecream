@@ -43,11 +43,13 @@ export class Checkout extends Component {
 
   render() {
     console.log(this.state); 
+    const paperStyle={ marginBottom: "20px", marginTop:"20px"}
+
     return (
 
       <div> 
-        <Paper zDepth={2}>
-          <form onSubmit={this.handleCheckoutSubmit}> 
+        <Paper zDepth={2} style={paperStyle}>
+          <form onSubmit={this.handleCheckoutSubmit} style={{marginLeft:"20px"}}> 
             <TextField
               hintText="Address"
               floatingLabelText="Address"
@@ -78,6 +80,7 @@ export class Checkout extends Component {
             <br /> 
             <RaisedButton type="submit" label="Submit" primary={true}/>
             <br /> 
+            <br />
           </form> 
         </Paper> 
         <div>
