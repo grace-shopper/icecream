@@ -33,9 +33,9 @@ export class SingleProduct extends Component {
 
 	}
 
-	createInventoryArr(product) {
+	createInventoryArr(inventory) {
 		let inventoryArr = [];
-		for (let i = 1; i <= product.inventory; i++) {
+		for (let i = 1; i <= inventory; i++) {
 			inventoryArr.push(i);
 		}
 		return inventoryArr;
@@ -51,15 +51,17 @@ export class SingleProduct extends Component {
 	}
 
 	onChange(event) {
-		this.setState({ [event.target.name]: event.target.value })
+		if (event.target.name === "inventory") {
+			this.setState({ [event.target.name]: event.target.value, inventoryArr: this.createInventoryArr(event.target.value) })
+		}
+		else this.setState({ [event.target.name]: event.target.value })
 	}
 
 	onSubmit(event) {
 		event.preventDefault();
 		const product = { title: this.state.title, description: this.state.description, inventory: this.state.inventory, imageName: this.state.imageName };
 		this.props.updateProductAsAdmin(product);
-		this.setState({ open: false });
-
+		this.setState({ open: false })
 	}
 
 	componentDidMount() {
@@ -67,7 +69,7 @@ export class SingleProduct extends Component {
 
 		this.props.updateChosenProduct(productId)
 			.then(() => {
-				const inventoryArr = this.createInventoryArr(this.props.currentProduct);
+				const inventoryArr = this.createInventoryArr(this.props.currentProduct.inventory);
 				this.setState({ inventoryArr })
 			});
 	};
@@ -78,6 +80,10 @@ export class SingleProduct extends Component {
 	render() {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
+		let unavailMess = ''
+		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
+
+		console.log("im re-rendering with current state:", this.state)
 		return (
 			<div>
 				<div className="row">
@@ -100,7 +106,8 @@ export class SingleProduct extends Component {
 							>
 								<div className="form-group">
 									<label>
-										<b>Quantity:</b>
+										<b>Quantity: </b>
+										{unavailMess.length ? 'Item currently unavailable' : ''}
 										<select
 											className="form-control"
 											name="qty"
@@ -119,7 +126,7 @@ export class SingleProduct extends Component {
 
 								</div>
 								<div className="form-group">
-									<RaisedButton label="Add to Cart" onClick={this.handleGoToCheckoutOpen} />
+								{unavailMess.length ? <RaisedButton disabled label="Add to Cart" onClick={this.handleSubmit} /> : <RaisedButton label="Add to Cart" onClick={this.handleSubmit} />}
 									<Dialog modal={false} open={this.state.goToCheckoutOpen} modal={false}>
 									<NavLink to='/cart'>
 										<RaisedButton label="Proceed to Cart" />
@@ -132,6 +139,8 @@ export class SingleProduct extends Component {
 									</Dialog>
 								</div>
 							</form>
+							<div>
+							</div>
 						</div>
 
 						<div>
@@ -159,6 +168,7 @@ export class SingleProduct extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
+		this.setState({ goToCheckoutOpen: true });
 		this.props.addToCart(this.state.chosenQty, this.props.currentProduct, this.props.cart)
 	}
 }

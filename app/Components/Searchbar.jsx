@@ -52,7 +52,7 @@ export class Searchbar extends Component {
   render() {
     const productNames = this.getProductNames(this.props.products)
     const filteredProducts = this.props.products.filter(
-              product => product.title.match(this.state.query));
+              product => product.title.toLowerCase().match(this.state.query.toLowerCase()));
     return (
       <div>
         <form onSubmit={ this.handleSubmit }>

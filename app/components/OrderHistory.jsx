@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'; 
-
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import {fetchOrders, getUser} from '../reducers';
 
 export class OrderHistory extends Component {
@@ -32,13 +32,14 @@ export class OrderHistory extends Component {
         order.products[j].purchasedAt = order.purchasedAt; 
         purchases.push(order.products[j]); 
       }
-    } 
-    console.log("users orders", orders); 
-    console.log(purchases); 
+    }  
     const CreateTable = (props) => {
       return (
         <Table> 
-          <TableHeader> 
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+            enableSelectAll={false}> 
           <TableRow selectable={false}> 
             <TableHeaderColumn> Name </TableHeaderColumn> 
             <TableHeaderColumn> Original Price </TableHeaderColumn> 
@@ -49,7 +50,7 @@ export class OrderHistory extends Component {
             <TableHeaderColumn> Purchased On </TableHeaderColumn> 
           </TableRow> 
           </TableHeader> 
-          <TableBody> 
+          <TableBody displayRowCheckbox={false}> 
             {props.purchases && props.purchases.map(product => {
               return (<TableRow> 
                 <TableRowColumn><NavLink to={`/products/${product.id}`}>{product.title}</NavLink></TableRowColumn> 
@@ -70,7 +71,9 @@ export class OrderHistory extends Component {
     }
   	return (
       <div>
-        <h2>Order History</h2>
+       <Toolbar>
+        <ToolbarTitle text="Order History" />
+       </Toolbar> 
       <ul>
         {
           (orders.length === 0) 

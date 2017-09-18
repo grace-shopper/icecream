@@ -20,6 +20,16 @@ export function fetchOrders(userId) {
   }
 }
 
+export function fetchAllOrders() {
+  return function thunk(dispatch) {
+    return axios.get(`/api/orders`)
+      .then(res => res.data)
+      .then(orders => {
+        dispatch(getOrders(orders)); 
+      })
+  }
+}
+
 const reducer = function (state = [], action) {
   switch (action.type) {
 

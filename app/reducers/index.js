@@ -22,4 +22,5 @@ export * from './currentProduct';
 export * from './cart';
 export * from './orders';
 export * from './auth';
+export * from './users';
 export * from './reviews';
