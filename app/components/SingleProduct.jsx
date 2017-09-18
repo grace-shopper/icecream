@@ -83,7 +83,6 @@ export class SingleProduct extends Component {
 		let unavailMess = ''
 		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
 
-		console.log("im re-rendering with current state:", this.state)
 		return (
 			<div>
 				<div className="row">

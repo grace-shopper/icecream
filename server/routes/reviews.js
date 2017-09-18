@@ -22,8 +22,10 @@ router.get('/:productId', (req, res, next) => {
 
 // create a new review for a product
 router.post('/', (req, res, next) => {
+  console.log(' in the reviews route ', req.body)
 	Review.create(req.body)
-	.then(product => res.json(review));
+	.then(review => res.json(review))
+  .catch(next);
 });
 
 module.exports = router;

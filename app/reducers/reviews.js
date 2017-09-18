@@ -22,17 +22,19 @@ export function fetchReviews(id) {
       .then(res => res.data)
       .then(reviews => {
         dispatch(getReviews(reviews));
-      });
+      })
+      .catch(err => console.log(err))
   }
 }
 
 export function postReview(review) {
   return function thunk(dispatch) {
-    return axios.post(`/api/reviews`, review)
+    return axios.post(`/api/reviews/`, review)
       .then(res => res.data)
       .then(review => {
         dispatch(addReview(review));
-      });
+      })
+      .catch(err => console.log(err))
   }
 }
 
