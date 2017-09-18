@@ -65,7 +65,6 @@ export class Cart extends Component {
   };
 
   render() {
-
     const cartProducts = this.props.cart.products
     let unavailMess = ''
     if (!this.state.canOrder) unavailMess = 'Cannot place order. The desired quantity of one or more of the items in your cart is no longer available. Update quantities or remove items to continue.'

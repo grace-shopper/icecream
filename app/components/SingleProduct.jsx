@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import Review from './Review'
 
 import { fetchProducts, getProduct, createNewCart, updateCart, updateProductAsAdmin } from '../reducers';
 
@@ -75,13 +76,13 @@ export class SingleProduct extends Component {
 
 	// need to update link to go to a particular users id
 
+
 	render() {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
 		let unavailMess = ''
 		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
 
-		console.log("im re-rendering with current state:", this.state)
 		return (
 			<div>
 				<div className="row">
@@ -121,6 +122,7 @@ export class SingleProduct extends Component {
 											}
 										</select>
 									</label>
+
 								</div>
 								<div className="form-group">
 								{unavailMess.length ? <RaisedButton disabled label="Add to Cart" onClick={this.handleSubmit} /> : <RaisedButton label="Add to Cart" onClick={this.handleSubmit} />}
@@ -154,6 +156,9 @@ export class SingleProduct extends Component {
 						</div>
 					</div>
 				</div>
+				<Review
+					productId={this.props.match.params.productId}
+					productName={this.props.currentProduct.title}/>
 			</div>
 		)
 	}
