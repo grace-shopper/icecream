@@ -12,6 +12,7 @@ router.use('/users', require('./routes/users'))
 router.use('/orders', require('./routes/orders'))
 router.use('/auth', require('./routes/auth'))
 router.use('/cart', require('./routes/cart'))
+router.use('/categories', require('./routes/categories'))
 
 
 router.use(function(req, res, next) {
