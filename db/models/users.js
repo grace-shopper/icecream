@@ -23,6 +23,10 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false
+  }, 
+  address: {
+    type: Sequelize.STRING, 
+    allowNull: true
   }
 }, {
   hooks: {
