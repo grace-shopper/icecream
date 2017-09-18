@@ -4,6 +4,7 @@ const Order = require('../db/models/orders');
 router.use((req, res, next) => {
   if (!req.session.cartId) {
     if (req.user) {
+      console.log('user', req.user)
       Order.findOne({
         where: {
           userId: req.user.id,

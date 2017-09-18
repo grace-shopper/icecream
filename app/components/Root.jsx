@@ -12,7 +12,7 @@ import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
 import Searchbar from './Searchbar';
 import Checkout from './Checkout';
-import AllOrders from './AllOrders'; 
+import AllOrders from './AllOrders';
 
 
 import {me, getCart,fetchProducts} from '../reducers'

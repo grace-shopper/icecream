@@ -11,45 +11,46 @@ import Dialog from 'material-ui/Dialog';
 
 export class Checkout extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
+    console.log('props', props)
     this.state = {
-      open: false, 
-      address: '', 
-      zipcode: '', 
-      email: ''
+      open: false,
+      address: props.currentUser.address || '',
+      zipcode: props.currentUser.zipcode || '',
+      email: props.currentUser.email || ''
     }
-    this.handleOpen = this.handleOpen.bind(this); 
-    this.handleCheckoutSubmit = this.handleCheckoutSubmit.bind(this); 
-    this.onChange = this.onChange.bind(this); 
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleCheckoutSubmit = this.handleCheckoutSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   handleOpen(event) {
     this.setState({open: true});
-    this.props.handlePurchase();
   }
 
   handleCheckoutSubmit(e) {
     e.preventDefault();
     const user = {address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id};
-    const email = {email: this.state.email}; 
-    this.props.updateAddress(user); 
+    const email = {email: this.state.email};
+    this.props.updateAddress(user);
+    this.props.handlePurchase(this.state.email);
   }
 
   onChange(event) {
-    this.setState({[event.target.name] : event.target.value}); 
+    this.setState({[event.target.name] : event.target.value});
   }
 
 
   render() {
-    console.log(this.state); 
+    console.log(this.state);
     const paperStyle={ marginBottom: "20px", marginTop:"20px"}
 
     return (
 
-      <div> 
+      <div>
         <Paper zDepth={2} style={paperStyle}>
-          <form onSubmit={this.handleCheckoutSubmit} style={{marginLeft:"20px"}}> 
+          <form onSubmit={this.handleCheckoutSubmit} style={{marginLeft:"20px"}}>
             <TextField
               hintText="Address"
               floatingLabelText="Address"
@@ -58,7 +59,7 @@ export class Checkout extends Component {
               name="address"
               defaultValue={this.props.currentUser.address}
             />
-            <Divider /> 
+            <Divider />
             <TextField
               hintText="Zipcode"
               floatingLabelText="Zipcode"
@@ -76,20 +77,17 @@ export class Checkout extends Component {
               name="email"
               defaultValue={this.props.currentUser.email}
             />
-            <Divider /> 
-            <br /> 
-            <RaisedButton type="submit" label="Submit" primary={true}/>
-            <br /> 
+            <Divider />
             <br />
-          </form> 
-        </Paper> 
-        <div>
-          <RaisedButton label="Purchase" onClick={this.handleOpen} />
-          <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
-            <RaisedButton onClick={this.props.handleKeepShopping} type="submit" label="Keep Shopping!" primary={true} />
-          </Dialog>
-        </div>
-      </div> 
+            <RaisedButton type="submit" primary={true} label="Purchase" onClick={this.handleOpen} />
+            <Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
+              <RaisedButton onClick={this.props.handleKeepShopping} type="submit" label="Keep Shopping!" primary={true} />
+            </Dialog>
+            <br />
+            <br />
+          </form>
+        </Paper>
+      </div>
     )
   }
 }
@@ -104,18 +102,19 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    handlePurchase: function() {
-      dispatch(checkoutCart())
+    handlePurchase: function(email) {
+      console.log('email in dispatch', email)
+      dispatch(checkoutCart(email))
       dispatch(fetchProducts())
     },
 
     handleKeepShopping: function() {
       ownProps.history.push('/')
-    }, 
+    },
+
     updateAddress: function(user) {
       ownProps.history.push('/');
-      dispatch(reviseUserAddress(user)); 
-      dispatch(checkoutCart()); 
+      dispatch(reviseUserAddress(user));
     }
   }
 }

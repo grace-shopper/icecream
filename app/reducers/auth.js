@@ -31,6 +31,13 @@ export default function reducer(currentUser = {}, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 
+// export const loginWithGoogle = () => dispatch => {
+//   console.log("in the google login thunk")
+//   return axios.get('/api/auth/google')
+//     .then((res) => {
+//       console.log('response from google login', res)
+//     })
+// }
 
 export const login = credentials => dispatch => {
   return axios.put('/api/auth/login', credentials)
@@ -43,12 +50,12 @@ export const login = credentials => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const loginAndGoToHome = (credentials, history) => dispatch => {
-
-  dispatch(login(credentials))
-    .then(user => history.push(`/products`))
-    .catch(err => console.error('Problem logging in:', err));
-};
+// export const loginAndGoToHome = (credentials, history) => dispatch => {
+//   console.log('in first thunk')
+//   dispatch(login(credentials))
+//     .then(user => history.push(`/products`))
+//     .catch(err => console.error('Problem logging in:', err));
+// };
 
 
 export const signup = credentials => dispatch => {
@@ -57,6 +64,7 @@ export const signup = credentials => dispatch => {
   .then(user => {
     dispatch(create(user));
     dispatch(set(user));
+    dispatch(setCartByUserId(user.id));
     return user;
   })
   .catch(err => console.log(err));
@@ -66,8 +74,14 @@ export const me = () => dispatch => {
   return axios.get('/api/auth/me')
   .then(res => res.data)
   .then(user => {
-    if (!user) user = {};
-    dispatch(set(user));
+    if (!user) {
+      user = {};
+      dispatch(set(user));
+    }
+    else {
+      dispatch(set(user));
+      dispatch(setCartByUserId(user.id));
+    }
   })
   .catch(err => console.log(err));
 };

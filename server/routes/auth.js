@@ -33,6 +33,7 @@ router.put('/login', (req, res, next) => {
         })
         .then(order => {
           // need to actually merge the orders here! not replace
+          console.log('users order', order)
           req.session.cartId = order.id;
           req.cart = order;
         })
@@ -49,10 +50,32 @@ router.post('/signup', (req, res, next) => {
         if (err) next(err);
         else res.json(user);
       });
-      // create an order WITH local cart object if exists
-      return Order.create({
-        userId: user.id
-      })
+      // create an order
+      console.log('req.session.cartId', req.session.cartId)
+      if (!req.session.cartId) {
+        return Order.create({
+          userId: user.id
+        })
+        .then(order => {
+          req.session.cartId = order.id;
+          req.cart = order;
+          console.log('cart', req.cart)
+        })
+      }
+
+      // OR UPDATE CURRENT ORDER
+      else {
+        Order.update(
+          {userId: user.id},
+          {where: {
+            id: req.session.cartId
+          }}
+        )
+        .then(order => {
+          req.session.cartId = order.id;
+          req.cart = order;
+        })
+      }
     })
     .catch(next);
 });
@@ -60,7 +83,6 @@ router.post('/signup', (req, res, next) => {
 router.post('/logout', (req, res, next) => {
   req.logout();
   req.session.cartId = null;
-  console.log('session', req.session, 'user', req.user, 'userid', req.session.userId)
   req.cart = {};
   res.sendStatus(200);
 });
@@ -83,7 +105,7 @@ const strategy = new GoogleStrategy(googleConfig, function (token, refreshToken,
   const name = profile.displayName;
   const email = profile.emails[0].value;
 
-  User.findOne({where: { google_id: google_id  }})
+  return User.findOne({where: { google_id: google_id  }})
     .then(function (user) {
       if (!user) {
         return User.create({ name, email, google_id })
