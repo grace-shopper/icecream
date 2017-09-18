@@ -106,7 +106,7 @@ export function removeItemFromCart(productId) {
   }
 }
 
-export function checkoutCart(productId) {
+export function checkoutCart() {
   return function thunk(dispatch) {
     return axios.put('/api/cart')
       .then(

@@ -6,9 +6,8 @@ import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import {checkoutCart, fetchProducts} from '../reducers';
+import {checkoutCart, fetchProducts, reviseUserAddress} from '../reducers';
 import Dialog from 'material-ui/Dialog';
-import { reviseUserAddress } from '../reducers'; 
 
 export class Checkout extends Component {
 
@@ -32,7 +31,7 @@ export class Checkout extends Component {
 
   handleCheckoutSubmit(e) {
     e.preventDefault();
-    const user = {address: this.state.address + ", " + this.state.zipcode, id: this.props.currentUser.id};
+    const user = {address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id};
     const email = {email: this.state.email}; 
     this.props.updateAddress(user); 
   }
@@ -55,6 +54,7 @@ export class Checkout extends Component {
               underlineShow={false}
               onChange={this.onChange}
               name="address"
+              defaultValue={this.props.currentUser.address}
             />
             <Divider /> 
             <TextField
@@ -63,6 +63,7 @@ export class Checkout extends Component {
               underlineShow={false}
               onChange={this.onChange}
               name="zipcode"
+              defaultValue={this.props.currentUser.zipcode}
             />
             <Divider />
             <TextField
@@ -71,6 +72,7 @@ export class Checkout extends Component {
               underlineShow={false}
               onChange={this.onChange}
               name="email"
+              defaultValue={this.props.currentUser.email}
             />
             <Divider /> 
             <br /> 
@@ -110,6 +112,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     updateAddress: function(user) {
       ownProps.history.push('/');
       dispatch(reviseUserAddress(user)); 
+      dispatch(checkoutCart()); 
     }
   }
 }
