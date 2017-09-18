@@ -58,6 +58,7 @@ export class Cart extends Component {
         console.log('this props', this.props, 'next props', nextProps)
         console.log('this.props !== nextProps', this.props !== nextProps)
         if (this.props !== nextProps) this.setState({ canOrder: false })
+        console.log('canorder', this.state.canOrder)
       }
     })
 
