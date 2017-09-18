@@ -157,7 +157,9 @@ export class SingleProduct extends Component {
 						</div>
 					</div>
 				</div>
-				<Review productId={this.props.match.params.productId}/>
+				<Review
+					productId={this.props.match.params.productId}
+					productName={this.props.currentProduct.title}/>
 			</div>
 		)
 	}
