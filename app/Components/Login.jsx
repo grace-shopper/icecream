@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loginAndGoToHome } from '../reducers/auth';
+import { login,loginAndGoToHome, loginWithGoogle } from '../reducers/auth';
 
 
 /* -----------------    COMPONENT     ------------------ */
@@ -47,6 +47,7 @@ class Login extends React.Component {
                     <p>
                         <a
                             target="_self"
+
                             href="/api/auth/google"
                             className="btn btn-social btn-google">
                             <i className="fa fa-google" />
@@ -58,8 +59,9 @@ class Login extends React.Component {
         );
     }
 
-    
-    
+
+    //href="/api/auth/google"
+    //onClick={this.props.handleGoogleLogin}
 
     onLoginSubmit(event) {
         event.preventDefault();
@@ -68,7 +70,7 @@ class Login extends React.Component {
             password: event.target.password.value,
         };
         const history = this.props.history
-        this.props.login(credentials, history);
+        this.props.handleSubmit(credentials, history);
     }
 }
 
@@ -76,7 +78,21 @@ class Login extends React.Component {
 
 const mapState = () => ({ message: 'Log in' });
 
-const mapDispatch = { login: loginAndGoToHome };
+const mapDispatchToProps = function (dispatch, ownProps) {
+    return {
+        handleSubmit: function(credentials) {
+            dispatch(login(credentials))
+            ownProps.history.push('/')
+        },
+
+        // handleGoogleLogin: function() {
+        //     dispatch(loginWithGoogle())
+        //     ownProps.history.push('/')
+        // }
+    }
+  }
+
+//const mapDispatch = { login: loginAndGoToHome };
 
 
-export default connect(mapState, mapDispatch)(Login);
+export default connect(mapState, mapDispatchToProps)(Login);
