@@ -105,20 +105,16 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-  res.json(req.cart)
-  // console.log('cartID', req.session.cartId)
-  // console.log('user', req.session)
-  // Order.findOne({
-  //   where: {
-  //     userId: req.user.id,
-  //     status: "In Cart"
-  //   }
-  // })
-  // .then(cart => {
-  //   if (!cart) cart = {}
-  //   req.cart = cart;
-  //   res.json(cart)
-  // })
+
+  if (!req.cart) {
+    Order.findById(req.session.cartId)
+    .then(order => {
+      req.cart = order
+      res.json(req.cart)
+    })
+  }
+  else res.json(req.cart)
+
 })
 
 router.put('/', (req, res, next) => {
@@ -148,23 +144,28 @@ router.put('/', (req, res, next) => {
   })
 
   const updateOrderStatusPromise = Order.update(
-    { status: "Created", purchasedAt: Date.now() },
+    { status: "Completed", purchasedAt: Date.now() },
     { where: {
       id: req.session.cartId,
       status: "In Cart"
     }
   })
 
-  // const getUserEmail = User.findById(req.session.userId)
+  if (!req.user) userId = null
+  else userId = req.user.id
+  const makeNewCart = Order.create({userId: userId})
+  .then(order => {
+    req.cart = order
+    req.session.cartId = order.id;
+  })
 
-  return Promise.all([updateInvPromise,updateOrderStatusPromise])
+  let promisesArr = [];
+  promisesArr.concat(updateInvPromise).concat(updateOrderStatusPromise);
+  promisesArr.push(makeNewCart);
+
+  return Promise.all(promisesArr)
     .then(promises => {
-      if (!req.user) userId = null
-      else userId = req.user.id
-      return Order.create({userId: userId})
-      .then(order => {
-        req.cart = order
-        req.session.cartId = order.id;
+      console.log("promises", promises)
         // send an email that order is pending, and then 20 minutes later, that order send
         // send mail with defined transport object
         console.log('email', req.body.email)
@@ -196,9 +197,8 @@ router.put('/', (req, res, next) => {
             });
         },5000)
         // a day later, order arrives?
-        res.json(order)
+        res.json(promises)
       })
-    })
 })
 
 router.delete('/:productId', (req, res, next) => {
