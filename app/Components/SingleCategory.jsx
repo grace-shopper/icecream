@@ -57,22 +57,14 @@ export class SingleCategory extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-    console.log("herere", state)
-    console.log("ownProp", ownProps.match.params.categoryId)
-
+    
   const categoryId = Number(ownProps.match.params.categoryId)
-  console.log("categoryId", categoryId)
-  console.log("state.produtc", state.products)
+  
   return {
     products: state.products.filter(product => {
-        
-       // const selectedCategory = product.categories.find(category => category.id === categoryId)
-        //console.log("selected", selectedCategory)
-      // selectedCategory && selectedCategory.id === categoryId
-       // (product.categories.find(category => category.id === categoryId)).id === categoryId
-       //const b = 
+    
        return product.categories.find(category => category.id === categoryId)
-      // console.log(b)
+      
     }
       ),
     categories: state.categories
