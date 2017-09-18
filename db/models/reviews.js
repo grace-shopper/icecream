@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../_db');
+const User = require('./users');
 
 const Review = db.define('review', {
   content: {
@@ -15,6 +16,10 @@ const Review = db.define('review', {
         min: 0,
         max: 5
       }
+  }
+}, {
+  defaultScope: {
+    include: [ User ]
   }
 });
 
