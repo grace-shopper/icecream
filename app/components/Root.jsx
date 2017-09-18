@@ -12,6 +12,7 @@ import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
 import Searchbar from './Searchbar';
 import Checkout from './Checkout';
+import AllOrders from './AllOrders'; 
 
 
 import {me, getCart,fetchProducts} from '../reducers'
@@ -46,6 +47,7 @@ export class Root extends Component {
 						<Route path="/products/:productId" component={SingleProduct}/>
 						<Route path="/orders" component={OrderHistory}/>
 						<Route path="/checkout" component={Checkout}/>
+						<Route path="/all_orders" component={AllOrders}/>
 					</Switch>
 				</div>
 			</div>

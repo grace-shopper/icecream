@@ -9,7 +9,7 @@ const products = [
 ]
 
 const users = [
-	{email: 'pat@pat.com', password:'f4b1eec6c6700777fb4eab793bb1f95b178932cc', salt:'JcyzW0tg+XDV4Xe0+a5UTg==', createdAt:Date.now(), updatedAt:Date.now()}, 
+	{email: 'pat@pat.com', password:'f4b1eec6c6700777fb4eab793bb1f95b178932cc', salt:'JcyzW0tg+XDV4Xe0+a5UTg==', createdAt:Date.now(), updatedAt:Date.now(), isAdmin:true}, 
 	{email: 'gary@snail.com', password:'f4b1eec6c6700777fb4eab793bb1f95b178932cc', salt:'JcyzW0tg+XDV4Xe0+a5UTg==', createdAt:Date.now(), updatedAt:Date.now()}, 
 	{email: 'harry@potter.com', password:'f4b1eec6c6700777fb4eab793bb1f95b178932cc', salt:'JcyzW0tg+XDV4Xe0+a5UTg==', createdAt:Date.now(), updatedAt:Date.now()}, 
 	{email: 'gracey@hopper.com', password:'f4b1eec6c6700777fb4eab793bb1f95b178932cc', salt:'JcyzW0tg+XDV4Xe0+a5UTg==', createdAt:Date.now(), updatedAt:Date.now()}, 
@@ -18,15 +18,15 @@ const users = [
 
 const orders = [
 	{purchasedAt:Date.now(), status:'In Cart', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
-	{purchasedAt:Date.now(), status:'Pending', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
+	{purchasedAt:Date.now(), status:'Created', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
+	{purchasedAt:Date.now(), status:'Processing', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
+	{purchasedAt:Date.now(), status:'Cancelled', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
+	{purchasedAt:Date.now(), status:'Completed', createdAt:Date.now(), updatedAt:Date.now(), userId:1}, 
 	{purchasedAt:Date.now(), status:'In Cart', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
-	{purchasedAt:Date.now(), status:'Pending', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
-	{purchasedAt:Date.now(), status:'In Cart', createdAt:Date.now(), updatedAt:Date.now(), userId:3}, 
-	{purchasedAt:Date.now(), status:'Pending', createdAt:Date.now(), updatedAt:Date.now(), userId:3}, 
-	{purchasedAt:Date.now(), status:'In Cart', createdAt:Date.now(), updatedAt:Date.now(), userId:4}, 
-	{purchasedAt:Date.now(), status:'Pending', createdAt:Date.now(), updatedAt:Date.now(), userId:4}, 
-	{purchasedAt:Date.now(), status:'In Cart', createdAt:Date.now(), updatedAt:Date.now(), userId:5}, 
-	{purchasedAt:Date.now(), status:'Pending', createdAt:Date.now(), updatedAt:Date.now(), userId:5}, 
+	{purchasedAt:Date.now(), status:'Created', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
+	{purchasedAt:Date.now(), status:'Processing', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
+	{purchasedAt:Date.now(), status:'Cancelled', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
+	{purchasedAt:Date.now(), status:'Completed', createdAt:Date.now(), updatedAt:Date.now(), userId:2}, 
 ]; 
 
 const order_products = [

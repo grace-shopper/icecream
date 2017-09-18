@@ -2,7 +2,9 @@ const router = require('express').Router();
 const Product = require('../../db/models/products');
 const db = require('../../db').db;
 const ProductCategories = db.models.product_categories;
+const OrderProducts = db.models.order_products; 
 const Category = db.models.category;
+
 
 router.get('/', (req, res, next) => {
   Product.findAll()
