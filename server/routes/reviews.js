@@ -2,12 +2,14 @@ const router = require('express').Router();
 const Review = require('../../db/models/reviews');
 const db = require('../../db').db;
 
+// get all reviews
 router.get('/', (req, res, next) => {
   Review.findAll()
     .then( reviews => res.json(reviews) )
     .catch(next);
 });
 
+// get reviews by product id
 router.get('/:productId', (req, res, next) => {
   Review.findAll({
     where: {
@@ -18,5 +20,10 @@ router.get('/:productId', (req, res, next) => {
   .catch(next);
 })
 
+// create a new review for a product
+router.post('/', (req, res, next) => {
+	Review.create(req.body)
+	.then(product => res.json(review));
+});
 
 module.exports = router;
