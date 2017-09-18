@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'; 
 
 import {fetchOrders, getUser} from '../reducers';
 
@@ -10,39 +11,72 @@ export class OrderHistory extends Component {
     super(props);
   }
 
+
+
   componentDidMount() {
     // will change this so get user from store
     const userId = this.props.currentUser.id; 
+    console.log("orderhistory userid", userId); 
     //const userId = this.props.currentUser.id;
-    this.props.getOrders(userId)
+    this.props.getOrders(userId); 
 
   };
 
   render() {
-    const orders = this.props.orders;
+    const orders = this.props.orders.filter(order => {return order.status !== 'In Cart'});
+    const purchases = []; 
+    for(let i=0; i<orders.length; i++){
+      let order = orders[i]; 
+      for(let j=0; j<order.products.length; j++) {
+        order.products[j].status = order.status; 
+        order.products[j].purchasedAt = order.purchasedAt; 
+        purchases.push(order.products[j]); 
+      }
+    } 
+    console.log("users orders", orders); 
+    console.log(purchases); 
+    const CreateTable = (props) => {
+      return (
+        <Table> 
+          <TableHeader> 
+          <TableRow selectable={false}> 
+            <TableHeaderColumn> Name </TableHeaderColumn> 
+            <TableHeaderColumn> Original Price </TableHeaderColumn> 
+            <TableHeaderColumn> Description </TableHeaderColumn> 
+            <TableHeaderColumn> Quantity </TableHeaderColumn> 
+            <TableHeaderColumn> Total Price </TableHeaderColumn> 
+            <TableHeaderColumn> Status </TableHeaderColumn> 
+            <TableHeaderColumn> Purchased On </TableHeaderColumn> 
+          </TableRow> 
+          </TableHeader> 
+          <TableBody> 
+            {props.purchases && props.purchases.map(product => {
+              return (<TableRow> 
+                <TableRowColumn><NavLink to={`/products/${product.id}`}>{product.title}</NavLink></TableRowColumn> 
+                <TableRowColumn>{product.order_products.originalPrice}</TableRowColumn> 
+                <TableRowColumn>{product.description}</TableRowColumn>
+                <TableRowColumn>{product.order_products.quantity}</TableRowColumn>
+                <TableRowColumn>{product.order_products.quantity * product.order_products.originalPrice} </TableRowColumn>
+                <TableRowColumn>{product.status}</TableRowColumn>
+                <TableRowColumn>{product.purchasedAt}</TableRowColumn>
+                
+              </TableRow> 
+              )
+            })
+            }
+          </TableBody> 
+        </Table> 
+      ) 
+    }
   	return (
       <div>
         <h2>Order History</h2>
       <ul>
-        {this.props.orders && this.props.orders.map( order => (
-          <li key={order.id}>
-            <h4>Order on {order.purchasedAt}</h4>
-            <ul>
-            {order.products.map(product => {
-              return (
-                <li key={order.id + ',' + product.id}>
-              <h2> { product.title } </h2>
-              <img src={`/images/${product.imageName}`} alt={`tasty image for ${product.title}`}/>
-              <p>  { product.description } </p>
-              <p>  Price: { product.order_products.originalPrice } </p>
-              <p>  Quantity: {product.order_products.quantity} </p>
-              </li>
-              )
-            }
-            )}
-          </ul>
-          </li>
-        ) )}
+        {
+          (orders.length === 0) 
+          ? <h4>There are no orders</h4> 
+          : <CreateTable purchases={purchases} /> 
+        }
       </ul>
       </div>
     )
@@ -53,6 +87,7 @@ export class OrderHistory extends Component {
 const mapStateToProps = function (state) {
   return {
     orders: state.orders,
+    cart: state.cart, 
     currentUser: state.currentUser
   }
 }

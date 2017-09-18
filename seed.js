@@ -17,7 +17,7 @@ const products = [
 	{
 		title: 'Redonkalous Rasperry Cone',
 		description: 'Enjoy at your own risk',
-		price: 2.50, imageName: '003-ice-cream-22.png',
+		price: 2.50,
 		inventory: 30, createdAt: Date.now(),
 		updatedAt: Date.now()
 	}

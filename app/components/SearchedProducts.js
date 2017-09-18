@@ -17,16 +17,13 @@ export default class SearchedProducts extends Component {
               <NavLink value={product.id} to={`/products/${product.id}`}>
                 <CardMedia>
                   <img src={`/images/${product.imageName}`}
-                      alt={`tasty image for ${product.title}`}
                       className='card-image'/>
+
                 </CardMedia>
                 <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />
                 <CardText>
                   { product.description }
                 </CardText>
-                <CardActions>
-                  <FlatButton label="Add to Cart" className='buy-button'/>
-                </CardActions>
               </NavLink>
             </Card>
           ) )}
