@@ -17,10 +17,6 @@ const Review = db.define('review', {
         max: 5
       }
   }
-}, {
-  defaultScope: {
-    include: [ User ]
-  }
 });
 
 module.exports = Review;
