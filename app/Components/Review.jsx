@@ -30,7 +30,7 @@ export class Review extends Component {
           productReviews && productReviews.map( review => (
             <Card key={review.id}>>
               <CardHeader
-                title={review.userId}
+                title={"Review"}
               />
               <Rating
                 value={review.rating}
