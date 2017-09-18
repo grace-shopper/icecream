@@ -83,7 +83,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/logout', (req, res, next) => {
   req.logout();
   req.session.cartId = null;
-  req.session.cartId = null;
+  req.session.cart = {};
   res.sendStatus(200);
 });
 
