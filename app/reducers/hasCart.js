@@ -1,3 +1,4 @@
+//Probably should delete
 import axios from 'axios';
 
 const HAS_CART = 'HAS_CART';

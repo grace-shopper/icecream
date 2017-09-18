@@ -28,6 +28,7 @@ export function updateProduct(product) {
 }
 
 // THUNK CREATORS
+//Consider a query string/options here
 export function fetchProducts() {
   return function thunk(dispatch) {
     return axios.get('/api/products/available')
@@ -59,7 +60,7 @@ export function postProduct(product, history) {
   }
 }
 
-
+//careful about using variavle names more than once
 export function reviseProduct(product) {
   return function thunk(dispatch) {
     return axios.put(`/api/products/${product.id}`, product)

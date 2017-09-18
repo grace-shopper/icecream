@@ -5,6 +5,7 @@ const OrderProducts = require('../../db/models/orderProducts');
 const Promise = require('bluebird');
 const nodemailer = require('nodemailer');
 
+//missing catches
 // create order
 router.post('/new', (req, res, next) => {
   const productPromise = Product.findById(req.body.product.id)

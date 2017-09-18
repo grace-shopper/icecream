@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
     .catch(next);
 })
 
+//missing catch
 router.get('/:userId', (req, res, next) => {
   Order.findAll({
     where: {

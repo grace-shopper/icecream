@@ -19,6 +19,7 @@ import {me, getCart,fetchProducts} from '../reducers'
 
 
 export class Root extends Component {
+	//don't need constructor
 	constructor() {
 		super()
 	}

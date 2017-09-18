@@ -1,6 +1,9 @@
+//careful with console.logs
+//Consider dividing up file
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+//maybe don't need
 import axios from 'axios';
 import { editCart, removeItemFromCart } from '../reducers';
 export class Cart extends Component {
@@ -17,6 +20,7 @@ export class Cart extends Component {
     this.getTotalPrice = this.getTotalPrice.bind(this)
   }
 
+  //probably can be deleted
   createInventoryArr(product) {
     let inventoryArr = [];
     for (let i = 1; i <= product.inventory; i++) {

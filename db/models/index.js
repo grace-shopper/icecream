@@ -7,6 +7,7 @@ const Review = require('./reviews');
 const Cart = require('./cart')
 const orderProducts = require('./orderProducts');
 
+//Consider using hooks on models
 // product associations:
 // category - many to many
 Product.belongsToMany(Category, { through: 'product_categories'});

@@ -32,6 +32,7 @@ class Navbar extends Component {
 		this.props.logout()
 	}
 
+	//Should not need to handle history this way
 	handleLink(e, type) {
 		if(type === "order") {
 			this.props.history.push(`/orders/`);
@@ -50,7 +51,7 @@ class Navbar extends Component {
 		}
 		this.setState({ open: false });
 	}
-
+  // Put ternaries outside
 	render() {
 		const { currentUser } = this.props
 		return (
@@ -77,7 +78,7 @@ class Navbar extends Component {
 							? <MenuItem onClick={this.handleClose}>Your Profile</MenuItem>
 							: null
 					}
-					{(Object.keys(currentUser).length && currentUser.isAdmin) 
+					{(Object.keys(currentUser).length && currentUser.isAdmin)
 						? <MenuItem onClick={(e)=> {this.handleLink(e, "all_orders")}}>All Orders</MenuItem>
 						: null
 					}

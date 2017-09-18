@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'; 
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import { fetchAllOrders } from '../reducers';
 
@@ -9,82 +9,84 @@ import { fetchAllOrders } from '../reducers';
 
 export class AllOrders extends Component {
 	constructor(props) {
-		super(); 
+		super();
 		this.state = {
-			label: '', 
+			label: '',
 			orders: []
 		}
 	}
 
+//dead code
 	selectTab(e, type) {
 
 	}
 
 	componentDidMount() {
-		this.props.getAllOrders(); 
+		this.props.getAllOrders();
 	}
 
 	render() {
-		console.log("here are orders", this.props.orders); 
-		const tabStyle={marginTop: "40px"}; 
-		const all = this.props.orders.filter(order => {return order.status !== 'In Cart'}); 
-		const created = this.props.orders.filter(order => {return order.status === 'Created'}); 
-		const processing = this.props.orders.filter(order => {return order.status === 'Processing'}); 
-		const cancelled = this.props.orders.filter(order => {return order.status === 'Cancelled'}); 
-		const completed = this.props.orders.filter(order => {return order.status === 'Completed'}); 
+		//delete
+		console.log("here are orders", this.props.orders);
+		const tabStyle={marginTop: "40px"};
+		const all = this.props.orders.filter(order => {return order.status !== 'In Cart'});
+		const created = this.props.orders.filter(order => {return order.status === 'Created'});
+		const processing = this.props.orders.filter(order => {return order.status === 'Processing'});
+		const cancelled = this.props.orders.filter(order => {return order.status === 'Cancelled'});
+		const completed = this.props.orders.filter(order => {return order.status === 'Completed'});
 
 		const CreateTable = (props) => {
 			return (
-				<Table> 
+				<Table>
 					<TableHeader
 						displaySelectAll={false}
 						adjustForCheckbox={false}
-						enableSelectAll={false}> 
-						<TableRow> 
-							<TableHeaderColumn>User Id</TableHeaderColumn> 
-							<TableHeaderColumn>Purchased At</TableHeaderColumn> 
-							<TableHeaderColumn>Status</TableHeaderColumn> 
-						</TableRow> 
-					</TableHeader> 
-					<TableBody displayRowCheckbox={false}> 
+						enableSelectAll={false}>
+						<TableRow>
+							<TableHeaderColumn>User Id</TableHeaderColumn>
+							<TableHeaderColumn>Purchased At</TableHeaderColumn>
+							<TableHeaderColumn>Status</TableHeaderColumn>
+						</TableRow>
+					</TableHeader>
+					<TableBody displayRowCheckbox={false}>
 						{props.orders && props.orders.map(order => {
 							return (
-								<TableRow> 
-									<TableRowColumn>{order.userId}</TableRowColumn> 
-									<TableRowColumn>{order.purchasedAt.toLocaleString()}</TableRowColumn> 
-									<TableRowColumn>{order.status}</TableRowColumn> 
-								</TableRow> 
+								<TableRow>
+									<TableRowColumn>{order.userId}</TableRowColumn>
+									<TableRowColumn>{order.purchasedAt.toLocaleString()}</TableRowColumn>
+									<TableRowColumn>{order.status}</TableRowColumn>
+								</TableRow>
 							)
 						})
 
 						}
-					</TableBody> 
-				</Table> 
+					</TableBody>
+				</Table>
 			)
 		}
 
 		return (
 			<Tabs style={tabStyle}>
-				<Tab label="All"> 
+				<Tab label="All">
 					<CreateTable orders={all} />
-				</Tab> 
-				<Tab label="Created"> 
+				</Tab>
+				<Tab label="Created">
 					<CreateTable orders={created} />
-				</Tab> 
-				<Tab label="Processing"> 
+				</Tab>
+				<Tab label="Processing">
 					<CreateTable orders={processing} />
-				</Tab> 
-				<Tab label="Cancelled"> 
+				</Tab>
+				<Tab label="Cancelled">
 					<CreateTable orders={cancelled} />
-				</Tab> 
-				<Tab label="Completed"> 
+				</Tab>
+				<Tab label="Completed">
 					<CreateTable orders={completed} />
-				</Tab> 
+				</Tab>
 			</Tabs>
 		)
 	}
 
-}; 
+};
 
 const mapStateToProps = function(state) {
 	return {
@@ -95,10 +97,10 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = function(dispatch) {
 	return {
 		getAllOrders: function() {
-			return dispatch(fetchAllOrders()); 
+			return dispatch(fetchAllOrders());
 		}
 	}
 }
 
-const AllOrdersContainer = connect(mapStateToProps, mapDispatchToProps)(AllOrders); 
-export default AllOrdersContainer;  
+const AllOrdersContainer = connect(mapStateToProps, mapDispatchToProps)(AllOrders);
+export default AllOrdersContainer;

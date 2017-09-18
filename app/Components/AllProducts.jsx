@@ -1,3 +1,5 @@
+//Delete this file
+//Rename AllProducts potentially
 import React, { Component } from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
@@ -9,6 +11,7 @@ import {fetchProducts, getProduct} from '../reducers';
 
 
 
+//can just be a function
 export class AllProducts extends Component {
 
   render() {

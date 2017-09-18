@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+//axios and NavLink not being used
+//install linter to identify unused code
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -32,6 +34,7 @@ export class Checkout extends Component {
   handleCheckoutSubmit(e) {
     e.preventDefault();
     const user = {address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id};
+    //never using email
     const email = {email: this.state.email};
     this.props.updateAddress(user);
     this.props.handlePurchase(this.state.email);

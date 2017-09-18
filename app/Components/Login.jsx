@@ -84,7 +84,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
             dispatch(login(credentials))
             ownProps.history.push('/')
         },
-
+        //Get rid of dead
         // handleGoogleLogin: function() {
         //     dispatch(loginWithGoogle())
         //     ownProps.history.push('/')
