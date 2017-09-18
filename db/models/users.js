@@ -27,6 +27,10 @@ const User = db.define('user', {
   address: {
     type: Sequelize.STRING, 
     allowNull: true
+  }, 
+  zipcode: {
+    type: Sequelize.INTEGER, 
+    allowNull: true
   }
 }, {
   hooks: {
