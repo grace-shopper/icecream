@@ -8,7 +8,8 @@ const passport = require('passport');
 const googleConfig = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/api/auth/google/callback'
+  callbackURL: '/api/auth/google/callback',
+  passReqToCallback: true
 };
 
 router.put('/login', (req, res, next) => {
@@ -44,6 +45,7 @@ router.put('/login', (req, res, next) => {
 
 
 router.post('/signup', (req, res, next) => {
+  console.log('req.session', req.session.cartId)
   User.create(req.body)
     .then(user => {
       req.login(user, err => {
@@ -100,7 +102,7 @@ router.get('/google/callback', passport.authenticate('google', {
 
 // configure the strategy with our config object, and write the function that passport will invoke after google sends
 // us the user's profile and access token
-const strategy = new GoogleStrategy(googleConfig, function (token, refreshToken, profile, done) {
+const strategy = new GoogleStrategy(googleConfig, function (req, token, refreshToken, profile, done) {
   const google_id = profile.id;
   const name = profile.displayName;
   const email = profile.emails[0].value;
@@ -110,9 +112,15 @@ const strategy = new GoogleStrategy(googleConfig, function (token, refreshToken,
       if (!user) {
         return User.create({ name, email, google_id })
           .then(function (user) {
-            Order.create({
-              userId: user.id
-            })
+            if (req.session.cartId) {
+              Order.findById(req.session.cartId)
+              .then(order => {
+                order.update({userId: user.id})
+              })
+            }
+            else {
+              Order.create({userId: user.id})
+            }
             done(null, user);
           });
       } else {

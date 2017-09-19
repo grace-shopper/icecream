@@ -143,13 +143,15 @@ router.put('/', (req, res, next) => {
     })
   })
 
-  const updateOrderStatusPromise = Order.update(
-    { status: "Completed", purchasedAt: Date.now() },
-    { where: {
-      id: req.session.cartId,
-      status: "In Cart"
-    }
-  })
+  // const updateOrderStatusPromise = Order.update(
+  //   { status: "Completed", purchasedAt: Date.now() },
+  //   { where: {
+  //     id: req.session.cartId,
+  //     status: "In Cart"
+  //   }
+  // })
+
+  const oldCartId = req.session.cartId;
 
   if (!req.user) userId = null
   else userId = req.user.id
@@ -159,46 +161,67 @@ router.put('/', (req, res, next) => {
     req.session.cartId = order.id;
   })
 
-  let promisesArr = [];
-  promisesArr.concat(updateInvPromise).concat(updateOrderStatusPromise);
-  promisesArr.push(makeNewCart);
+  // let promisesArr = [];
+  // promisesArr.concat(updateInvPromise).concat(updateOrderStatusPromise);
+  // promisesArr.push(makeNewCart);
 
-  return Promise.all(promisesArr)
-    .then(promises => {
-      console.log("promises", promises)
+  return Promise.all(updateInvPromise)
+    .then(promise => {
+      console.log("promises", promise)
         // send an email that order is pending, and then 20 minutes later, that order send
         // send mail with defined transport object
         console.log('email', req.body.email)
-        transporter.sendMail(getMailOptions('created', req.body.email), (error, info) => {
-        //console.log("HELLO")
-          if (error) {
-              return console.log(error);
+        Order.update(
+          { status: "Processing", purchasedAt: Date.now() },
+          { where: {
+            id: oldCartId
           }
-          console.log('Message %s sent: %s', info.messageId, info.response);
-        });
+        })
+        .then(() => {
+          transporter.sendMail(getMailOptions('created', req.body.email), (error, info) => {
+          //console.log("HELLO")
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message %s sent: %s', info.messageId, info.response);
+          });
+            setTimeout(()=> {
+              transporter.sendMail(getMailOptions('shipped', req.body.email), (error, info) => {
+                //console.log("HELLO")
+                  if (error) {
+                      return console.log(error);
+                  }
+                  console.log('Message %s sent: %s', info.messageId, info.response);
+                });
+              Order.update(
+                  { status: "Shipped", purchasedAt: Date.now() },
+                  { where: {
+                    id: oldCartId
+                  }
+                })
+            },20000)
 
-        setTimeout(()=> {
-          transporter.sendMail(getMailOptions('shipped', req.body.email), (error, info) => {
-            //console.log("HELLO")
-              if (error) {
-                  return console.log(error);
-              }
-              console.log('Message %s sent: %s', info.messageId, info.response);
-            });
-        },3000)
+            setTimeout(()=> {
+              transporter.sendMail(getMailOptions('arrived', req.body.email), (error, info) => {
+                //console.log("HELLO")
+                  if (error) {
+                      return console.log(error);
+                  }
+                  console.log('Message %s sent: %s', info.messageId, info.response);
+                });
 
-        setTimeout(()=> {
-          transporter.sendMail(getMailOptions('arrived', req.body.email), (error, info) => {
-            //console.log("HELLO")
-              if (error) {
-                  return console.log(error);
-              }
-              console.log('Message %s sent: %s', info.messageId, info.response);
-            });
-        },5000)
-        // a day later, order arrives?
-        res.json(promises)
-      })
+                Order.update(
+                  { status: "Completed", purchasedAt: Date.now() },
+                  { where: {
+                    id: oldCartId
+                  }
+                })
+            },40000)
+            res.json("Order updated")
+          })
+        })
+        .catch(next)
+
 })
 
 router.delete('/:productId', (req, res, next) => {
