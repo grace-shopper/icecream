@@ -2,15 +2,15 @@ const router = require('express').Router();
 const Product = require('../../db/models/products');
 const db = require('../../db').db;
 const ProductCategories = db.models.product_categories;
-const OrderProducts = db.models.order_products; 
+const OrderProducts = db.models.order_products;
 const Category = db.models.category;
 
 
-router.get('/', (req, res, next) => {
-  Product.findAll()
-    .then( products => res.json(products) )
-    .catch(next);
-});
+// router.get('/', (req, res, next) => {
+//   Product.findAll()
+//     .then( products => res.json(products) )
+//     .catch(next);
+// });
 
 router.get('/available', (req, res, next) => {
 	Product.findAll({
@@ -40,7 +40,6 @@ router.post('/', (req, res, next) => {
 
 //updates product
 router.put('/:productId', (req, res, next) => {
-	console.log("in update product back end", req.body);
 	Product.update(
 		req.body,
 		{ where: { id: req.params.productId}}

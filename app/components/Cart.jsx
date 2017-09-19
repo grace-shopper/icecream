@@ -47,18 +47,12 @@ export class Cart extends Component {
   componentDidUpdate(nextProps) {
     const cartProducts = this.props.cart.products;
     const totalProducts = this.props.products;
-    console.log(cartProducts, 'cartProducts')
-    console.log(totalProducts, 'totalProducts')
     cartProducts && cartProducts.map(cartProduct => {
       const correctProduct = totalProducts.find(product => {
         return product.id === cartProduct.id
       })
       if (cartProduct.order_products.quantity > correctProduct.inventory) {
-        console.log("im in here")
-        console.log('this props', this.props, 'next props', nextProps)
-        console.log('this.props !== nextProps', this.props !== nextProps)
         if (this.props !== nextProps) this.setState({ canOrder: false })
-        console.log('canorder', this.state.canOrder)
       }
     })
 
