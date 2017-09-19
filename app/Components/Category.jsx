@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
 
 
 class Category extends Component {
   render() {
     const categories = this.props.categories;
-    
+    const size = 12 / categories.length
     return (
-      <div className='all-products'>
-        <div>
+      <div className="table">
+        <table>
+          <tr>
+            <th>
+            <NavLink  to={`/products`}> 
+              All
+            </NavLink>  
+            </th>
           {categories && categories.map( category => (
-            <Card className='single-category col-lg-4 col-md-4 col-sm-4' key={category.id}>
-              <br />
+            <th  key={category.id}>
               <NavLink value={category.id} to={`/categories/${category.id}`}>
-                
-                <CardTitle title={category.name} />
-                
+               {category.name}  
               </NavLink>
-            </Card>
+            </th>
           ) )}
-        </div>
+          </tr>
+        </table>
       </div>
     )
   }

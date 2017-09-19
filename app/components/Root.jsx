@@ -15,6 +15,7 @@ import Searchbar from './Searchbar';
 import Checkout from './Checkout';
 
 
+
 import {me, getCart,fetchProducts, fetchCategories} from '../reducers'
 
 
@@ -37,6 +38,7 @@ export class Root extends Component {
 		return (
 			<div>
 				<Navbar />
+				
 				<div className="container-fluid">
 					<Switch>
       			<Route path="/login" component={Login} />

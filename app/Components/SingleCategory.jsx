@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
-
-import { fetchProducts, getProduct, createNewCart, updateCart, updateProductAsAdmin } from '../reducers';
+import Category from './Category';
 
 export class SingleCategory extends Component {
 	constructor(props) {
@@ -19,16 +13,13 @@ export class SingleCategory extends Component {
 
 	
 
-	
-
-	// need to update link to go to a particular users id
-
 	render() {
         const products = this.props.products;
-        console.log("products", products)
+        
 
 		return (
 			<div className='all-products'>
+        <Category />
         <div>
           {products && products.map( product => (
             <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>

@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SearchedProducts from './SearchedProducts';
 import Category from './Category';
 
+
 export class Searchbar extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +58,7 @@ export class Searchbar extends Component {
               product => product.title.toLowerCase().match(this.state.query.toLowerCase()));
     return (
       <div>
+       
         <form onSubmit={ this.handleSubmit }>
           <AutoComplete
             hintText="Type in a product name here"
