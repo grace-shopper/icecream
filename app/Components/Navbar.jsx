@@ -71,12 +71,7 @@ class Navbar extends Component {
 							<MenuItem key="signup" onClick={(e)=>{this.handleLink(e, "signup")}}>Sign Up</MenuItem>]
 					}
 					<MenuItem onClick={(e)=>{this.handleLink(e, "products")}}>Products</MenuItem>
-					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
-					{
-						(Object.keys(currentUser).length)
-							? <MenuItem onClick={this.handleClose}>Your Profile</MenuItem>
-							: null
-					}
+					<MenuItem onClick={(e)=>{this.handleLink(e, "cart")}}>Your Cart</MenuItem>
 					{(Object.keys(currentUser).length && currentUser.isAdmin) 
 						? <MenuItem onClick={(e)=> {this.handleLink(e, "all_orders")}}>All Orders</MenuItem>
 						: null

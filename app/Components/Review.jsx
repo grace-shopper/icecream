@@ -39,7 +39,6 @@ export class Review extends Component {
 
   // handles changing items inside the form
   setRating(evt) {
-    console.log('updating star rating...', evt.target.value)
     this.setState({
       userReview: evt.target.value
     })

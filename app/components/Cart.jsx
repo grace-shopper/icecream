@@ -19,7 +19,8 @@ export class Cart extends Component {
       disable: false
     }
     this.createInventoryArr = this.createInventoryArr.bind(this);
-    this.getTotalPrice = this.getTotalPrice.bind(this)
+    this.getTotalPrice = this.getTotalPrice.bind(this); 
+    this.purchaseHandler = this.purchaseHandler.bind(this); 
   }
 
   createInventoryArr(product) {
@@ -30,13 +31,16 @@ export class Cart extends Component {
     return inventoryArr;
   }
 
+  purchaseHandler(e) {
+    this.props.history.push(`/Checkout`); 
+  }
+
   componentWillReceiveProps(nextProps) {
     if(this.props !== nextProps) {
       //checking product has been set from state to props -- error with .length off of null
       if(nextProps.cart.products) {
         for(var i=0; i<nextProps.cart.products.length; i++) {
           if(nextProps.cart.products[i].inventory < nextProps.cart.products[i].order_products.quantity) {
-            console.log(nextProps.cart.products[i].inventory); 
             return this.setState({disable: true}); 
           }
         }
@@ -68,7 +72,6 @@ export class Cart extends Component {
   
   render() {
     const cartProducts = this.props.cart.products
-    console.log("RERENDERING????", this.props.cart); 
     const CreateTable = (props) => {
       return (
         <Table> 
@@ -85,7 +88,6 @@ export class Cart extends Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}> 
             {props.items && props.items.map((item, index) => {
-                console.log("inside table body", item); 
                 return <CartRow key={index} product={item} />
             })
             }
@@ -95,7 +97,7 @@ export class Cart extends Component {
               <TableRowColumn>
               </TableRowColumn> 
               <TableRowColumn style={{textAlign: 'right'}}> 
-                <b>Total : ${this.getTotalPrice()} </b> <Link to="/Checkout"><RaisedButton type="submit" disabled={this.state.disable} label="Checkout" primary={true} /></Link>
+                <b>Total : ${this.getTotalPrice()} </b><RaisedButton type="submit" disabled={this.state.disable} label="Checkout" primary={true} onClick={this.purchaseHandler}/>
               </TableRowColumn> 
             </TableRow> 
           </TableFooter> 

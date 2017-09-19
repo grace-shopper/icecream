@@ -41,12 +41,10 @@ export const addUser = user => dispatch => {
 };
 
 export function reviseUserAddress(user) {
-	console.log("inside thunk", user); 
 	return function thunk(dispatch) {
 		return axios.put(`/api/users/${user.id}`, user)
 			.then(res => res.data)
 			.then(data => {
-				console.log("inside revise user thunk", data); 
 			})
 	}
 }; 
