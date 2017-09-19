@@ -105,12 +105,11 @@ export function editCart(productId, quantity) {
 }
 
 export function removeItemFromCart(productId) {
+  console.log("inside thunk"); 
   return function thunk(dispatch) {
-    return axios.delete('/api/cart', { productId })
-
-      .then(
+    return axios.delete( `/api/cart/${productId}`, { productId })
+    .then(
       dispatch(deleteFromCart(productId))
-
       )
       .catch(err => console.log(err))
   }

@@ -3,6 +3,10 @@ import { Link, withRouter } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import Badge from 'material-ui/Badge';
+import SvgIcon from 'material-ui/SvgIcon';
+
 import { connect } from 'react-redux';
 import { logout } from '../reducers/auth';
 
@@ -47,6 +51,8 @@ class Navbar extends Component {
 			this.props.history.push(`/users/${this.props.currentUser.id}`)
 		} else if(type === "all_orders") {
 			this.props.history.push(`/all_orders/`)
+		} else if(type === "cart") {
+			this.props.history.push('/cart')
 		}
 		this.setState({ open: false });
 	}
@@ -57,7 +63,8 @@ class Navbar extends Component {
 			<div>
 				<AppBar
 					title="Gracey Hopper's Ice Screamatorium"
-					onLeftIconButtonTouchTap={this.handleToggle} />
+					onLeftIconButtonTouchTap={this.handleToggle}
+				>
 				<Drawer docked={false}
 					width={200}
 					open={this.state.open}
@@ -71,17 +78,32 @@ class Navbar extends Component {
 							<MenuItem key="signup" onClick={(e)=>{this.handleLink(e, "signup")}}>Sign Up</MenuItem>]
 					}
 					<MenuItem onClick={(e)=>{this.handleLink(e, "products")}}>Products</MenuItem>
-					<MenuItem onClick={(e)=>{this.handleLink(e, "cart")}}>Your Cart</MenuItem>
+					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
 					{
 						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleClose}>Your Profile</MenuItem>
 							: null
 					}
-					{(Object.keys(currentUser).length && currentUser.isAdmin) 
+					{(Object.keys(currentUser).length && currentUser.isAdmin)
 						? <MenuItem onClick={(e)=> {this.handleLink(e, "all_orders")}}>All Orders</MenuItem>
 						: null
 					}
 				</Drawer>
+				<Badge
+				badgeStyle= {{top: 20, right: 25, width: "15px", height: "15px", padding: "0px", margin: "0px", border: "0px"}}
+				badgeContent={this.props.cart && this.props.cart.quantity ? this.props.cart.quantity : ''}
+				>
+				<div style={{paddingBottom:"10px", paddingTop: "0px"}}>
+				<IconButton
+					iconStyle={{top: 0}}
+					tooltip="Your Cart"
+					className="cart-button"
+					onClick={(e)=>this.handleLink(e,"cart")}>
+						<img width="30px" src='/images/shopping_cart.png'/>
+				</IconButton>
+				</div>
+				</Badge>
+				</AppBar>
 			</div>
 		)
 	}
@@ -89,8 +111,12 @@ class Navbar extends Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ currentUser  }) => ({ currentUser });
-
+const mapState = (state) => {
+  return {
+		currentUser: state.currentUser,
+		cart: state.cart
+  }
+}
 
 const mapDispatch = (dispatch, ownProps) => ({
 	logout: () => {
