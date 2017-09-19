@@ -10,6 +10,7 @@ class Category extends Component {
     return (
       <div className="table">
         <table>
+          <tbody>
           <tr>
             <th>
             <NavLink  to={`/products`}> 
@@ -23,7 +24,9 @@ class Category extends Component {
               </NavLink>
             </th>
           ) )}
+          
           </tr>
+          </tbody>
         </table>
       </div>
     )
