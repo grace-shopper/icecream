@@ -81,10 +81,10 @@ export class SingleProduct extends Component {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
 		let unavailMess = ''
-		let modStyle={visibility:''}; 
+		let modStyle={visibility:''};
 		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
 		if (this.props.currentUser.isAdmin === false || !Object.keys(this.props.currentUser).length) {
-			modStyle.visibility = "hidden"; 
+			modStyle.visibility = "hidden";
 		}
 
 		return (
@@ -101,7 +101,7 @@ export class SingleProduct extends Component {
 							{this.props.currentProduct.description}
 						</div>
 						<div>
-							<b>Price: </b>
+							<b>Price: </b>$
 							{this.props.currentProduct.price}
 						</div>
 						<div>
