@@ -7,7 +7,8 @@ export class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chosenQty: 1
+      chosenQty: 1,
+      canOrder: true
     }
     this.createInventoryArr = this.createInventoryArr.bind(this);
     this.handleChange = this.handleChange.bind(this)
@@ -43,24 +44,40 @@ export class Cart extends Component {
     return total
   }
 
-  componentDidMount() {
-    // get ID
+  componentDidUpdate(nextProps) {
+    const cartProducts = this.props.cart.products;
+    const totalProducts = this.props.products;
+    console.log(cartProducts, 'cartProducts')
+    console.log(totalProducts, 'totalProducts')
+    cartProducts && cartProducts.map(cartProduct => {
+      const correctProduct = totalProducts.find(product => {
+        return product.id === cartProduct.id
+      })
+      if (cartProduct.order_products.quantity > correctProduct.inventory) {
+        console.log("im in here")
+        console.log('this props', this.props, 'next props', nextProps)
+        console.log('this.props !== nextProps', this.props !== nextProps)
+        if (this.props !== nextProps) this.setState({ canOrder: false })
+        console.log('canorder', this.state.canOrder)
+      }
+    })
 
   };
 
   render() {
-
-    const products = this.props.cart.products
+    const cartProducts = this.props.cart.products
+    let unavailMess = ''
+    if (!this.state.canOrder) unavailMess = 'Cannot place order. The desired quantity of one or more of the items in your cart is no longer available. Update quantities or remove items to continue.'
 
     return (
       <div>
         <h3>Shopping Cart</h3>
         <div>
 
-          {products && products.length > 0 && (
+          {cartProducts && cartProducts.length > 0 && (
             <ul>
-              {products.map(product => (
-                <li key={product.id}>
+              {cartProducts.map(cartProduct => (
+                <li key={cartProduct.id}>
                   <table className='table'>
                     <tbody>
                       <tr>
@@ -70,13 +87,13 @@ export class Cart extends Component {
                         <th>Edit</th>
                       </tr>
                       <tr>
-                        <th>{product.title}</th>
-                        <th>{product.price}</th>
+                        <th>{cartProduct.title}</th>
+                        <th>{cartProduct.price}</th>
 
                         <th>
 
                           <form
-                            id={product.id}
+                            id={cartProduct.id}
                             onSubmit={this.handleSubmit}>
                             <div >
 
@@ -84,10 +101,10 @@ export class Cart extends Component {
                               <select
                                 className="form-control"
                                 name="qty"
-                                defaultValue={product.order_products.quantity}
+                                defaultValue={cartProduct.order_products.quantity}
                                 onChange={this.handleChange}>
                                 {
-                                  this.createInventoryArr(product).map(num => {
+                                  this.createInventoryArr(cartProduct).map(num => {
                                     return (
                                       <option key={num} value={num} >{num}</option>
                                     )
@@ -108,12 +125,18 @@ export class Cart extends Component {
 
                         </th>
                         <th>
-                          <button type="submit"
+                          {unavailMess.length ? <button disabled type="submit"
                             className="btn btn-success"
-                            id={product.id}
+                            id={cartProduct.id}
                             onClick={this.handleRemove}>
                             Remove
-                    </button>
+                          </button> : <button type="submit"
+                              className="btn btn-success"
+                              id={cartProduct.id}
+                              onClick={this.handleRemove}>
+                              Remove
+                          </button>}
+                          {unavailMess}
                         </th>
                       </tr>
                     </tbody>
@@ -125,7 +148,7 @@ export class Cart extends Component {
               ))}
             </ul>
           )}
-          {products && products.length === 0 && (
+          {cartProducts && cartProducts.length === 0 && (
             <div >Cart is empty</div>
           )}
           <div >Total: ${this.getTotalPrice()} </div>
@@ -150,6 +173,7 @@ export class Cart extends Component {
     const currentProductId = event.target.id
 
     this.props.editCart(currentProductId, this.state.chosenQty)
+    this.setState({ canOrder: true })
   }
 
   handleRemove(event) {
@@ -164,8 +188,8 @@ const mapStateToProps = function (state) {
 
   return {
     cart: state.cart,
-    currentUser: state.currentUser
-
+    currentUser: state.currentUser,
+    products: state.products
   }
 }
 

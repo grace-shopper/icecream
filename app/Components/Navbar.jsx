@@ -45,6 +45,8 @@ class Navbar extends Component {
 			this.props.history.push(`/signup`);
 		} else if(type === "profile") {
 			this.props.history.push(`/users/${this.props.currentUser.id}`)
+		} else if(type === "all_orders") {
+			this.props.history.push(`/all_orders/`)
 		}
 		this.setState({ open: false });
 	}
@@ -74,6 +76,10 @@ class Navbar extends Component {
 						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleClose}>Your Profile</MenuItem>
 							: null
+					}
+					{(Object.keys(currentUser).length && currentUser.isAdmin) 
+						? <MenuItem onClick={(e)=> {this.handleLink(e, "all_orders")}}>All Orders</MenuItem>
+						: null
 					}
 				</Drawer>
 			</div>

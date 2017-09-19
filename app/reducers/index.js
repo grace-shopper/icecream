@@ -5,6 +5,7 @@ import cart from './cart'
 import currentUser from './auth';
 import orders from './orders';
 import categories from './category';
+import reviews from './reviews';
 
 const rootReducer = combineReducers({
 	products,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
 	cart,
 	currentUser,
 	orders,
-	categories
+	categories,
+	reviews
 })
 
 export default rootReducer;
@@ -24,3 +26,4 @@ export * from './orders';
 export * from './auth';
 export * from './users'; 
 export * from './category'; 
+export * from './reviews';

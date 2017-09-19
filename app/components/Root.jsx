@@ -13,6 +13,7 @@ import Cart from './Cart.jsx';
 import OrderHistory from './OrderHistory.jsx';
 import Searchbar from './Searchbar';
 import Checkout from './Checkout';
+import AllOrders from './AllOrders';
 
 
 
@@ -50,6 +51,7 @@ export class Root extends Component {
 						<Route path="/categories/:categoryId" component={SingleCategory}/>
 						<Route path="/orders" component={OrderHistory}/>
 						<Route path="/checkout" component={Checkout}/>
+						<Route path="/all_orders" component={AllOrders}/>
 					</Switch>
 				</div>
 			</div>

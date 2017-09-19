@@ -34,11 +34,8 @@ export function setCart(cart) {
   return action;
 }
 
-
-// thunk creators - will be different for authenticated and unauthenticated users
-// unauthenticated users - need to update sessions object
-
 export function getCart() {
+  console.log('get cart thunk')
   return function thunk(dispatch) {
     return axios.get('/api/cart')
       .then(res => res.data)
@@ -49,6 +46,19 @@ export function getCart() {
       .catch(err => console.log(err));
   }
 };
+
+
+// export function getCartOld() {
+//   return function thunk(dispatch) {
+//     return axios.get('/api/cart')
+//       .then(res => res.data)
+//       .then(cart => {
+//         if (!cart) cart = {}
+//         dispatch(setCart(cart));
+//       })
+//       .catch(err => console.log(err));
+//   }
+// };
 
 export function createNewCart(product, quantity) {
   return function thunk(dispatch) {
@@ -106,12 +116,13 @@ export function removeItemFromCart(productId) {
   }
 }
 
-export function checkoutCart() {
+export function checkoutCart(email) {
   return function thunk(dispatch) {
-    return axios.put('/api/cart')
-      .then(
-      dispatch(setCart({}))
-      )
+    return axios.put('/api/cart', {email: email})
+      .then(res => res.data)
+      .then(order => {
+        dispatch(setCart(order))
+      })
       .catch(err => console.log(err))
   }
 }
@@ -132,11 +143,6 @@ const reducer = function (cart = {}, action) {
     case DELETE_ITEM_FROM_CART:
       const aCart = cart.products.filter(product => product.id !== +action.productId);
       return Object.assign({}, cart, { products: aCart })
-
-
-    // case EDIT_QTY_CART:
-    // newCartArray = state.filter(cart => cart.product.id !== action.product.id);
-    // return [...newCartArray, action.item]
 
     case CLEAR_CART:
       return {}

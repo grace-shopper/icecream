@@ -1,12 +1,13 @@
 const Sequelize = require('sequelize');
 const db = require('../_db');
+const User = require('./users');
 
 const Review = db.define('review', {
   content: {
     type: Sequelize.TEXT,
     validate: {
       notEmpty: true,
-      len:[10, 500]
+      len: [1, 500]
     }
   },
   rating:{

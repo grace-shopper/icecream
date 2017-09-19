@@ -57,8 +57,7 @@ export class Searchbar extends Component {
     const filteredProducts = this.props.products.filter(
               product => product.title.toLowerCase().match(this.state.query.toLowerCase()));
     return (
-      <div>
-       
+      <div className="container">
         <form onSubmit={ this.handleSubmit }>
           <AutoComplete
             hintText="Type in a product name here"
@@ -82,7 +81,7 @@ export class Searchbar extends Component {
        
         <Category />
         <br />
-        <SearchedProducts filteredProducts={filteredProducts} />
+        <SearchedProducts filteredProducts={filteredProducts}/>
       </div>
     )
   }

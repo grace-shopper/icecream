@@ -21,7 +21,7 @@ export default class SearchedProducts extends Component {
               <NavLink value={product.id} to={`/products/${product.id}`}>
                 <CardMedia>
                   <img src={`/images/${product.imageName}`}
-                      className='card-image'/>
+                      className='card-image img-responsive'/>
 
                 </CardMedia>
                 <CardTitle title={product.title} subtitle={`Price: $${product.price}`} />

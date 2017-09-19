@@ -33,3 +33,37 @@ div {
   cursor: pointer;
   font-size: inherit;
 }
+
+.review-header {
+	margin-bottom: 30px;
+}
+
+.review {
+	margin-bottom: 30px;
+}
+
+/* styling the product */
+
+.img-responsive {
+    width:100%;
+}
+
+.product-container {
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding-bottom: 40px;
+	border-bottom: solid 1px #D3D3D3;
+}
+
+.product-image {
+	padding-bottom: 25px;
+}
+
+.product-description {
+
+}
+
+.raised-button--inline,
+.raised-button--inline button {
+  display: inline-block;
+}
