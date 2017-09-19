@@ -33,8 +33,6 @@ router.put('/login', (req, res, next) => {
           }
         })
         .then(order => {
-          // need to actually merge the orders here! not replace
-          console.log('users order', order)
           req.session.cartId = order.id;
           req.cart = order;
         })

@@ -51978,8 +51978,6 @@ var Review = exports.Review = function (_Component) {
       var warning = '';
       var disableSubmit = inputValue.length > 500 || inputValue.length <= 0;
 
-      console.log('disable submit button??', disableSubmit);
-
       if (!inputValue && dirty) warning = 'The comment cannot be blank';else if (inputValue.length > 500 && dirty) warning = 'Comment must be less than 500 characters';
       // actions are: close form, open form
       var actions = [_react2.default.createElement(_FlatButton2.default, { label: 'Cancel', primary: true, onClick: this.handleClose }), _react2.default.createElement(_FlatButton2.default, { label: 'Submit', primary: true, onClick: this.handleSubmit, disabled: disableSubmit })];
@@ -55410,6 +55408,7 @@ exports.default = SingleCategoryContainer;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Login = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -55431,7 +55430,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* -----------------    COMPONENT     ------------------ */
 
-var Login = function (_React$Component) {
+var Login = exports.Login = function (_React$Component) {
     _inherits(Login, _React$Component);
 
     function Login(props) {
@@ -55532,10 +55531,6 @@ var Login = function (_React$Component) {
                 )
             );
         }
-
-        //href="/api/auth/google"
-        //onClick={this.props.handleGoogleLogin}
-
     }, {
         key: 'onLoginSubmit',
         value: function onLoginSubmit(event) {
@@ -55564,16 +55559,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
             dispatch((0, _auth.login)(credentials));
             ownProps.history.push('/');
         }
-
-        // handleGoogleLogin: function() {
-        //     dispatch(loginWithGoogle())
-        //     ownProps.history.push('/')
-        // }
     };
 };
-
-//const mapDispatch = { login: loginAndGoToHome };
-
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatchToProps)(Login);
 
@@ -57250,6 +57237,7 @@ var Cart = exports.Cart = function (_Component) {
         return acc + price;
       }, 0);
 
+      if (!total) return '0.00';
       return parseFloat(total).toFixed(2);
     }
   }, {

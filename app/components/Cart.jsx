@@ -66,6 +66,7 @@ export class Cart extends Component {
       return acc + price
     }, 0);
 
+    if (!total) return '0.00'
     return parseFloat(total).toFixed(2)
   }
 

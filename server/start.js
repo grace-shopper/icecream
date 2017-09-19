@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 
-const {db, Category, Flavor, Product, User, Order} = require('../db/index.js');
+const {db, Product, Category, User, Order, OrderProducts, Review} = require('../db/index.js');
 
 require('../dev')
 if (process.env.NODE_ENV === 'development') {
@@ -44,9 +44,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
 
-module.exports = app;
-
-
 db.sync({force: false})
 	.then(() => {
 		app.listen(
@@ -56,3 +53,5 @@ db.sync({force: false})
 			}
 		)
 	})
+
+module.exports = app;

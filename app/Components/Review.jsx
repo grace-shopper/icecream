@@ -92,8 +92,6 @@ export class Review extends Component {
     let warning = '';
     let disableSubmit = inputValue.length > 500 || inputValue.length<=0;
 
-    console.log('disable submit button??', disableSubmit)
-
     if (!inputValue && dirty) warning = 'The comment cannot be blank';
     else if (inputValue.length > 500 && dirty) warning = 'Comment must be less than 500 characters';
     // actions are: close form, open form
