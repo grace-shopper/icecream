@@ -13,7 +13,6 @@ export class Checkout extends Component {
 
   constructor(props) {
     super(props)
-    console.log('props', props)
     this.state = {
       open: false,
       address: props.currentUser.address || '',
@@ -43,7 +42,6 @@ export class Checkout extends Component {
 
 
   render() {
-    console.log(this.state);
     const paperStyle={ marginBottom: "20px", marginTop:"20px"}
 
     return (
@@ -103,7 +101,6 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     handlePurchase: function(email) {
-      console.log('email in dispatch', email)
       dispatch(checkoutCart(email))
       dispatch(fetchProducts())
     },

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import {fetchProducts, getProduct} from '../reducers';
 import RaisedButton from 'material-ui/RaisedButton';
 import SearchedProducts from './SearchedProducts';
+import Category from './Category';
+
 
 export class Searchbar extends Component {
   constructor(props) {
@@ -51,10 +53,11 @@ export class Searchbar extends Component {
 
   render() {
     const productNames = this.getProductNames(this.props.products)
+    
     const filteredProducts = this.props.products.filter(
               product => product.title.toLowerCase().match(this.state.query.toLowerCase()));
     return (
-      <div>
+      <div className="container">
         <form onSubmit={ this.handleSubmit }>
           <AutoComplete
             hintText="Type in a product name here"
@@ -75,8 +78,10 @@ export class Searchbar extends Component {
             </div>
           )
         }
+       
+        <Category />
         <br />
-        <SearchedProducts filteredProducts={filteredProducts} />
+        <SearchedProducts filteredProducts={filteredProducts}/>
       </div>
     )
   }
@@ -84,7 +89,8 @@ export class Searchbar extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    products: state.products
+    products: state.products,
+   
   }
 }
 

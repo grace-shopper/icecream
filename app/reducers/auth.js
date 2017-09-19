@@ -30,15 +30,6 @@ export default function reducer(currentUser = {}, action) {
 
 /* ------------       DISPATCHERS     ------------------ */
 
-
-// export const loginWithGoogle = () => dispatch => {
-//   console.log("in the google login thunk")
-//   return axios.get('/api/auth/google')
-//     .then((res) => {
-//       console.log('response from google login', res)
-//     })
-// }
-
 export const login = credentials => dispatch => {
   return axios.put('/api/auth/login', credentials)
     .then(res => res.data)
@@ -49,13 +40,6 @@ export const login = credentials => dispatch => {
     })
     .catch(err => console.log(err));
 };
-
-// export const loginAndGoToHome = (credentials, history) => dispatch => {
-//   console.log('in first thunk')
-//   dispatch(login(credentials))
-//     .then(user => history.push(`/products`))
-//     .catch(err => console.error('Problem logging in:', err));
-// };
 
 
 export const signup = credentials => dispatch => {

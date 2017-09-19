@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import store from '../store';
 import AllProducts from './AllProducts.jsx';
 import SingleProduct from './SingleProduct.jsx';
+import SingleCategory from './SingleCategory.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import Navbar from './Navbar.jsx';
@@ -15,7 +16,8 @@ import Checkout from './Checkout';
 import AllOrders from './AllOrders';
 
 
-import {me, getCart,fetchProducts} from '../reducers'
+
+import {me, getCart,fetchProducts, fetchCategories} from '../reducers'
 
 
 export class Root extends Component {
@@ -26,7 +28,7 @@ export class Root extends Component {
 	componentDidMount() {
 		//get all products by dispatching to reducer and updating store
 		store.dispatch(fetchProducts());
-
+		store.dispatch(fetchCategories());
 		//get the '{me}'
 		this.props.loadInitialData();
 	}
@@ -37,6 +39,7 @@ export class Root extends Component {
 		return (
 			<div>
 				<Navbar />
+				
 				<div className="container-fluid">
 					<Switch>
       			<Route path="/login" component={Login} />
@@ -45,6 +48,7 @@ export class Root extends Component {
 						<Route exact path="/" component={Searchbar}/>
 						<Route exact path="/products" component={Searchbar}/>
 						<Route path="/products/:productId" component={SingleProduct}/>
+						<Route path="/categories/:categoryId" component={SingleCategory}/>
 						<Route path="/orders" component={OrderHistory}/>
 						<Route path="/checkout" component={Checkout}/>
 						<Route path="/all_orders" component={AllOrders}/>

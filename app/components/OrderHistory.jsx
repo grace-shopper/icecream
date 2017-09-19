@@ -4,21 +4,19 @@ import {connect} from 'react-redux';
 import axios from 'axios';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import {fetchOrders, getUser} from '../reducers';
+import {fetchOrders, getUser, me} from '../reducers';
+import _ from 'lodash';
 
 export class OrderHistory extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
 
   componentDidMount() {
-    const userId = this.props.currentUser.id;
-    this.props.getOrders(userId);
-  };
+    this.props.loadInitialData()
+    .then(() => this.props.getOrders(this.props.currentUser.id))
+
+  }
 
   render() {
+
     const orders = this.props.orders.filter(order => {return order.status !== 'In Cart'});
     const purchases = [];
     for(let i=0; i<orders.length; i++){
@@ -65,6 +63,7 @@ export class OrderHistory extends Component {
         </Table>
       )
     }
+
   	return (
       <div>
        <Toolbar>
@@ -93,9 +92,9 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    // updateCurrentUser: function(userId) {
-    //   return dispatch(getUser(userId))
-    // },
+    loadInitialData: function() {
+      return dispatch(me())
+    },
     getOrders: function(userId) {
       return dispatch(fetchOrders(userId))
     }

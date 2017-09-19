@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import CartRow from './CartRow'; 
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { editCart, removeItemFromCart } from '../reducers';
+import { editCart, removeItemFromCart, getCart } from '../reducers';
+
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, TableFooter } from 'material-ui/Table'; 
+import RaisedButton from 'material-ui/RaisedButton';
+
+
+
 export class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       chosenQty: 1,
-      canOrder: true
+      disable: false
     }
     this.createInventoryArr = this.createInventoryArr.bind(this);
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleRemove = this.handleRemove.bind(this)
-    this.getTotalPrice = this.getTotalPrice.bind(this)
+    this.getTotalPrice = this.getTotalPrice.bind(this); 
+    this.purchaseHandler = this.purchaseHandler.bind(this); 
   }
 
   createInventoryArr(product) {
@@ -23,6 +29,25 @@ export class Cart extends Component {
       inventoryArr.push(i);
     }
     return inventoryArr;
+  }
+
+  purchaseHandler(e) {
+    this.props.history.push(`/Checkout`); 
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props !== nextProps) {
+      //checking product has been set from state to props -- error with .length off of null
+      if(nextProps.cart.products) {
+        for(var i=0; i<nextProps.cart.products.length; i++) {
+          if(nextProps.cart.products[i].inventory < nextProps.cart.products[i].order_products.quantity) {
+            return this.setState({disable: true}); 
+          }
+        }
+        return this.setState({disable: false}); 
+      } 
+
+    }
   }
 
   getTotalPrice() {
@@ -44,136 +69,54 @@ export class Cart extends Component {
     return total
   }
 
-  componentDidUpdate(nextProps) {
-    const cartProducts = this.props.cart.products;
-    const totalProducts = this.props.products;
-    cartProducts && cartProducts.map(cartProduct => {
-      const correctProduct = totalProducts.find(product => {
-        return product.id === cartProduct.id
-      })
-      if (cartProduct.order_products.quantity > correctProduct.inventory) {
-        if (this.props !== nextProps) this.setState({ canOrder: false })
-      }
-    })
-
-  };
-
   render() {
     const cartProducts = this.props.cart.products
-    let unavailMess = ''
-    if (!this.state.canOrder) unavailMess = 'Cannot place order. The desired quantity of one or more of the items in your cart is no longer available. Update quantities or remove items to continue.'
+    const CreateTable = (props) => {
+      return (
+        <Table> 
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+            enableSelectAll={false}> 
+          <TableRow> 
+            <TableHeaderColumn>Name</TableHeaderColumn> 
+            <TableHeaderColumn>Price</TableHeaderColumn> 
+            <TableHeaderColumn>Quantity</TableHeaderColumn> 
+            <TableHeaderColumn>Options</TableHeaderColumn> 
+          </TableRow> 
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}> 
+            {props.items && props.items.map((item, index) => {
+                return <CartRow key={index} product={item} />
+            })
+            }
+          </TableBody>
+          <TableFooter style={{backgroundColor:'#F0F0F0', paddingBottom:'20px'}}>
+            <TableRow> 
+              <TableRowColumn>
+              </TableRowColumn> 
+              <TableRowColumn style={{textAlign: 'right'}}> 
+                <b>Total : ${this.getTotalPrice()} </b><RaisedButton type="submit" disabled={this.state.disable} label="Checkout" primary={true} onClick={this.purchaseHandler}/>
+              </TableRowColumn> 
+            </TableRow> 
+          </TableFooter> 
+        </Table> 
+      )
+    }
 
     return (
-      <div>
-        <h3>Shopping Cart</h3>
-        <div>
+      <div> 
+        <Toolbar> 
+          <ToolbarTitle text="Shopping Cart" /> 
+        </Toolbar> 
+          {
+            (this.props.cart.products && this.props.cart.products.length === 0) 
+            ? <h4>There are no items in your cart</h4>
+            : <CreateTable items={cartProducts} />
+          }
 
-          {cartProducts && cartProducts.length > 0 && (
-            <ul>
-              {cartProducts.map(cartProduct => (
-                <li key={cartProduct.id}>
-                  <table className='table'>
-                    <tbody>
-                      <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Edit</th>
-                      </tr>
-                      <tr>
-                        <th>{cartProduct.title}</th>
-                        <th>{cartProduct.price}</th>
-
-                        <th>
-
-                          <form
-                            id={cartProduct.id}
-                            onSubmit={this.handleSubmit}>
-                            <div >
-
-
-                              <select
-                                className="form-control"
-                                name="qty"
-                                defaultValue={cartProduct.order_products.quantity}
-                                onChange={this.handleChange}>
-                                {
-                                  this.createInventoryArr(cartProduct).map(num => {
-                                    return (
-                                      <option key={num} value={num} >{num}</option>
-                                    )
-                                  })
-                                }
-                              </select>
-
-                            </div>
-                            <div >
-                              <button type="submit"
-                                className="btn btn-success">
-                                Update
-                        </button>
-
-                            </div>
-                          </form>
-
-
-                        </th>
-                        <th>
-                          {unavailMess.length ? <button disabled type="submit"
-                            className="btn btn-success"
-                            id={cartProduct.id}
-                            onClick={this.handleRemove}>
-                            Remove
-                          </button> : <button type="submit"
-                              className="btn btn-success"
-                              id={cartProduct.id}
-                              onClick={this.handleRemove}>
-                              Remove
-                          </button>}
-                          {unavailMess}
-                        </th>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-          {cartProducts && cartProducts.length === 0 && (
-            <div >Cart is empty</div>
-          )}
-          <div >Total: ${this.getTotalPrice()} </div>
-          <button type="submit"
-            className="btn btn-success"
-          >
-            <NavLink to="/Checkout">Checkout</NavLink>
-
-          </button>
-        </div>
-      </div>
+      </div> 
     )
-  }
-
-  handleChange(event) {
-    this.setState({ chosenQty: event.target.value })
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const currentProductId = event.target.id
-
-    this.props.editCart(currentProductId, this.state.chosenQty)
-    this.setState({ canOrder: true })
-  }
-
-  handleRemove(event) {
-    event.preventDefault();
-    const currentProductId = event.target.id
-    this.props.removeItemFromCart(currentProductId)
   }
 
 }
@@ -189,11 +132,8 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    editCart: function (productId, qty) {
-      dispatch(editCart(productId, qty))
-    },
-    removeItemFromCart: function (productId) {
-      dispatch(removeItemFromCart(productId))
+    getCart: function() {
+      dispatch(getCart()); 
     }
   }
 }
