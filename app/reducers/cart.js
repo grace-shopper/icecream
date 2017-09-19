@@ -35,6 +35,7 @@ export function setCart(cart) {
 }
 
 export function getCart() {
+  console.log('get cart thunk')
   return function thunk(dispatch) {
     return axios.get('/api/cart')
       .then(res => res.data)
