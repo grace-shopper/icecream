@@ -69,7 +69,6 @@ export class Cart extends Component {
     return total
   }
 
-  
   render() {
     const cartProducts = this.props.cart.products
     const CreateTable = (props) => {

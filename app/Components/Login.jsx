@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login,loginAndGoToHome, loginWithGoogle } from '../reducers/auth';
+import { login } from '../reducers/auth';
 
 
 /* -----------------    COMPONENT     ------------------ */
 
-class Login extends React.Component {
+export class Login extends React.Component {
     constructor(props) {
         super(props);
         this.onLoginSubmit = this.onLoginSubmit.bind(this);
@@ -59,10 +59,6 @@ class Login extends React.Component {
         );
     }
 
-
-    //href="/api/auth/google"
-    //onClick={this.props.handleGoogleLogin}
-
     onLoginSubmit(event) {
         event.preventDefault();
         const credentials = {
@@ -83,16 +79,9 @@ const mapDispatchToProps = function (dispatch, ownProps) {
         handleSubmit: function(credentials) {
             dispatch(login(credentials))
             ownProps.history.push('/')
-        },
-
-        // handleGoogleLogin: function() {
-        //     dispatch(loginWithGoogle())
-        //     ownProps.history.push('/')
-        // }
+        }
     }
   }
-
-//const mapDispatch = { login: loginAndGoToHome };
 
 
 export default connect(mapState, mapDispatchToProps)(Login);
