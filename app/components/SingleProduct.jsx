@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import Review from './Review'
 
 import { fetchProducts, getProduct, createNewCart, updateCart, updateProductAsAdmin } from '../reducers';
 
@@ -75,21 +76,22 @@ export class SingleProduct extends Component {
 
 	// need to update link to go to a particular users id
 
+
 	render() {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
 		let unavailMess = ''
 		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
 
-		console.log("im re-rendering with current state:", this.state)
 		return (
-			<div>
-				<div className="row">
-					<div className="col-sm-6 col-md-6 col-lg-6">
+			<div className="container">
+				<div className="row product-container">
+					<div className="col-sm-6 col-md-6 col-lg-6 product-image">
 						<h2 className="text-center">{this.props.currentProduct.title} </h2>
-						<img src={`/images/${this.props.currentProduct.imageName}`} />
+						<br />
+						<img src={`/images/${this.props.currentProduct.imageName}`} className='img-responsive'/>
 					</div>
-					<div className="col-sm-6 col-md-6 col-lg-6">
+					<div className="col-sm-6 col-md-6 col-lg-6 product-description">
 						<div>
 							<b>Description:  </b>
 							{this.props.currentProduct.description}
@@ -105,6 +107,7 @@ export class SingleProduct extends Component {
 								<div className="form-group">
 									<label>
 										<b>Quantity: </b>
+										<br />
 										{unavailMess.length ? 'Item currently unavailable' : ''}
 										<select
 											className="form-control"
@@ -121,9 +124,10 @@ export class SingleProduct extends Component {
 											}
 										</select>
 									</label>
+									<br />
 								</div>
 								<div className="form-group">
-								{unavailMess.length ? <RaisedButton disabled label="Add to Cart" onClick={this.handleSubmit} /> : <RaisedButton label="Add to Cart" onClick={this.handleSubmit} />}
+								{unavailMess.length ? <RaisedButton className="raised-button--inline" primary={true} disabled label="Add to Cart" onClick={this.handleSubmit} /> : <RaisedButton className="raised-button--inline" primary={true} label="Add to Cart" onClick={this.handleSubmit} />}
 									<Dialog modal={false} open={this.state.goToCheckoutOpen} modal={false}>
 									<NavLink to='/cart'>
 										<RaisedButton label="Proceed to Cart" />
@@ -141,7 +145,7 @@ export class SingleProduct extends Component {
 						</div>
 
 						<div>
-							<RaisedButton label="Modify" onClick={this.handleOpen} />
+							<RaisedButton className="raised-button--inline" secondary={true} label="Modify" onClick={this.handleOpen} />
 							<Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
 								<form onSubmit={this.onSubmit}>
 									<label style={formStyle}>Title:  </label><TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
@@ -154,6 +158,9 @@ export class SingleProduct extends Component {
 						</div>
 					</div>
 				</div>
+				<Review
+					productId={this.props.match.params.productId}
+					productName={this.props.currentProduct.title}/>
 			</div>
 		)
 	}
