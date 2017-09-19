@@ -69,7 +69,6 @@ export class Cart extends Component {
     return parseFloat(total).toFixed(2)
   }
 
-
   render() {
     const cartProducts = this.props.cart.products
     const CreateTable = (props) => {
