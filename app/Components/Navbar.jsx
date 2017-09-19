@@ -71,7 +71,7 @@ class Navbar extends Component {
 							<MenuItem key="signup" onClick={(e)=>{this.handleLink(e, "signup")}}>Sign Up</MenuItem>]
 					}
 					<MenuItem onClick={(e)=>{this.handleLink(e, "products")}}>Products</MenuItem>
-					<MenuItem onClick={(e)=>{this.handleLink(e, "cart")}}>Your Cart</MenuItem>
+					<MenuItem onClick={this.handleClose}><Link to="/cart">Your Cart</Link></MenuItem>
 					{
 						(Object.keys(currentUser).length)
 							? <MenuItem onClick={this.handleClose}>Your Profile</MenuItem>
@@ -89,7 +89,7 @@ class Navbar extends Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ currentUser  }) => ({ currentUser });
+const mapState = ({ currentUser, cart  }) => ({ currentUser, cart });
 
 
 const mapDispatch = (dispatch, ownProps) => ({
