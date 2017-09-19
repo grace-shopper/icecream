@@ -1,4 +1,3 @@
-
 const { db, Product, User, Order, Category } = require('./db');
 const OrderProducts = db.models.order_products; 
 const UserOrders = db.models.user_orders; 
@@ -81,7 +80,6 @@ const seed = () => {
 					}) .then(() => {
 						return ProductCategories.bulkCreate(product_categories);
 					}) 
-
 }
 
 const main = () => {

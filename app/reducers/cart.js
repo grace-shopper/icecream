@@ -47,19 +47,6 @@ export function getCart() {
   }
 };
 
-
-// export function getCartOld() {
-//   return function thunk(dispatch) {
-//     return axios.get('/api/cart')
-//       .then(res => res.data)
-//       .then(cart => {
-//         if (!cart) cart = {}
-//         dispatch(setCart(cart));
-//       })
-//       .catch(err => console.log(err));
-//   }
-// };
-
 export function createNewCart(product, quantity) {
   return function thunk(dispatch) {
     return axios.post('/api/cart/new', { product, quantity })
@@ -105,7 +92,6 @@ export function editCart(productId, quantity) {
 }
 
 export function removeItemFromCart(productId) {
-  console.log("inside thunk"); 
   return function thunk(dispatch) {
     return axios.delete( `/api/cart/${productId}`, { productId })
     .then(

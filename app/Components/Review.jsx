@@ -96,15 +96,12 @@ export class Review extends Component {
 
     if (!inputValue && dirty) warning = 'The comment cannot be blank';
     else if (inputValue.length > 500 && dirty) warning = 'Comment must be less than 500 characters';
-
     // actions are: close form, open form
     const actions =
     [
       <FlatButton label="Cancel" primary={true} onClick={this.handleClose}/>,
       <FlatButton label="Submit" primary={true} onClick={this.handleSubmit} disabled={disableSubmit}/>
     ];
-
-
     return (
       <div className="container review">
         <br />
@@ -134,7 +131,6 @@ export class Review extends Component {
                   <MenuItem value={1} primaryText="⭐"/>
                   <MenuItem value={0} primaryText="No stars"/>
                 </DropDownMenu>
-
                 <TextField
                   hintText="Write your review here"
                   floatingLabelText="Review"

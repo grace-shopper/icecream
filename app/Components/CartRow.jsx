@@ -26,7 +26,6 @@ export class CartRow extends Component {
 		if(prevProps === this.props) {
 			return; 
 		} else {
-			console.log(this.props); 
 			if(this.props.product.order_products.quantity > this.props.product.inventory) {
 				this.setState({ msg: 'Quantity is not available'}); 
 			}
@@ -34,7 +33,6 @@ export class CartRow extends Component {
 	}
 
 	handleChange(event, value, currentProduct, currentCart) {
-		//console.log("INSIDE HANDLER ", event, " ", value, " ",currentProduct); 
 		this.setState({chosenQty : value })
 		this.props.updateCartQuantiy(currentProduct, value); 
 	}
@@ -45,13 +43,9 @@ export class CartRow extends Component {
 	}
 
 	render() {
-		console.log("CHECKING PRODUCT ", this.props.product); 
-		console.log("ze cart", this.props.cart); 
-
 		const CreateDropDownMenu = (props) => {
-      console.log(props.item.inventory); 
       const items = []; 
-      for(let i=1; i<=100; i++) {
+      for(let i=1; i<=props.item.inventory; i++) {
         items.push(<MenuItem value={i} key={i} primaryText={i} />)
       }
       return (
@@ -88,7 +82,6 @@ const mapDispatchToProps = function(dispatch) {
 			return dispatch(getProduct(id)); 
 		}, 
 		updateCartQuantiy: function(product, qty) {
-			console.log(product.id); 
 			return dispatch(editCart(product.id, qty)); 
 		},
 		removeItemFromCart: function (productId) {

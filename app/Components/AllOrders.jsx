@@ -25,7 +25,6 @@ export class AllOrders extends Component {
 	}
 
 	render() {
-		console.log("here are orders", this.props.orders); 
 		const tabStyle={marginTop: "40px"}; 
 		const all = this.props.orders.filter(order => {return order.status !== 'In Cart'}); 
 		const created = this.props.orders.filter(order => {return order.status === 'Created'}); 

@@ -81,7 +81,11 @@ export class SingleProduct extends Component {
 		const style = { marginLeft: 20};
 		const formStyle = { marginRight: 5}
 		let unavailMess = ''
+		let modStyle={visibility:''}; 
 		if (this.props.currentProduct.inventory <= 0) unavailMess = "Currently Unavailable"
+		if (this.props.currentUser.isAdmin === false || !Object.keys(this.props.currentUser).length) {
+			modStyle.visibility = "hidden"; 
+		}
 
 		return (
 			<div className="container">
@@ -145,7 +149,7 @@ export class SingleProduct extends Component {
 						</div>
 
 						<div>
-							<RaisedButton className="raised-button--inline" secondary={true} label="Modify" onClick={this.handleOpen} />
+							<RaisedButton className="raised-button--inline" secondary={true} label="Modify" onClick={this.handleOpen} style={modStyle}/>
 							<Dialog modal={false} open={this.state.open} modal={false} onClick={this.handleClose} >
 								<form onSubmit={this.onSubmit}>
 									<label style={formStyle}>Title:  </label><TextField name="title" hintText={this.props.currentProduct.title} onChange={this.onChange} /><br />
