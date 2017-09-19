@@ -4,12 +4,17 @@ import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Car
 import FlatButton from 'material-ui/FlatButton';
 
 
+
 export default class SearchedProducts extends Component {
   render() {
     const showProducts = this.props.filteredProducts;
+    
     return (
+     
       <div className='all-products'>
+         
         <div>
+          
           {showProducts && showProducts.map( product => (
             <Card className='single-product col-lg-4 col-md-4 col-sm-4' key={product.id}>
               <br />

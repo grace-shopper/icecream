@@ -1,6 +1,8 @@
-const { db, Product, User, Order } = require('./db');
-const OrderProducts = db.models.order_products;
-const UserOrders = db.models.user_orders;
+
+const { db, Product, User, Order, Category } = require('./db');
+const OrderProducts = db.models.order_products; 
+const UserOrders = db.models.user_orders; 
+const ProductCategories = db.models.product_categories; 
 
 const products = [
 	{title: 'Multiflavor Popsicle',description: 'A flavorful delightful popsicle',price: 2.00, imageName: '001-ice-cream-24.png',inventory: 50, createdAt: Date.now(),updatedAt: Date.now()},
@@ -46,6 +48,24 @@ const user_orders = [
 	{userId:1, orderId:2, createdAt:Date.now(), updatedAt:Date.now()}
 ]
 
+const categories = [
+	{name:'cone', createdAt:Date.now(), updatedAt:Date.now()}, 
+	{name:'cup', createdAt:Date.now(), updatedAt:Date.now()},
+	{name:'multiflavor', createdAt:Date.now(), updatedAt:Date.now()},
+	{name:'vanilla', createdAt:Date.now(), updatedAt:Date.now()},
+	{name:'rasperry', createdAt:Date.now(), updatedAt:Date.now()},
+	{name:'chocolate', createdAt:Date.now(), updatedAt:Date.now()}
+	
+]
+const product_categories = [
+	{categoryId:1, productId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{categoryId:1, productId:3,  createdAt:Date.now(), updatedAt:Date.now()},
+	{categoryId:3, productId:1,  createdAt:Date.now(), updatedAt:Date.now()},
+	{categoryId:4, productId:2,  createdAt:Date.now(), updatedAt:Date.now()}, 
+	{categoryId:5, productId:3,  createdAt:Date.now(), updatedAt:Date.now()}  
+	
+]
+
 const seed = () => {
 	var allProducts = products.map(product => { Product.create(product) });
 	var allUsers = users.map(user => { User.create(user)});
@@ -55,9 +75,12 @@ const seed = () => {
 					}).then(() => {
 						return OrderProducts.bulkCreate(order_products);
 					}).then(() => {
-						return UserOrders.bulkCreate(user_orders);
-					})
-
+						return UserOrders.bulkCreate(user_orders); 
+					}).then(() => {
+						return Category.bulkCreate(categories);
+					}) .then(() => {
+						return ProductCategories.bulkCreate(product_categories);
+					}) 
 
 }
 
