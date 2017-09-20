@@ -185,7 +185,8 @@ const mapStateToProps = function (state) {
 	return {
 		currentProduct: state.currentProduct,
 		currentUser: state.currentUser,
-		cart: state.cart
+		cart: state.cart,
+		products: state.products
 	}
 }
 
