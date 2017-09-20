@@ -32,7 +32,7 @@ export class Checkout extends Component {
     e.preventDefault();
     const user = {address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id};
     const email = {email: this.state.email};
-    this.props.updateAddress(user);
+    if (Object.keys(this.props.currentUser).length) this.props.updateAddress(user);
     this.props.handlePurchase(this.state.email);
   }
 

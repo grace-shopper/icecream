@@ -79119,7 +79119,7 @@ var Checkout = exports.Checkout = function (_Component) {
       e.preventDefault();
       var user = { address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id };
       var email = { email: this.state.email };
-      this.props.updateAddress(user);
+      if (Object.keys(this.props.currentUser).length) this.props.updateAddress(user);
       this.props.handlePurchase(this.state.email);
     }
   }, {

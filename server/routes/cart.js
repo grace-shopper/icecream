@@ -147,6 +147,7 @@ router.put('/', (req, res, next) => {
     })
     .catch(next)
   })
+  .catch(next)
 
   const oldCartId = req.session.cartId;
 
