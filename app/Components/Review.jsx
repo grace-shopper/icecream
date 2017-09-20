@@ -63,7 +63,7 @@ export class Review extends Component {
       content: this.state.userReview,
       rating: this.state.userRating,
       productId: this.props.productId,
-      userId: this.props.userId || 1
+      userId: this.props.currentUser.id || null
     }
 
     this.props.addNewReview(review)
@@ -100,6 +100,7 @@ export class Review extends Component {
       <FlatButton label="Cancel" primary={true} onClick={this.handleClose}/>,
       <FlatButton label="Submit" primary={true} onClick={this.handleSubmit} disabled={disableSubmit}/>
     ];
+
     return (
       <div className="container review">
         <br />
@@ -168,7 +169,8 @@ export class Review extends Component {
 
 const mapStateToProps = function (state) {
 	return {
-		reviews: state.reviews
+		reviews: state.reviews,
+    currentUser: state.currentUser
   }
 }
 
