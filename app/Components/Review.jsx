@@ -101,8 +101,6 @@ export class Review extends Component {
       <FlatButton label="Submit" primary={true} onClick={this.handleSubmit} disabled={disableSubmit}/>
     ];
 
-    console.log('current user...', this.props.currentUser, this.props.currentUser.id)
-
     return (
       <div className="container review">
         <br />
