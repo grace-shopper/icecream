@@ -55410,6 +55410,7 @@ exports.default = SingleCategoryContainer;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Login = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -55431,7 +55432,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* -----------------    COMPONENT     ------------------ */
 
-var Login = function (_React$Component) {
+var Login = exports.Login = function (_React$Component) {
     _inherits(Login, _React$Component);
 
     function Login(props) {
@@ -55532,10 +55533,6 @@ var Login = function (_React$Component) {
                 )
             );
         }
-
-        //href="/api/auth/google"
-        //onClick={this.props.handleGoogleLogin}
-
     }, {
         key: 'onLoginSubmit',
         value: function onLoginSubmit(event) {
@@ -55564,16 +55561,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
             dispatch((0, _auth.login)(credentials));
             ownProps.history.push('/');
         }
-
-        // handleGoogleLogin: function() {
-        //     dispatch(loginWithGoogle())
-        //     ownProps.history.push('/')
-        // }
     };
 };
-
-//const mapDispatch = { login: loginAndGoToHome };
-
 
 exports.default = (0, _reactRedux.connect)(mapState, mapDispatchToProps)(Login);
 
@@ -79131,7 +79120,7 @@ var Checkout = exports.Checkout = function (_Component) {
       e.preventDefault();
       var user = { address: this.state.address, zipcode: Number(this.state.zipcode), id: this.props.currentUser.id };
       var email = { email: this.state.email };
-      this.props.updateAddress(user);
+      if (Object.keys(this.props.currentUser).length) this.props.updateAddress(user);
       this.props.handlePurchase(this.state.email);
     }
   }, {

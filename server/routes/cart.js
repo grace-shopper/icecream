@@ -142,6 +142,7 @@ router.put('/', (req, res, next) => {
       })
     })
   })
+  .catch(next)
 
   // const updateOrderStatusPromise = Order.update(
   //   { status: "Completed", purchasedAt: Date.now() },
@@ -160,6 +161,7 @@ router.put('/', (req, res, next) => {
     req.cart = order
     req.session.cartId = order.id;
   })
+  .catch(next)
 
   // let promisesArr = [];
   // promisesArr.concat(updateInvPromise).concat(updateOrderStatusPromise);
