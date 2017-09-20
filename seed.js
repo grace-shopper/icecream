@@ -1,9 +1,9 @@
 
-const { db, Product, User, Order, Category } = require('./db');
+const { db, Product, User, Order, Category,Review } = require('./db');
 const OrderProducts = db.models.order_products; 
 const UserOrders = db.models.user_orders; 
 const ProductCategories = db.models.product_categories; 
-
+const ProductReviews = db.models.product_reviews;
 
 
 
@@ -129,6 +129,44 @@ const product_categories = [
 	{categoryId:9, productId:23,  createdAt:Date.now(), updatedAt:Date.now()}
 ]
 
+const reviews = [
+	{content: 'Awsome!!!!! ', rating:5, productId:2, userId:2,  createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing~~~~~', rating:4, productId:2, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!', rating:5, productId:2, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Don\'t try', rating:0, productId:3, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Fine.....', rating:2, productId:3, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'good good', rating:3, productId:3, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!', rating:1,productId:1, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!', rating:1,productId:4, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!!', rating:1,productId:5, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!', rating:1,productId:6, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Awsome~~~~~', rating:5, productId:7, userId:2,  createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:4, productId:7, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!!', rating:5, productId:8, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Don\'t try! ', rating:0, productId:8, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Fine.....', rating:2, productId:9, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'good', rating:3, productId:9, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!!', rating:1,productId:9, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Awsome!!!!!', rating:5, productId:10, userId:2,  createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:4, productId:11, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it~~~~~', rating:5, productId:12, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Don\'t try', rating:0, productId:13, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Fine, not bad', rating:2, productId:14, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'good, not bad', rating:3, productId:15, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Awsome!!!!!', rating:5, productId:16, userId:2,  createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:4, productId:17, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Love it!!!!', rating:5, productId:18, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Don\'t try', rating:0, productId:19, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:2, productId:20, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:3, productId:21, userId:3, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Don\'t try', rating:0, productId:22, userId:2, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:2, productId:23, userId:4, createdAt:Date.now(), updatedAt:Date.now()},
+	{content: 'Amazing!!!!', rating:3, productId:23, userId:3, createdAt:Date.now(), updatedAt:Date.now()}
+
+]
+
+
+
 const seed = () => {
 	var allProducts = products.map(product => { Product.create(product) });
 	var allUsers = users.map(user => { User.create(user)});
@@ -143,7 +181,10 @@ const seed = () => {
 						return Category.bulkCreate(categories);
 					}) .then(() => {
 						return ProductCategories.bulkCreate(product_categories);
+					}) .then(() => {
+						return Review.bulkCreate(reviews);
 					}) 
+					
 
 }
 
