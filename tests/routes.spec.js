@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-expressions */
+// /* eslint-disable no-unused-expressions */
 
-const supertest = require('supertest-as-promised')(require('../server/start.js'));
-const expect = require('chai').expect;
-const { db } = require('../db');
-const Product = require('../db/models/products')
+ const supertest = require('supertest-as-promised')(require('../server/start.js'));
+ const expect = require('chai').expect;
+ const { db } = require('../db');
+ const Product = require('../db/models/products')
+ const OrderProduct = require('../db/models/orderProducts')
 
 describe('Product routes', function () {
 
@@ -78,3 +79,53 @@ describe('Product routes', function () {
           });
   });
 });
+
+
+describe('Cart routes', function () {
+
+    beforeEach(function () {
+      return db.sync({ force: true })
+      .then(() => {
+        Product.create({
+          title: 'new test product',
+          description: 'Im a genius',
+          id: 1,
+          price: 1.00,
+          inventory: 10
+        })
+      })
+    });
+
+    describe('cart routes', function () {
+
+
+      it('POST /new creates a new order in the database', function () {
+
+              return supertest
+                .post('/api/cart/new')
+                .send({
+                  quantity: 10,
+                  product: {
+                    title: 'new test product',
+                    description: 'Im a genius',
+                    id: 1,
+                    price: 1.00,
+                    inventory: 10
+                  }
+                })
+                .expect(200)
+                .then(() => {
+                  return OrderProduct.findOne({
+                    where: {productId: 1}
+                  })
+                })
+                .then(foundOrderProduct => {
+                  expect(foundOrderProduct).to.exist;
+                  expect(foundOrderProduct.originalPrice).to.equal('1.00')
+                  expect(foundOrderProduct.quantity).to.equal(10)
+                })
+
+            });
+    });
+  });
+

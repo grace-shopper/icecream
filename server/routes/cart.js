@@ -29,6 +29,7 @@ router.post('/new', (req, res, next) => {
           })
       })
     })
+    .catch(next)
 })
 
 router.post('/edit', (req, res, next) => {
@@ -59,6 +60,7 @@ router.post('/edit', (req, res, next) => {
           })
       })
     })
+    .catch(next)
 })
 
 // add to order
@@ -102,6 +104,7 @@ router.post('/', (req, res, next) => {
           })
       })
     })
+    .catch(next)
 })
 
 router.get('/', (req, res, next) => {
@@ -112,6 +115,7 @@ router.get('/', (req, res, next) => {
       req.cart = order
       res.json(req.cart)
     })
+    .catch(next)
   }
   else res.json(req.cart)
 
@@ -141,16 +145,9 @@ router.put('/', (req, res, next) => {
         })
       })
     })
+    .catch(next)
   })
   .catch(next)
-
-  // const updateOrderStatusPromise = Order.update(
-  //   { status: "Completed", purchasedAt: Date.now() },
-  //   { where: {
-  //     id: req.session.cartId,
-  //     status: "In Cart"
-  //   }
-  // })
 
   const oldCartId = req.session.cartId;
 
@@ -163,16 +160,9 @@ router.put('/', (req, res, next) => {
   })
   .catch(next)
 
-  // let promisesArr = [];
-  // promisesArr.concat(updateInvPromise).concat(updateOrderStatusPromise);
-  // promisesArr.push(makeNewCart);
-
   return Promise.all(updateInvPromise)
     .then(promise => {
-      console.log("promises", promise)
-        // send an email that order is pending, and then 20 minutes later, that order send
-        // send mail with defined transport object
-        console.log('email', req.body.email)
+        // send an email that order is being processed
         Order.update(
           { status: "Processing", purchasedAt: Date.now() },
           { where: {
@@ -180,16 +170,16 @@ router.put('/', (req, res, next) => {
           }
         })
         .then(() => {
+          // send email that order is created
           transporter.sendMail(getMailOptions('created', req.body.email), (error, info) => {
-          //console.log("HELLO")
             if (error) {
                 return console.log(error);
             }
             console.log('Message %s sent: %s', info.messageId, info.response);
           });
             setTimeout(()=> {
+              // send email that order is being shipped
               transporter.sendMail(getMailOptions('shipped', req.body.email), (error, info) => {
-                //console.log("HELLO")
                   if (error) {
                       return console.log(error);
                   }
@@ -203,9 +193,9 @@ router.put('/', (req, res, next) => {
                 })
             },20000)
 
+            // send email that order is completed
             setTimeout(()=> {
               transporter.sendMail(getMailOptions('arrived', req.body.email), (error, info) => {
-                //console.log("HELLO")
                   if (error) {
                       return console.log(error);
                   }
@@ -241,6 +231,7 @@ router.delete('/:productId', (req, res, next) => {
         }
       })
     })
+    .catch(next)
 })
 
 router.get('/:userId', (req, res, next) => {
@@ -255,6 +246,7 @@ router.get('/:userId', (req, res, next) => {
     req.cart = cart;
     res.json(cart)
   })
+  .catch(next)
 })
 
 // create reusable transporter object using the default SMTP transport
@@ -280,7 +272,6 @@ function getMailOptions(status, email) {
     to: email, // list of receivers
     subject: 'Your Ice Screamatorium Order!', // Subject line
     text: text, // plain text body
-    //html: '<b>Hello world ?</b>' // html body
   };
 }
 

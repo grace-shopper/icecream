@@ -21,6 +21,7 @@ router.get('/:userId', (req, res, next) => {
     }]
   })
     .then(orders => res.json(orders))
+    .catch(next)
 })
 
 module.exports = router;
