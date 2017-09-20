@@ -58,7 +58,7 @@ export class CartRow extends Component {
 		return (
 			<TableRow>
 				<TableRowColumn>
-					<button onClick={(event) => { this.handleRemove(event, this.props.currentProduct) }} className="close" aria-label="Close">
+					<button onClick={(event) => { this.handleRemove(event, this.props.product) }} className="close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<NavLink to={`/products/${this.props.product.id}`}>
