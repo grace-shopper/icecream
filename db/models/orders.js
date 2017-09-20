@@ -21,7 +21,7 @@ const Order = db.define('order', {
 		type: Sequelize.VIRTUAL,
 		get() {
 			const products = this.products;
-			const qtyArr = products.map((product) => {
+			const qtyArr = products && products.map((product) => {
 				return product.order_products.quantity
 			})
 
@@ -29,7 +29,7 @@ const Order = db.define('order', {
 				return acc + count
 			}, 0);
 
-			return total
+			return total || 0
 		}
 	}
 }, {

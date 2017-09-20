@@ -2,15 +2,8 @@ const router = require('express').Router();
 const Product = require('../../db/models/products');
 const db = require('../../db').db;
 const ProductCategories = db.models.product_categories;
-const OrderProducts = db.models.order_products; 
+const OrderProducts = db.models.order_products;
 const Category = db.models.category;
-
-
-router.get('/', (req, res, next) => {
-  Product.findAll()
-    .then( products => res.json(products) )
-    .catch(next);
-});
 
 router.get('/available', (req, res, next) => {
 	Product.findAll({
@@ -21,12 +14,13 @@ router.get('/available', (req, res, next) => {
 		}
 	})
 	.then( products => res.json(products) )
-	.catch(next);
+	.catch(next)
 })
 
 router.get('/:productId', (req, res, next) => {
   Product.findById(req.params.productId)
-    .then(product => res.json(product))
+		.then(product => res.json(product))
+		.catch(next)
 });
 
 /*
@@ -35,22 +29,24 @@ router.get('/:productId', (req, res, next) => {
 //creates product
 router.post('/', (req, res, next) => {
 	Product.create(req.body)
-	.then(product => res.json(product));
+	.then(product => res.json(product))
+	.catch(next)
 });
 
 //updates product
 router.put('/:productId', (req, res, next) => {
-	console.log("in update product back end", req.body);
 	Product.update(
 		req.body,
 		{ where: { id: req.params.productId}}
-	).then(succ => { res.json(succ) });
+	).then(succ => { res.json(succ) })
+	.catch(next)
 });
 
 //creates category
 router.post('/category', (req, res, next) => {
 	Category.create(req.body)
 	.then(category => res.json(category))
+	.catch(next)
 })
 
 //creates a new association in product_categories given a category name
@@ -65,6 +61,7 @@ router.post('/add-category/:productId', (req, res, next) => {
 			categoryId : category.id
 		}).then(prodCat => res.json(prodCat))
 	})
+	.catch(next)
 });
 
 //deletes an association in product_categories given a category name
@@ -80,9 +77,7 @@ router.post('/remove-category/:productId', (req, res, next) => {
 			}
 		}).then(succ => res.json(succ))
 	})
+	.catch(next)
 });
-
-
-
 
 module.exports = router;

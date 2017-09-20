@@ -37,12 +37,6 @@ const Product = db.define('product', {
       this.setDataValue('price', value * 100)
     }
   },
-  // validate: {
-  //   hasCategories() {
-  //     // get the categories asynch
-  //     if (this.getCategories().length===0) throw new Error('Require at least one category per item')
-  //   }
-  // },
   defaultScope: {
     include: [{ model: Category}, {model: Flavor }]
   }

@@ -10,13 +10,15 @@ router.get('/', (req, res, next) => {
 router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId)
     .then(user => res.json(user))
+    .catch(next)
 })
 
 router.put('/:userId', (req, res, next) => {
 	User.update(
 		req.body,
 		{where: { id: req.params.userId}}
-	).then(succ => res.json(succ));
+  ).then(succ => res.json(succ))
+  .catch(next)
 })
 
 module.exports = router;

@@ -63,7 +63,7 @@ export class Review extends Component {
       content: this.state.userReview,
       rating: this.state.userRating,
       productId: this.props.productId,
-      userId: this.props.userId || 1
+      userId: this.props.currentUser.id || null
     }
 
     this.props.addNewReview(review)
@@ -92,18 +92,14 @@ export class Review extends Component {
     let warning = '';
     let disableSubmit = inputValue.length > 500 || inputValue.length<=0;
 
-    console.log('disable submit button??', disableSubmit)
-
     if (!inputValue && dirty) warning = 'The comment cannot be blank';
     else if (inputValue.length > 500 && dirty) warning = 'Comment must be less than 500 characters';
-
     // actions are: close form, open form
     const actions =
     [
       <FlatButton label="Cancel" primary={true} onClick={this.handleClose}/>,
       <FlatButton label="Submit" primary={true} onClick={this.handleSubmit} disabled={disableSubmit}/>
     ];
-
 
     return (
       <div className="container review">
@@ -134,7 +130,6 @@ export class Review extends Component {
                   <MenuItem value={1} primaryText="⭐"/>
                   <MenuItem value={0} primaryText="No stars"/>
                 </DropDownMenu>
-
                 <TextField
                   hintText="Write your review here"
                   floatingLabelText="Review"
@@ -174,7 +169,8 @@ export class Review extends Component {
 
 const mapStateToProps = function (state) {
 	return {
-		reviews: state.reviews
+		reviews: state.reviews,
+    currentUser: state.currentUser
   }
 }
 
