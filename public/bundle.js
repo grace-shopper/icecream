@@ -49232,7 +49232,8 @@ var SingleProduct = exports.SingleProduct = function (_Component) {
 				),
 				_react2.default.createElement(_Review2.default, {
 					productId: this.props.match.params.productId,
-					productName: this.props.currentProduct.title })
+					productName: this.props.currentProduct.title,
+					currentUser: this.props.currentUser })
 			);
 		}
 	}, {
@@ -51946,7 +51947,7 @@ var Review = exports.Review = function (_Component) {
         content: this.state.userReview,
         rating: this.state.userRating,
         productId: this.props.productId,
-        userId: this.props.userId || 1
+        userId: this.props.currentUser.id || null
       };
 
       this.props.addNewReview(review);
@@ -51981,6 +51982,9 @@ var Review = exports.Review = function (_Component) {
       if (!inputValue && dirty) warning = 'The comment cannot be blank';else if (inputValue.length > 500 && dirty) warning = 'Comment must be less than 500 characters';
       // actions are: close form, open form
       var actions = [_react2.default.createElement(_FlatButton2.default, { label: 'Cancel', primary: true, onClick: this.handleClose }), _react2.default.createElement(_FlatButton2.default, { label: 'Submit', primary: true, onClick: this.handleSubmit, disabled: disableSubmit })];
+
+      console.log('current user...', this.props.currentUser, this.props.currentUser.id);
+
       return _react2.default.createElement(
         'div',
         { className: 'container review' },
@@ -52068,7 +52072,8 @@ var Review = exports.Review = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    reviews: state.reviews
+    reviews: state.reviews,
+    currentUser: state.currentUser
   };
 };
 
