@@ -33,8 +33,6 @@ router.put('/login', (req, res, next) => {
           }
         })
         .then(order => {
-          // need to actually merge the orders here! not replace
-          console.log('users order', order)
           req.session.cartId = order.id;
           req.cart = order;
         })
@@ -45,7 +43,6 @@ router.put('/login', (req, res, next) => {
 
 
 router.post('/signup', (req, res, next) => {
-  console.log('req.session', req.session.cartId)
   User.create(req.body)
     .then(user => {
       req.login(user, err => {
@@ -53,7 +50,6 @@ router.post('/signup', (req, res, next) => {
         else res.json(user);
       });
       // create an order
-      console.log('req.session.cartId', req.session.cartId)
       if (!req.session.cartId) {
         return Order.create({
           userId: user.id
@@ -61,7 +57,6 @@ router.post('/signup', (req, res, next) => {
         .then(order => {
           req.session.cartId = order.id;
           req.cart = order;
-          console.log('cart', req.cart)
         })
       }
 

@@ -10,6 +10,7 @@ module.exports = {
   Flavor: models.Flavor,
   User: models.User,
   Order: models.Order,
-  Review: models.Review
+  Review: models.Review,
+  OrderProducts: models.OrderProducts
 }
 
